@@ -15,7 +15,7 @@ Minimal MVP to tailor a LaTeX resume to a job description using AI-generated pat
 
 ```bash
 cp .env.example .env.local
-# Add your OpenAI API key to .env.local
+# Add your Gemini API key to .env.local (https://aistudio.google.com/apikey)
 
 npm install
 npm run dev
@@ -32,5 +32,5 @@ For best results locally, install a TeX distribution (MacTeX, TeX Live, etc.).
 ## Stack
 
 - Next.js (App Router) + TypeScript + Tailwind
-- OpenAI API for patch suggestions
+- Gemini Flash API for patch suggestions
 - No auth, database, or backend beyond two API routes
