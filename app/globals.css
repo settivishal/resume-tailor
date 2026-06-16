@@ -198,8 +198,7 @@
                           border + lit highlight + diffused shadow. Each level
                           steps up fill opacity, blur, and elevation for a
                           layered depth hierarchy.
-   These are foundation primitives — apply them in a later pass; nothing in
-   the app consumes them yet.
+   Consumed by dashboard modules (`Panel`) and composable elsewhere.
    ========================================================================== */
 @utility frost-sm {
   backdrop-filter: saturate(180%) blur(var(--blur-sm));
@@ -246,10 +245,17 @@
     var(--elevation-glass-lg);
 }
 
+/* Panel header band — slightly denser than the body so labels stay crisp
+   over frosted content without a second blur pass (performance). */
+@utility glass-header {
+  background-color: color-mix(in srgb, var(--glass-bg-strong) 55%, transparent);
+  border-bottom: 1px solid var(--glass-border);
+}
+
 body {
   /* Subtle layered depth so the canvas never looks like a flat fill:
      a fine dot-grid texture over a soft top gradient wash. The dots only
-     read in the gutters between the opaque module cards. */
+     read in the gutters between the translucent glass module cards. */
   background:
     radial-gradient(var(--dot) 1px, transparent 1.5px) 0 0 / 22px 22px,
     radial-gradient(

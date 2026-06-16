@@ -134,6 +134,12 @@ export const glass = {
   lg: "glass-lg",
 } as const;
 
+/** Slightly denser header band for glass panels (no extra blur pass). */
+export const glassHeader = "glass-header";
+
+/** Default frosted-glass surface for dashboard module cards. */
+export const glassPanel = glass.md;
+
 /** Original frosted-glass treatment for app chrome (header / floating bars). */
 export const glassChrome = "glass";
 

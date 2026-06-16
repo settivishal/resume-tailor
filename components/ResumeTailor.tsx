@@ -491,7 +491,7 @@ function ModuleContainer({
           ? "absolute inset-0 z-40 animate-panel-zoom-in"
           : "relative",
         // Gentle elevation on hover — no motion, no ring; just soft depth.
-        !isDragActive && !anyMaximized && "hover:shadow-pop",
+        !isDragActive && !anyMaximized && "hover:shadow-glass-lg",
         // Drop target gets a clear accent ring.
         isDropTarget && "ring-2 ring-accent ring-offset-2 ring-offset-canvas",
         // Source module fades to a ghost while it is being dragged.
