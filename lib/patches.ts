@@ -1,13 +1,39 @@
-import type { Patch } from "./types";
-
-export function applyPatch(latex: string, patch: Patch): string {
-  if (!latex.includes(patch.search)) {
-    throw new Error(`Patch "${patch.id}" search text not found in resume`);
-  }
-  return latex.replace(patch.search, patch.replace);
+export interface TextPatch {
+  find: string;
+  replace: string;
 }
 
-export function previewPatch(latex: string, patch: Patch): string {
-  if (!latex.includes(patch.search)) return latex;
-  return latex.replace(patch.search, patch.replace);
+export type ApplyPatchResult =
+  | { ok: true; text: string }
+  | { ok: false; text: string; error: string };
+
+/** Replaces the first exact occurrence of `find` with `replace`. */
+export function applyPatch(
+  originalText: string,
+  patch: TextPatch,
+): ApplyPatchResult {
+  if (!patch.find) {
+    return {
+      ok: false,
+      text: originalText,
+      error: "Find text is empty",
+    };
+  }
+
+  if (!originalText.includes(patch.find)) {
+    return {
+      ok: false,
+      text: originalText,
+      error: "Find text not present in document",
+    };
+  }
+
+  return {
+    ok: true,
+    text: originalText.replace(patch.find, patch.replace),
+  };
+}
+
+export function toTextPatch(patch: { search: string; replace: string }): TextPatch {
+  return { find: patch.search, replace: patch.replace };
 }

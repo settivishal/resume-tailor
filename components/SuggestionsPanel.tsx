@@ -3,26 +3,26 @@
 import EmptyState from "./EmptyState";
 import Panel from "./Panel";
 import SuggestionCard from "./SuggestionCard";
-import type { Patch, PatchStatus } from "@/lib/types";
+import type { Patch } from "@/lib/types";
 
 interface SuggestionsPanelProps {
   patches: Patch[];
-  patchStatus: Record<string, PatchStatus>;
   matchScore: number | null;
   missingKeywords: string[];
   loading: boolean;
   error: string | null;
+  patchError: string | null;
   onAccept: (id: string) => void;
   onReject: (id: string) => void;
 }
 
 export default function SuggestionsPanel({
   patches,
-  patchStatus,
   matchScore,
   missingKeywords,
   loading,
   error,
+  patchError,
   onAccept,
   onReject,
 }: SuggestionsPanelProps) {
@@ -83,13 +83,17 @@ export default function SuggestionsPanel({
             description='Click "Generate Suggestions" to get AI-powered edits for your resume.'
           />
         )}
+        {patchError && (
+          <p className="mb-2 rounded-md bg-red-50 px-2 py-1.5 text-xs text-red-700 dark:bg-red-950/30 dark:text-red-300">
+            {patchError}
+          </p>
+        )}
         {!loading && !error && patches.length > 0 && (
           <div className="flex flex-col gap-2">
             {patches.map((patch) => (
               <SuggestionCard
                 key={patch.id}
                 patch={patch}
-                status={patchStatus[patch.id] ?? "pending"}
                 onAccept={() => onAccept(patch.id)}
                 onReject={() => onReject(patch.id)}
               />

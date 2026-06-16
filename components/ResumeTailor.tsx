@@ -7,17 +7,18 @@ import LatexEditor from "./LatexEditor";
 import PdfPreviewPanel from "./PdfPreviewPanel";
 import SuggestionsPanel from "./SuggestionsPanel";
 import { SAMPLE_LATEX } from "@/lib/constants";
-import type { AnalyzeResponse, Patch, PatchStatus } from "@/lib/types";
+import { applyPatch, toTextPatch } from "@/lib/patches";
+import type { AnalyzeResponse, Patch } from "@/lib/types";
 
 export default function ResumeTailor() {
   const [jobDescription, setJobDescription] = useState("");
   const [latexResume, setLatexResume] = useState(SAMPLE_LATEX);
   const [patches, setPatches] = useState<Patch[]>([]);
-  const [patchStatus, setPatchStatus] = useState<Record<string, PatchStatus>>({});
   const [matchScore, setMatchScore] = useState<number | null>(null);
   const [missingKeywords, setMissingKeywords] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [patchError, setPatchError] = useState<string | null>(null);
 
   const canGenerate =
     !loading &&
@@ -28,9 +29,9 @@ export default function ResumeTailor() {
     setLoading(true);
     setError(null);
     setPatches([]);
-    setPatchStatus({});
     setMatchScore(null);
     setMissingKeywords([]);
+    setPatchError(null);
 
     try {
       const res = await fetch("/api/analyze", {
@@ -48,11 +49,6 @@ export default function ResumeTailor() {
       setPatches(result.patches);
       setMatchScore(result.matchScore);
       setMissingKeywords(result.missingKeywords ?? []);
-      setPatchStatus(
-        Object.fromEntries(
-          result.patches.map((p) => [p.id, "pending" as PatchStatus]),
-        ),
-      );
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -61,11 +57,23 @@ export default function ResumeTailor() {
   };
 
   const handleAccept = (id: string) => {
-    setPatchStatus((prev) => ({ ...prev, [id]: "accepted" }));
+    const patch = patches.find((p) => p.id === id);
+    if (!patch) return;
+
+    const result = applyPatch(latexResume, toTextPatch(patch));
+    if (!result.ok) {
+      setPatchError(result.error);
+      return;
+    }
+
+    setPatchError(null);
+    setLatexResume(result.text);
+    setPatches((prev) => prev.filter((p) => p.id !== id));
   };
 
   const handleReject = (id: string) => {
-    setPatchStatus((prev) => ({ ...prev, [id]: "rejected" }));
+    setPatchError(null);
+    setPatches((prev) => prev.filter((p) => p.id !== id));
   };
 
   return (
@@ -101,11 +109,11 @@ export default function ResumeTailor() {
           <div className="grid min-h-0 grid-cols-1 gap-3 md:grid-cols-2">
             <SuggestionsPanel
               patches={patches}
-              patchStatus={patchStatus}
               matchScore={matchScore}
               missingKeywords={missingKeywords}
               loading={loading}
               error={error}
+              patchError={patchError}
               onAccept={handleAccept}
               onReject={handleReject}
             />
