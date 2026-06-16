@@ -29,6 +29,8 @@
   --text-faint: hsl(var(--palette-silver-hsl) / 0.72);
   --text-on-accent: #ffffff;
   --text-destructive: color-mix(in srgb, var(--palette-pumpkin-spice) 88%, #000 12%);
+  --surface-panel-header: color-mix(in srgb, var(--palette-silver) 38%, var(--palette-platinum) 62%);
+  --text-panel-header: #000000;
 
   /* Borders — silver structure */
   --border-subtle: hsl(var(--palette-silver-hsl) / 0.45);
@@ -92,6 +94,8 @@
     --text-faint: hsl(var(--palette-silver-hsl) / 0.52);
     --text-on-accent: #ffffff;
     --text-destructive: color-mix(in srgb, var(--palette-pumpkin-spice) 92%, #fff 8%);
+    --surface-panel-header: color-mix(in srgb, var(--palette-silver) 32%, #2a2a2a 68%);
+    --text-panel-header: var(--palette-platinum);
 
     --border-subtle: hsl(var(--palette-silver-hsl) / 0.22);
     --border-strong: hsl(var(--palette-silver-hsl) / 0.36);
@@ -150,6 +154,8 @@
   --text-faint: hsl(var(--palette-silver-hsl) / 0.52);
   --text-on-accent: #ffffff;
   --text-destructive: color-mix(in srgb, var(--palette-pumpkin-spice) 92%, #fff 8%);
+  --surface-panel-header: color-mix(in srgb, var(--palette-silver) 32%, #2a2a2a 68%);
+  --text-panel-header: var(--palette-platinum);
 
   --border-subtle: hsl(var(--palette-silver-hsl) / 0.22);
   --border-strong: hsl(var(--palette-silver-hsl) / 0.36);

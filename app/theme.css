@@ -24,6 +24,12 @@
   --palette-silver-rgb: 192 192 192;
   --palette-silver: hsl(var(--palette-silver-hsl));
 
+  /* Sapphire — panel header accent (complementary to pumpkin-spice; not used elsewhere) */
+  --palette-sapphire-hex: #2563eb;
+  --palette-sapphire-hsl: 221 83% 53%;
+  --palette-sapphire-rgb: 37 99 235;
+  --palette-sapphire: hsl(var(--palette-sapphire-hsl));
+
   /* Palette gradients — direction tokens (STEP 4) */
   --palette-gradient-top: linear-gradient(
     0deg,

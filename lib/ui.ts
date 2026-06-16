@@ -45,8 +45,8 @@ export const typography = {
   h2: "text-base font-semibold tracking-tight",
   /** Small all-caps section label (panel headers, field labels). */
   overline: "text-xs font-semibold uppercase tracking-wide",
-  /** Panel title on frosted glass — silver/platinum structure label. */
-  overlineGlass: "text-[11px] font-semibold uppercase tracking-[0.06em] text-ink-soft",
+  /** Panel title on frosted glass — black on grey header strip (light theme). */
+  overlineGlass: "text-[11px] font-semibold uppercase tracking-[0.06em] text-panel-header",
   /** Default body copy. */
   body: "text-sm leading-relaxed",
   /** Tighter body copy for dense cards. */
