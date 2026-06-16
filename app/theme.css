@@ -1,88 +1,56 @@
 /**
- * Design tokens — palette source of truth (STEP 1).
+ * STEP 1 — Raw palette (source of truth).
  *
- * Raw swatches live under `--palette-*`. Semantic aliases live under
- * `--token-*`. Later steps wire components to these tokens; do not use
- * palette names directly in UI code.
- *
- * Each swatch exposes:
- *   - `--palette-{name}`      canonical color (HSL functional form)
- *   - `--palette-{name}-hex`  hex reference
- *   - `--palette-{name}-hsl`  HSL components (for hsl(var(...) / alpha))
- *   - `--palette-{name}-rgb`  RGB components (for rgb(var(...) / alpha))
+ * Components must NOT reference `--palette-*` directly. Use semantic
+ * variables from `semantic-theme.css` instead.
  */
 
 :root {
-  /* -------------------------------------------------------------------------
-     Rosewood — warm accent / secondary brand tone
-     ------------------------------------------------------------------------- */
-  --palette-rosewood-hex: #72383e;
-  --palette-rosewood-hsl: 354 34% 33%;
-  --palette-rosewood-rgb: 114 56 62;
+  /* Rosewood — alerts, destructive actions, highlights */
+  --palette-rosewood-hex: #c33c54;
+  --palette-rosewood-hsl: 349 53% 50%;
+  --palette-rosewood-rgb: 195 60 84;
   --palette-rosewood: hsl(var(--palette-rosewood-hsl));
 
-  /* -------------------------------------------------------------------------
-     Yale Blue — deep institutional blue (depth, headings, chrome)
-     ------------------------------------------------------------------------- */
-  --palette-yale-blue-hex: #00356b;
-  --palette-yale-blue-hsl: 211 100% 21%;
-  --palette-yale-blue-rgb: 0 53 107;
+  /* Yale Blue — UI structure, headings, chrome */
+  --palette-yale-blue-hex: #254e70;
+  --palette-yale-blue-hsl: 207 50% 29%;
+  --palette-yale-blue-rgb: 37 78 112;
   --palette-yale-blue: hsl(var(--palette-yale-blue-hsl));
 
-  /* -------------------------------------------------------------------------
-     Cerulean — vibrant action blue (primary candidate)
-     ------------------------------------------------------------------------- */
-  --palette-cerulean-hex: #0085ad;
-  --palette-cerulean-hsl: 196 100% 34%;
-  --palette-cerulean-rgb: 0 133 173;
+  /* Cerulean — primary actions, interactive emphasis */
+  --palette-cerulean-hex: #37718e;
+  --palette-cerulean-hsl: 200 44% 39%;
+  --palette-cerulean-rgb: 55 113 142;
   --palette-cerulean: hsl(var(--palette-cerulean-hsl));
 
-  /* -------------------------------------------------------------------------
-     Frosted Blue — soft powder blue (glass surfaces, borders)
-     ------------------------------------------------------------------------- */
-  --palette-frosted-blue-hex: #bad4e5;
-  --palette-frosted-blue-hsl: 204 45% 81%;
-  --palette-frosted-blue-rgb: 186 212 229;
+  /* Frosted Blue — glass surfaces, soft borders */
+  --palette-frosted-blue-hex: #70dceb;
+  --palette-frosted-blue-hsl: 187 75% 68%;
+  --palette-frosted-blue-rgb: 112 220 235;
   --palette-frosted-blue: hsl(var(--palette-frosted-blue-hsl));
 
-  /* -------------------------------------------------------------------------
-     Icy Aqua — airy background wash
-     ------------------------------------------------------------------------- */
-  --palette-icy-aqua-hex: #e4f2f7;
-  --palette-icy-aqua-hsl: 197 54% 93%;
-  --palette-icy-aqua-rgb: 228 242 247;
+  /* Icy Aqua — background washes, airy base layers */
+  --palette-icy-aqua-hex: #aef3e7;
+  --palette-icy-aqua-hsl: 170 74% 82%;
+  --palette-icy-aqua-rgb: 174 243 231;
   --palette-icy-aqua: hsl(var(--palette-icy-aqua-hsl));
 
-  /* -------------------------------------------------------------------------
-     Semantic tokens — derived from palette (not consumed by components yet)
-     ------------------------------------------------------------------------- */
-
-  /* Primary action color — cerulean for accessible contrast on light surfaces */
-  --token-primary: var(--palette-cerulean);
-  --token-primary-hex: var(--palette-cerulean-hex);
-  --token-primary-hsl: var(--palette-cerulean-hsl);
-  --token-primary-rgb: var(--palette-cerulean-rgb);
-  --token-primary-foreground: #ffffff;
-
-  /* App background base */
-  --token-background-base: var(--palette-icy-aqua);
-  --token-background-base-hex: var(--palette-icy-aqua-hex);
-  --token-background-base-hsl: var(--palette-icy-aqua-hsl);
-  --token-background-base-rgb: var(--palette-icy-aqua-rgb);
-
-  /* Glass / layered surface fill (translucent frosted blue) */
-  --token-surface: hsl(var(--palette-frosted-blue-hsl) / 0.72);
-  --token-surface-solid: var(--palette-frosted-blue);
-  --token-surface-hex: var(--palette-frosted-blue-hex);
-  --token-surface-hsl: var(--palette-frosted-blue-hsl);
-  --token-surface-rgb: var(--palette-frosted-blue-rgb);
-
-  /* Subtle border — frosted blue at low opacity for glass edges */
-  --token-border: hsl(var(--palette-frosted-blue-hsl) / 0.42);
-  --token-border-strong: hsl(var(--palette-frosted-blue-hsl) / 0.62);
-
-  /* Supporting semantic aliases (reserved for later steps) */
-  --token-accent: var(--palette-yale-blue);
-  --token-accent-subtle: hsl(var(--palette-frosted-blue-hsl) / 0.55);
-  --token-highlight: var(--palette-rosewood);
+  /* Palette gradients (reserved for ambient / decorative layers) */
+  --palette-gradient-linear: linear-gradient(
+    135deg,
+    var(--palette-rosewood) 0%,
+    var(--palette-yale-blue) 25%,
+    var(--palette-cerulean) 50%,
+    var(--palette-frosted-blue) 75%,
+    var(--palette-icy-aqua) 100%
+  );
+  --palette-gradient-radial: radial-gradient(
+    ellipse at 50% 0%,
+    var(--palette-icy-aqua) 0%,
+    var(--palette-frosted-blue) 35%,
+    var(--palette-cerulean) 55%,
+    var(--palette-yale-blue) 75%,
+    var(--palette-rosewood) 100%
+  );
 }
