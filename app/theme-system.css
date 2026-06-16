@@ -1,0 +1,22 @@
+/**
+ * STEP 1 — Theme mode architecture (light / dark foundation).
+ *
+ * Token values are defined in `semantic-theme.css`, `gradient-theme.css`,
+ * `identity-theme.css`, and component mappings in `globals.css`.
+ *
+ * Contract:
+ *   :root, [data-theme="light"]  → Light theme (default)
+ *   [data-theme="dark"]           → Dark theme
+ *
+ * Runtime: `<html data-theme="light|dark">` is set by `lib/theme.ts` and
+ * the inline init script in `app/layout.tsx`.
+ */
+
+html[data-theme="light"],
+:root {
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
