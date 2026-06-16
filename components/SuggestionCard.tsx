@@ -6,7 +6,7 @@ import type { Impact, Patch } from "@/lib/types";
 const impactStyles: Record<Impact, string> = {
   high: "bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-300",
   medium: "bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300",
-  low: "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300",
+  low: "bg-surface-subtle text-ink-soft",
 };
 
 interface SuggestionCardProps {
@@ -73,10 +73,10 @@ export default function SuggestionCard({
             onAccept();
           }}
           className={cn(
-            "px-2.5 py-1 text-xs font-medium text-white transition-colors",
+            "px-2.5 py-1 text-xs font-medium text-white transition-[background-color,transform] active:scale-95",
             radius.md,
             focusRing,
-            "bg-emerald-600 hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50",
+            "bg-emerald-600 hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100",
           )}
         >
           Accept
@@ -89,12 +89,12 @@ export default function SuggestionCard({
             onReject();
           }}
           className={cn(
-            "border px-2.5 py-1 text-xs font-medium transition-colors",
+            "border px-2.5 py-1 text-xs font-medium transition-[background-color,transform] active:scale-95",
             radius.md,
             focusRing,
             color.borderStrong,
             color.inkSoft,
-            "hover:bg-surface-subtle disabled:cursor-not-allowed disabled:opacity-50",
+            "hover:bg-surface-subtle disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100",
           )}
         >
           Reject

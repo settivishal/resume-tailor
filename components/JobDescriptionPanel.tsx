@@ -22,10 +22,11 @@ export default function JobDescriptionPanel({
         disabled={disabled}
         placeholder="Paste the job posting here…"
         className={cn(
-          "h-full w-full resize-none bg-transparent p-3 outline-none disabled:cursor-not-allowed disabled:opacity-50",
+          "h-full w-full resize-none bg-transparent p-3 outline-none transition-shadow disabled:cursor-not-allowed disabled:opacity-50",
+          "placeholder:text-ink-faint",
+          "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-focus/40",
           typography.body,
           color.inkBody,
-          "placeholder:text-zinc-400 dark:placeholder:text-zinc-600",
         )}
       />
     </Panel>

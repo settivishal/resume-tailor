@@ -80,7 +80,9 @@ export default function SuggestionsPanel({
                 <span
                   key={keyword}
                   className={cn(
-                    "rounded bg-zinc-100 px-1.5 py-0.5 dark:bg-zinc-800",
+                    "rounded border px-1.5 py-0.5",
+                    color.surfaceSubtle,
+                    color.border,
                     typography.micro,
                     color.inkSoft,
                   )}
@@ -130,7 +132,13 @@ export default function SuggestionsPanel({
           {!loading && !error && patches.length === 0 && (
             <EmptyState
               title="No suggestions yet"
-              description='Click "Generate Suggestions" to get AI-powered edits for your resume.'
+              description="Paste a job description and generate AI-powered edits tailored to your resume."
+              icon={
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M12 3v4M12 17v4M3 12h4M17 12h4" />
+                  <path d="M12 8.5 13.2 11l2.8 1-2.8 1L12 15.5 10.8 13 8 12l2.8-1L12 8.5Z" />
+                </svg>
+              }
             />
           )}
           {patchError && !loading && (
