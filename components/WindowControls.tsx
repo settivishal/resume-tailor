@@ -31,7 +31,7 @@ export default function WindowControls({
 
   return (
     <div
-      className="flex items-center gap-1.5"
+      className="window-controls"
       role="toolbar"
       aria-label={`${label} window controls`}
     >

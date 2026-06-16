@@ -34,7 +34,7 @@ export default function ModuleDock({ modules, onRestore }: ModuleDockProps) {
             title={`Restore ${mod.label}`}
             aria-label={`Restore ${mod.label}`}
             className={cn(
-              "flex items-center gap-2 px-2.5 py-1 transition-[background-color,transform] duration-200 hover:scale-[1.02] active:scale-[0.98]",
+              "flex items-center gap-2 px-2.5 py-1 transition-colors duration-200 ease-out active:scale-[0.98]",
               radius.full,
               glassInset,
               typography.caption,
@@ -46,7 +46,7 @@ export default function ModuleDock({ modules, onRestore }: ModuleDockProps) {
                 "flex h-5 w-5 items-center justify-center font-semibold",
                 radius.full,
                 typography.micro,
-                "bg-accent-subtle/80 text-accent",
+                "bg-accent-subtle/60 text-accent/90",
               )}
               aria-hidden
             >

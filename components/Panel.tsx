@@ -17,7 +17,7 @@ export default function Panel({ title, children, className = "", action }: Panel
     <section
       className={cn(
         "flex min-h-0 flex-col overflow-hidden",
-        radius.xl,
+        radius.window,
         glassPanel,
         glassPanelSurface,
         className,
@@ -25,7 +25,7 @@ export default function Panel({ title, children, className = "", action }: Panel
     >
       <header
         className={cn(
-          "flex shrink-0 items-center gap-3 px-3.5 py-2",
+          "flex shrink-0 items-center gap-3 px-[var(--space-panel-x)] py-[var(--space-panel-y)]",
           glassHeader,
         )}
       >

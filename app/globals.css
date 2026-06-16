@@ -25,9 +25,9 @@
   /* Subtle dot-grid texture for the canvas (shows only in the gutters). */
   --dot: rgba(24, 24, 27, 0.04);
   /* Ambient depth orbs — soft accent washes behind glass modules. */
-  --ambient-1: rgba(99, 102, 241, 0.13);
-  --ambient-2: rgba(167, 139, 250, 0.09);
-  --ambient-3: rgba(99, 102, 241, 0.06);
+  --ambient-1: rgba(99, 102, 241, 0.09);
+  --ambient-2: rgba(167, 139, 250, 0.06);
+  --ambient-3: rgba(99, 102, 241, 0.04);
   /* Edge vignette for layered depth (very subtle in light mode). */
   --vignette: rgba(24, 24, 27, 0.035);
 
@@ -77,7 +77,12 @@
   --glass-ambient: rgba(99, 102, 241, 0.08);
   /* Motion — shared easing for glass surfaces (macOS-like deceleration). */
   --glass-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --glass-duration: 280ms;
+  --glass-duration: 320ms;
+  /* Spacing rhythm — 4px base grid for module chrome. */
+  --space-module-gap: 16px;
+  --space-panel-x: 14px;
+  --space-panel-y: 8px;
+  --space-content: 14px;
   /* Frosted-blur levels: small / medium / heavy. */
   --blur-sm: 8px;
   --blur-md: 16px;
@@ -86,7 +91,9 @@
   --elevation-glass-sm:
     0 1px 2px rgba(16, 24, 40, 0.04), 0 4px 12px rgba(16, 24, 40, 0.06);
   --elevation-glass-md:
-    0 4px 16px rgba(16, 24, 40, 0.08), 0 12px 32px rgba(16, 24, 40, 0.1);
+    0 2px 4px rgba(16, 24, 40, 0.03),
+    0 8px 24px rgba(16, 24, 40, 0.07),
+    0 20px 48px rgba(16, 24, 40, 0.04);
   --elevation-glass-lg:
     0 8px 28px rgba(16, 24, 40, 0.12), 0 24px 56px rgba(16, 24, 40, 0.16);
 
@@ -108,9 +115,9 @@
     /* In dark UIs a top highlight reads as a thin lit edge (Linear/Vercel). */
     --card-highlight: rgba(255, 255, 255, 0.06);
     --dot: rgba(255, 255, 255, 0.035);
-    --ambient-1: rgba(99, 102, 241, 0.2);
-    --ambient-2: rgba(129, 140, 248, 0.13);
-    --ambient-3: rgba(79, 70, 229, 0.09);
+    --ambient-1: rgba(99, 102, 241, 0.14);
+    --ambient-2: rgba(129, 140, 248, 0.09);
+    --ambient-3: rgba(79, 70, 229, 0.06);
     --vignette: rgba(0, 0, 0, 0.32);
 
     --ink: #fafafa;
@@ -149,7 +156,9 @@
     --elevation-glass-sm:
       0 1px 2px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.35);
     --elevation-glass-md:
-      0 6px 20px rgba(0, 0, 0, 0.5), 0 16px 40px rgba(0, 0, 0, 0.42);
+      0 2px 6px rgba(0, 0, 0, 0.35),
+      0 12px 32px rgba(0, 0, 0, 0.42),
+      0 24px 56px rgba(0, 0, 0, 0.28);
     --elevation-glass-lg:
       0 10px 32px rgba(0, 0, 0, 0.58), 0 28px 64px rgba(0, 0, 0, 0.5);
   }
@@ -273,14 +282,14 @@
 /* Panel header band — slightly denser than the body so labels stay crisp
    over frosted content without a second blur pass (performance). */
 @utility glass-header {
-  background-color: color-mix(in srgb, var(--glass-bg-strong) 48%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--glass-border) 80%, transparent);
+  background-color: color-mix(in srgb, var(--glass-bg-strong) 40%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--glass-border) 55%, transparent);
 }
 
 /* Nested glass fill for cards / chips inside a module (no extra blur). */
 @utility glass-inset {
-  background-color: color-mix(in srgb, var(--glass-bg) 38%, transparent);
-  border: 1px solid color-mix(in srgb, var(--glass-border) 70%, transparent);
+  background-color: color-mix(in srgb, var(--glass-bg) 32%, transparent);
+  border: 1px solid color-mix(in srgb, var(--glass-border) 50%, transparent);
 }
 
 /* ==========================================================================
@@ -303,29 +312,33 @@
     filter var(--glass-duration) var(--glass-ease);
 }
 
-/* Hover — brighter glass, soft lift. No blur or scale stacking. */
-.glass-module:hover:not([data-dimmed]):not([data-dragging]):not([data-active]) {
-  transform: translateY(-0.5px);
+/* Resting modules float above the canvas with diffused depth. */
+.glass-module:not([data-minimized]):not([data-dragging]) .glass-panel {
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-highlight),
+    var(--elevation-glass-md);
 }
 
+/* Hover — barely perceptible brighten; macOS windows don't bounce. */
 .glass-module:hover:not([data-dimmed]):not([data-dragging]):not([data-active]) .glass-panel {
   background-color: var(--glass-bg-hover);
-  border-color: var(--glass-border-strong);
+  border-color: color-mix(in srgb, var(--glass-border-strong) 85%, transparent);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight-strong),
-    var(--elevation-glass-md);
+    var(--elevation-glass-md),
+    0 0 0 0.5px color-mix(in srgb, var(--glass-glow) 25%, transparent);
 }
 
-/* Keyboard focus within module — same brighten as hover, no movement. */
+/* Keyboard focus within module — brighten only, no movement. */
 .glass-module:focus-within:not([data-dimmed]):not([data-dragging]):not([data-active]) .glass-panel {
   background-color: var(--glass-bg-hover);
-  border-color: var(--glass-border-strong);
+  border-color: color-mix(in srgb, var(--glass-border-strong) 85%, transparent);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight-strong),
     var(--elevation-glass-md);
 }
 
-/* Active / drop-target / maximized — ambient top-light + stronger glass. */
+/* Active / maximized — ambient top-light + lifted glass. */
 .glass-module[data-active]:not([data-dragging]) .glass-panel::before {
   content: "";
   position: absolute;
@@ -334,9 +347,9 @@
   pointer-events: none;
   z-index: 0;
   background: radial-gradient(
-    ellipse 95% 65% at 50% -8%,
-    color-mix(in srgb, var(--glass-ambient) 90%, transparent),
-    transparent 68%
+    ellipse 100% 70% at 50% -10%,
+    color-mix(in srgb, var(--glass-ambient) 75%, transparent),
+    transparent 72%
   );
 }
 
@@ -346,13 +359,17 @@
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight-strong),
     var(--elevation-glass-lg),
-    0 0 32px color-mix(in srgb, var(--glass-glow) 42%, transparent);
+    0 0 40px color-mix(in srgb, var(--glass-glow) 32%, transparent);
 }
 
-/* Drag source — stronger fill + fade; keep the same blur level (performance). */
+/* Drop target during drag — subtle border brightening, no ring offset. */
+.glass-module[data-drop-target]:not([data-dragging]) .glass-panel {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--glass-border-strong));
+}
+
+/* Drag source — gentle fade; same blur level (performance). */
 .glass-module[data-dragging] {
-  opacity: 0.9;
-  transform: scale(0.999);
+  opacity: 0.92;
 }
 
 .glass-module[data-dragging] .glass-panel {
@@ -362,10 +379,10 @@
     var(--elevation-glass-lg);
 }
 
-/* Non-active modules dim while one is focused (drag or maximize). */
+/* Non-active modules recede while one is focused. */
 .glass-module[data-dimmed] {
-  opacity: 0.78;
-  filter: saturate(0.88) brightness(0.96);
+  opacity: 0.84;
+  filter: saturate(0.9) brightness(0.97);
   transform: none;
 }
 
@@ -383,38 +400,54 @@
   filter: none;
 }
 
-/* macOS traffic-light window controls */
+/* macOS traffic-light window controls — neutral until hover. */
+.window-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .window-control {
   height: 12px;
   width: 12px;
   border-radius: 9999px;
-  border: 0.5px solid rgba(0, 0, 0, 0.12);
-  transition: transform 160ms var(--glass-ease), filter 160ms var(--glass-ease);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+  background-color: rgba(0, 0, 0, 0.1);
+  transition:
+    background-color 180ms var(--glass-ease),
+    border-color 180ms var(--glass-ease),
+    transform 140ms var(--glass-ease);
+}
+
+.window-controls:hover .window-control--close {
+  background-color: #ff5f57;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.window-controls:hover .window-control--minimize {
+  background-color: #febc2e;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.window-controls:hover .window-control--zoom,
+.window-controls:hover .window-control--zoom-restore {
+  background-color: #28c840;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  .window-control {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(0, 0, 0, 0.25);
+  }
 }
 
 .window-control:hover {
-  filter: brightness(0.92);
+  filter: brightness(0.95);
 }
 
 .window-control:active {
-  transform: scale(0.92);
-}
-
-.window-control--close {
-  background-color: #ff5f57;
-}
-
-.window-control--minimize {
-  background-color: #febc2e;
-}
-
-.window-control--zoom {
-  background-color: #28c840;
-}
-
-.window-control--zoom-restore {
-  background-color: #28c840;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+  transform: scale(0.9);
 }
 
 /* Smooth window state transitions (minimize / maximize / restore). */
@@ -456,15 +489,15 @@ body::before {
     radial-gradient(120% 80% at 50% -15%, var(--canvas-tint) 0%, var(--canvas) 65%);
 }
 
-/* Layer 0 — fine dot texture (reads in gutters between glass cards). */
+/* Layer 0 — fine dot texture (nearly invisible; glass modules carry the depth). */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.38;
-  background: radial-gradient(var(--dot) 1px, transparent 1.5px) 0 0 / 22px 22px;
+  opacity: 0.18;
+  background: radial-gradient(var(--dot) 1px, transparent 1.5px) 0 0 / 24px 24px;
 }
 
 /* Subtle, modern scrollbars that match the neutral palette. */
@@ -517,7 +550,7 @@ body::after {
 @keyframes panel-zoom-in {
   from {
     opacity: 0;
-    transform: scale(0.985);
+    transform: scale(0.992);
   }
   to {
     opacity: 1;
@@ -543,7 +576,7 @@ body::after {
 }
 
 .animate-panel-zoom-in {
-  animation: panel-zoom-in 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: panel-zoom-in 320ms var(--glass-ease) both;
 }
 
 .animate-fade-in {

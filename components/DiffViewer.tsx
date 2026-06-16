@@ -26,17 +26,17 @@ function DiffSide({
     <div className="flex min-h-0 min-w-0 flex-1 flex-col">
       <div
         className={cn(
-          "flex shrink-0 items-center gap-1.5 border-b px-3 py-1.5",
+          "flex shrink-0 items-center gap-1.5 border-b px-[var(--space-panel-x)] py-[var(--space-panel-y)]",
           typography.micro,
-          "font-semibold uppercase tracking-wide",
-          color.border,
+          "font-medium uppercase tracking-[0.06em]",
+          color.glassBorder,
           color.inkMuted,
         )}
       >
         <span
           className={cn(
-            "h-1.5 w-1.5 rounded-full",
-            tone === "before" ? "bg-red-400" : "bg-emerald-400",
+            "h-1 w-1 rounded-full opacity-70",
+            tone === "before" ? "bg-red-400/80" : "bg-emerald-400/80",
           )}
           aria-hidden
         />
@@ -45,7 +45,7 @@ function DiffSide({
       <pre
         ref={contentRef}
         className={cn(
-          "min-h-0 flex-1 overflow-auto whitespace-pre-wrap wrap-break-word p-3",
+          "min-h-0 flex-1 overflow-auto whitespace-pre-wrap wrap-break-word p-[var(--space-content)]",
           typography.mono,
           color.inkSoft,
         )}
@@ -104,7 +104,7 @@ function PatchDiffContent({ patch }: { patch: Patch }) {
   }, [patch.id]);
 
   return (
-    <div className="flex h-full min-h-0 divide-x divide-line">
+    <div className="flex h-full min-h-0 divide-x divide-[color:var(--glass-border)]">
       <DiffSide label="Before" tone="before" contentRef={beforeRef}>
         {before}
       </DiffSide>

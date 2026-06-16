@@ -15,7 +15,7 @@ import { getErrorMessage, parseApiError } from "@/lib/errors";
 import { applyPatch, toTextPatch } from "@/lib/patches";
 import { toast } from "@/lib/toast";
 import { useDebounce } from "@/lib/use-debounce";
-import { cn, color, elevation, focusRing, glassChrome, glassModule, layer, radius, typography } from "@/lib/ui";
+import { cn, color, focusRing, glassChrome, glassModule, layer, radius, typography } from "@/lib/ui";
 import type { AnalyzeResponse, Patch } from "@/lib/types";
 
 type ModuleKey = "job" | "latex" | "suggestions" | "diff" | "preview";
@@ -425,38 +425,32 @@ export default function ResumeTailor() {
     <div className="relative flex h-screen flex-col">
       <header
         className={cn(
-          "sticky top-0 flex shrink-0 items-center justify-between gap-4 px-5 py-2.5",
+          "sticky top-0 flex shrink-0 items-center justify-between gap-4 px-5 py-2",
           layer.fg,
           glassChrome,
         )}
       >
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3">
           <div
             className={cn(
-              "flex h-8 w-8 items-center justify-center text-xs font-semibold text-white",
-              "bg-linear-to-br from-indigo-500/90 to-violet-600/90",
-              radius.lg,
+              "flex h-7 w-7 items-center justify-center text-[11px] font-semibold text-white/95",
+              "bg-linear-to-br from-indigo-500/85 to-violet-600/85",
+              radius.md,
             )}
             aria-hidden
           >
             RT
           </div>
-          <div className="leading-tight">
-            <h1 className={cn(typography.h1, color.inkStrong)}>Resume Tailor AI</h1>
-            <p className={cn(typography.caption, color.inkSoft)}>
-              Tailor your LaTeX resume to a job description
-            </p>
-          </div>
+          <h1 className={cn(typography.h1, color.inkStrong)}>Resume Tailor AI</h1>
         </div>
         <button
           type="button"
           onClick={handleGenerate}
           disabled={!canGenerate}
           className={cn(
-            "flex items-center gap-2 px-4 py-2 text-sm font-medium transition-[background-color,transform,box-shadow] duration-200 hover:-translate-y-px active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0",
+            "flex items-center gap-2 px-3.5 py-1.5 text-sm font-medium transition-[background-color,opacity,transform] duration-200 ease-out hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-35",
             radius.lg,
             color.primary,
-            elevation.card,
             focusRing,
           )}
         >
@@ -467,9 +461,9 @@ export default function ResumeTailor() {
         </button>
       </header>
 
-      <main className={cn("min-h-0 flex-1 p-4", layer.mid)}>
+      <main className={cn("min-h-0 flex-1 p-[var(--space-module-gap)]", layer.mid)}>
         <div
-          className="relative hidden h-full min-h-0 gap-4 lg:grid"
+          className="relative hidden h-full min-h-0 gap-[var(--space-module-gap)] lg:grid"
           style={{
             gridTemplateColumns: desktopGridTemplateColumns,
             gridTemplateRows: "minmax(180px, 1fr) minmax(180px, 1fr) minmax(180px, 1fr)",
@@ -589,7 +583,7 @@ function ModuleContainer({
 
   // A drop onto the module currently being dragged is a no-op; don't light up.
   const isDropTarget = dragOver && !isDragging && !isMinimized;
-  const isActive = isMaximized || isDropTarget;
+  const isActive = isMaximized;
   const isDimmed =
     (isDragActive && !isDragging && !isDropTarget) ||
     (anyMaximized && !isMaximized);
@@ -609,21 +603,21 @@ function ModuleContainer({
       data-dimmed={isDimmed ? "" : undefined}
       data-dragging={isDragging ? "" : undefined}
       data-minimized={isMinimized ? "" : undefined}
+      data-drop-target={isDropTarget ? "" : undefined}
       className={cn(
         glassModule,
         "group/module min-h-0 outline-none",
-        radius.xl,
+        radius.window,
         isMaximized
           ? cn("absolute inset-0 animate-panel-zoom-in", layer.overlay)
           : "relative",
-        isDropTarget && "ring-2 ring-accent/70 ring-offset-2 ring-offset-canvas",
       )}
     >
       <div
         className={cn(
-          "absolute right-1.5 top-1.5 z-30 flex items-center gap-0.5 transition-opacity duration-150",
+          "absolute right-2 top-[var(--space-panel-y)] z-30 transition-opacity duration-200 ease-out",
           isMaximized || isMinimized
-            ? "opacity-0 pointer-events-none"
+            ? "pointer-events-none opacity-0"
             : "opacity-0 group-hover/module:opacity-100 focus-within:opacity-100",
         )}
       >
@@ -665,20 +659,17 @@ function ModuleContainer({
           onDragLeave={() => setDragOver(false)}
           onDrop={handleDrop}
           className={cn(
-            "absolute inset-0 z-20 flex items-center justify-center transition-colors",
-            radius.xl,
-            isDropTarget && "bg-accent-subtle/60",
-            isDragging && "border-2 border-dashed border-accent/50",
+            "absolute inset-0 z-20 flex items-center justify-center transition-colors duration-200 ease-out",
+            radius.window,
           )}
         >
           {isDropTarget && (
             <span
               className={cn(
-                "border px-2.5 py-1 font-medium shadow-pop backdrop-blur",
+                "px-3 py-1 font-medium",
                 radius.full,
                 typography.caption,
-                "border-accent text-accent",
-                color.surface,
+                "glass-sm text-ink-soft",
               )}
             >
               Drop to swap
@@ -755,7 +746,7 @@ function VerticalResizer({
     >
       {/* Invisible until hovered — the card edges already separate modules, so
           the resize affordance only appears when you reach for it. */}
-      <div className="h-full w-1 rounded-full bg-transparent transition-colors duration-150 group-hover/resizer:bg-accent/70 group-active/resizer:bg-accent" />
+      <div className="h-full w-1 rounded-full bg-transparent transition-colors duration-200 ease-out group-hover/resizer:bg-ink-faint/40 group-active/resizer:bg-ink-soft/60" />
     </div>
   );
 }

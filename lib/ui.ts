@@ -45,8 +45,8 @@ export const typography = {
   h2: "text-base font-semibold tracking-tight",
   /** Small all-caps section label (panel headers, field labels). */
   overline: "text-xs font-semibold uppercase tracking-wide",
-  /** Panel title on frosted glass — slightly stronger than default overline. */
-  overlineGlass: "text-xs font-semibold uppercase tracking-wide text-ink-soft",
+  /** Panel title on frosted glass — macOS-style muted label. */
+  overlineGlass: "text-[11px] font-medium uppercase tracking-[0.06em] text-ink-muted",
   /** Default body copy. */
   body: "text-sm leading-relaxed",
   /** Tighter body copy for dense cards. */
@@ -72,6 +72,7 @@ export const color = {
   // Borders
   border: "border-line",
   borderStrong: "border-line-strong",
+  glassBorder: "border-[color:var(--glass-border)]",
   // Text (ink ramp, strongest → faintest)
   inkStrong: "text-ink",
   inkBody: "text-ink-body",
@@ -91,6 +92,8 @@ export const radius = {
   md: "rounded-md",
   lg: "rounded-lg",
   xl: "rounded-xl",
+  /** macOS window corner radius. */
+  window: "rounded-2xl",
   "2xl": "rounded-2xl",
   full: "rounded-full",
 } as const;
