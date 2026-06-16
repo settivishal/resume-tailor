@@ -1,8 +1,10 @@
 "use client";
 
 import EmptyState from "./EmptyState";
+import ErrorBanner from "./ErrorBanner";
 import Panel from "./Panel";
 import SuggestionCard from "./SuggestionCard";
+import SuggestionSkeleton from "./SuggestionSkeleton";
 import type { Patch } from "@/lib/types";
 
 interface SuggestionsPanelProps {
@@ -13,9 +15,29 @@ interface SuggestionsPanelProps {
   error: string | null;
   patchError: string | null;
   selectedPatchId: string | null;
+  processing: boolean;
   onSelect: (id: string) => void;
   onAccept: (id: string) => void;
   onReject: (id: string) => void;
+  onDismissError: () => void;
+  onDismissPatchError: () => void;
+  onRetry: () => void;
+}
+
+function SummarySkeleton() {
+  return (
+    <div className="animate-pulse border-b border-zinc-200 px-3 py-2 dark:border-zinc-800">
+      <div className="flex items-center justify-between">
+        <div className="h-3 w-20 rounded bg-zinc-200 dark:bg-zinc-700" />
+        <div className="h-3 w-8 rounded bg-zinc-200 dark:bg-zinc-700" />
+      </div>
+      <div className="mt-2 flex flex-wrap gap-1">
+        <div className="h-4 w-14 rounded bg-zinc-200 dark:bg-zinc-700" />
+        <div className="h-4 w-16 rounded bg-zinc-200 dark:bg-zinc-700" />
+        <div className="h-4 w-12 rounded bg-zinc-200 dark:bg-zinc-700" />
+      </div>
+    </div>
+  );
 }
 
 export default function SuggestionsPanel({
@@ -26,9 +48,13 @@ export default function SuggestionsPanel({
   error,
   patchError,
   selectedPatchId,
+  processing,
   onSelect,
   onAccept,
   onReject,
+  onDismissError,
+  onDismissPatchError,
+  onRetry,
 }: SuggestionsPanelProps) {
   const summary =
     matchScore !== null ? (
@@ -59,53 +85,63 @@ export default function SuggestionsPanel({
       </div>
     ) : null;
 
+  const cardsDisabled = loading || processing;
+
   return (
     <Panel
       title="Suggestions"
       action={
-        patches.length > 0 ? (
+        loading ? (
+          <span className="text-[10px] text-zinc-400">Analyzing…</span>
+        ) : patches.length > 0 ? (
           <span className="text-[10px] text-zinc-400">{patches.length} patches</span>
         ) : undefined
       }
       className="h-full"
     >
       <div className="flex h-full min-h-0 flex-col">
-        {summary}
+        {loading ? <SummarySkeleton /> : summary}
         <div className="min-h-0 flex-1 overflow-auto p-2">
-        {loading && (
-          <EmptyState
-            title="Analyzing resume…"
-            description="Generating tailored suggestions for your job description."
-          />
-        )}
-        {!loading && error && (
-          <EmptyState title="Analysis failed" description={error} />
-        )}
-        {!loading && !error && patches.length === 0 && (
-          <EmptyState
-            title="No suggestions yet"
-            description='Click "Generate Suggestions" to get AI-powered edits for your resume.'
-          />
-        )}
-        {patchError && (
-          <p className="mb-2 rounded-md bg-red-50 px-2 py-1.5 text-xs text-red-700 dark:bg-red-950/30 dark:text-red-300">
-            {patchError}
-          </p>
-        )}
-        {!loading && !error && patches.length > 0 && (
-          <div className="flex flex-col gap-2">
-            {patches.map((patch) => (
-              <SuggestionCard
-                key={patch.id}
-                patch={patch}
-                selected={patch.id === selectedPatchId}
-                onSelect={() => onSelect(patch.id)}
-                onAccept={() => onAccept(patch.id)}
-                onReject={() => onReject(patch.id)}
-              />
-            ))}
-          </div>
-        )}
+          {loading && (
+            <div className="flex flex-col gap-2">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <SuggestionSkeleton key={i} />
+              ))}
+            </div>
+          )}
+          {!loading && error && (
+            <ErrorBanner
+              message={error}
+              onRetry={onRetry}
+              onDismiss={onDismissError}
+            />
+          )}
+          {!loading && !error && patches.length === 0 && (
+            <EmptyState
+              title="No suggestions yet"
+              description='Click "Generate Suggestions" to get AI-powered edits for your resume.'
+            />
+          )}
+          {patchError && !loading && (
+            <div className="mb-2">
+              <ErrorBanner message={patchError} onDismiss={onDismissPatchError} />
+            </div>
+          )}
+          {!loading && !error && patches.length > 0 && (
+            <div className="flex flex-col gap-2">
+              {patches.map((patch) => (
+                <SuggestionCard
+                  key={patch.id}
+                  patch={patch}
+                  selected={patch.id === selectedPatchId}
+                  disabled={cardsDisabled}
+                  onSelect={() => onSelect(patch.id)}
+                  onAccept={() => onAccept(patch.id)}
+                  onReject={() => onReject(patch.id)}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </Panel>

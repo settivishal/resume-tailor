@@ -23,7 +23,8 @@ export default function PdfPreviewPanel({ latex }: PdfPreviewPanelProps) {
     }
 
     const controller = new AbortController();
-    const timer = setTimeout(async () => {
+
+    (async () => {
       setLoading(true);
       setError(null);
 
@@ -59,10 +60,9 @@ export default function PdfPreviewPanel({ latex }: PdfPreviewPanelProps) {
       } finally {
         setLoading(false);
       }
-    }, 600);
+    })();
 
     return () => {
-      clearTimeout(timer);
       controller.abort();
     };
   }, [latex]);
