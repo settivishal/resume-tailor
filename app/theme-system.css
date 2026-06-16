@@ -66,3 +66,54 @@ html[data-theme="dark"] {
   --surface: var(--surface-glass);
   --danger: var(--accent-destructive);
 }
+
+/**
+ * STEP 5 — Theme switch transitions (smooth crossfade, no layout shift).
+ *
+ * View Transitions API handles the root crossfade when supported; the
+ * `.theme-transition` class provides color interpolation fallback.
+ */
+@supports (view-transition-name: none) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 320ms;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+html.theme-transition body {
+  transition:
+    background-color 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.theme-transition body::before {
+  transition: background 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition-property: background-color, color, border-color, box-shadow, fill, stroke;
+  transition-duration: 320ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-transition *,
+  html.theme-transition *::before,
+  html.theme-transition *::after,
+  html.theme-transition body,
+  html.theme-transition body::before {
+    transition-duration: 0.01ms !important;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.01ms !important;
+  }
+}
+
+.theme-toggle svg {
+  will-change: transform, opacity;
+}

@@ -4,14 +4,13 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
-  useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 import {
   applyTheme,
-  getStoredTheme,
+  readThemeFromDocument,
   setStoredTheme,
   toggleTheme,
 } from "@/lib/theme/client";
@@ -25,29 +24,36 @@ type ThemeContextValue = {
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeMode>(DEFAULT_THEME);
+function subscribeTheme(onStoreChange: () => void): () => void {
+  const observer = new MutationObserver(onStoreChange);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+  window.addEventListener("storage", onStoreChange);
+  return () => {
+    observer.disconnect();
+    window.removeEventListener("storage", onStoreChange);
+  };
+}
 
-  useEffect(() => {
-    const stored = getStoredTheme();
-    setThemeState(stored);
-    applyTheme(stored);
-  }, []);
+export function ThemeProvider({ children }: { children: ReactNode }) {
+  const theme = useSyncExternalStore(
+    subscribeTheme,
+    readThemeFromDocument,
+    () => DEFAULT_THEME,
+  );
 
   const setTheme = useCallback((next: ThemeMode) => {
-    setThemeState(next);
     applyTheme(next);
     setStoredTheme(next);
   }, []);
 
   const toggle = useCallback(() => {
-    setThemeState((current) => {
-      const next = toggleTheme(current);
-      applyTheme(next);
-      setStoredTheme(next);
-      return next;
-    });
-  }, []);
+    const next = toggleTheme(theme);
+    applyTheme(next);
+    setStoredTheme(next);
+  }, [theme]);
 
   const value = useMemo(
     () => ({ theme, setTheme, toggleTheme: toggle }),
