@@ -1,26 +1,260 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ==========================================================================
+   Design tokens — the single source of truth for color, elevation & glass.
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+   Palette is tuned for a clean, premium SaaS feel (Notion / Linear / Vercel):
+   soft neutral canvas, white cards that float on subtle shadows, an indigo
+   accent for selection/focus, and never harsh pure-white or pure-black.
+   Components consume the semantic utilities (bg-surface, text-ink,
+   border-line, shadow-card, accent, .glass) — never raw `zinc-*`.
+   ========================================================================== */
+:root {
+  /* Background / surface */
+  --canvas: #f4f4f7; /* soft neutral app background */
+  --canvas-tint: #ececf2; /* subtle gradient companion for depth */
+  --surface: #ffffff; /* card / panel surface */
+  --surface-subtle: #f5f5f8; /* nested fills, chips, skeletons */
+  --surface-header: #fafafb; /* card header band */
+
+  /* Borders / dividers (hairline, low-contrast) */
+  --line: #e7e7ee;
+  --line-strong: #d8d8e0;
+  /* A faint top highlight that gives cards a crisp, lit edge. */
+  --card-highlight: rgba(255, 255, 255, 0.7);
+  /* Subtle dot-grid texture for the canvas (shows only in the gutters). */
+  --dot: rgba(24, 24, 27, 0.04);
+
+  /* Text (ink) ramp */
+  --ink: #18181b; /* strong / headings */
+  --ink-body: #2b2b31; /* body content */
+  --ink-soft: #52525b; /* secondary content */
+  --ink-muted: #71717a; /* labels */
+  --ink-faint: #a1a1aa; /* captions / placeholder */
+
+  /* Brand / primary action (monochrome) */
+  --primary: #18181b;
+  --primary-foreground: #ffffff;
+
+  /* Accent — selection, focus, highlights */
+  --accent: #6366f1; /* indigo-500 */
+  --accent-foreground: #ffffff;
+  --accent-subtle: #eef2ff; /* indigo-50 */
+
+  /* Focus ring */
+  --focus: #6366f1;
+
+  /* Elevation */
+  --elevation-card:
+    0 1px 2px rgba(16, 24, 40, 0.04), 0 2px 6px rgba(16, 24, 40, 0.06);
+  --elevation-pop:
+    0 4px 12px rgba(16, 24, 40, 0.08), 0 12px 28px rgba(16, 24, 40, 0.1);
+
+  /* Back-compat aliases (consumed by <body> + earlier code paths) */
+  --background: var(--canvas);
+  --foreground: var(--ink);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --canvas: #09090b; /* near-black, never pure #000 */
+    --canvas-tint: #121216; /* lifts the top of the canvas for depth */
+    --surface: #18181b;
+    --surface-subtle: #212126;
+    --surface-header: #1c1c20; /* card header band */
+
+    --line: #2a2a30;
+    --line-strong: #3a3a42;
+    /* In dark UIs a top highlight reads as a thin lit edge (Linear/Vercel). */
+    --card-highlight: rgba(255, 255, 255, 0.06);
+    --dot: rgba(255, 255, 255, 0.035);
+
+    --ink: #fafafa;
+    --ink-body: #ededf0;
+    --ink-soft: #c2c2cb;
+    --ink-muted: #a1a1aa;
+    --ink-faint: #6f6f78;
+
+    --primary: #fafafa;
+    --primary-foreground: #18181b;
+
+    --accent: #818cf8; /* indigo-400 */
+    --accent-foreground: #14142b;
+    --accent-subtle: #1e1b3a;
+
+    --focus: #818cf8;
+
+    --elevation-card:
+      0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
+    --elevation-pop:
+      0 8px 24px rgba(0, 0, 0, 0.5), 0 16px 40px rgba(0, 0, 0, 0.45);
   }
 }
 
+/* Expose tokens to Tailwind as semantic utilities: bg-*, text-*, border-*,
+   shadow-*. `inline` keeps utilities bound to the live CSS vars so the
+   prefers-color-scheme overrides apply at runtime. */
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-header: var(--surface-header);
+
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-ink: var(--ink);
+  --color-ink-body: var(--ink-body);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-subtle: var(--accent-subtle);
+
+  --color-focus: var(--focus);
+
+  --shadow-card: var(--elevation-card);
+  --shadow-pop: var(--elevation-pop);
+
+  /* Back-compat */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Frosted-glass treatment for the app chrome (header / floating bars). */
+@utility glass {
+  background-color: color-mix(in srgb, var(--surface) 72%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+}
+
+/* Crisp, lit card edge: hairline border + a faint inner top highlight.
+   Reads as premium depth on both light and dark surfaces. */
+@utility card-edge {
+  border: 1px solid var(--line);
+  box-shadow:
+    inset 0 1px 0 0 var(--card-highlight),
+    var(--elevation-card);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Subtle layered depth so the canvas never looks like a flat fill:
+     a fine dot-grid texture over a soft top gradient wash. The dots only
+     read in the gutters between the opaque module cards. */
+  background:
+    radial-gradient(var(--dot) 1px, transparent 1.5px) 0 0 / 22px 22px,
+    radial-gradient(
+      120% 80% at 50% -10%,
+      var(--canvas-tint) 0%,
+      var(--canvas) 60%
+    ),
+    var(--canvas);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family:
+    var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Subtle, modern scrollbars that match the neutral palette. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--line-strong);
+  border: 3px solid transparent;
+  background-clip: content-box;
+  border-radius: 9999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--ink-faint);
+}
+
+/* ==========================================================================
+   Micro-interactions — lightweight, ease-in-out, no aggressive motion.
+   ========================================================================== */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes toast-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+}
+
+@keyframes panel-zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-toast-in {
+  animation: toast-in 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-toast-out {
+  animation: toast-out 160ms ease-in both;
+}
+
+.animate-panel-zoom-in {
+  animation: panel-zoom-in 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 160ms ease-out both;
+}
+
+/* Respect users who prefer reduced motion: keep state changes instant. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

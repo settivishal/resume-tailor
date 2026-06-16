@@ -1,6 +1,7 @@
 "use client";
 
 import Panel from "./Panel";
+import { cn, color, typography } from "@/lib/ui";
 
 interface JobDescriptionPanelProps {
   value: string;
@@ -20,7 +21,13 @@ export default function JobDescriptionPanel({
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
         placeholder="Paste the job posting here…"
-        className="h-full w-full resize-none bg-transparent p-3 text-sm leading-relaxed text-zinc-800 outline-none placeholder:text-zinc-400 disabled:cursor-not-allowed disabled:opacity-50 dark:text-zinc-100 dark:placeholder:text-zinc-600"
+        className={cn(
+          "h-full w-full resize-none bg-transparent p-3 outline-none transition-shadow disabled:cursor-not-allowed disabled:opacity-50",
+          "placeholder:text-ink-faint",
+          "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-focus/40",
+          typography.body,
+          color.inkBody,
+        )}
       />
     </Panel>
   );
