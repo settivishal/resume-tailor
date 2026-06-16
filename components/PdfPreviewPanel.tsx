@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import EmptyState from "./EmptyState";
 import Panel from "./Panel";
-import { cn, color, radius, typography } from "@/lib/ui";
+import { cn, color, glassInset, radius, typography } from "@/lib/ui";
 
 interface PdfPreviewPanelProps {
   latex: string;
@@ -84,9 +84,10 @@ export default function PdfPreviewPanel({ latex }: PdfPreviewPanelProps) {
         ) : mocked ? (
           <span
             className={cn(
-              "border border-amber-200 bg-amber-50 px-2 py-0.5 text-amber-700 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300",
+              "px-2 py-0.5 text-amber-700/90 dark:text-amber-300/90",
               radius.full,
               typography.micro,
+              glassInset,
             )}
           >
             Mock preview

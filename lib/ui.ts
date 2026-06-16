@@ -45,6 +45,8 @@ export const typography = {
   h2: "text-base font-semibold tracking-tight",
   /** Small all-caps section label (panel headers, field labels). */
   overline: "text-xs font-semibold uppercase tracking-wide",
+  /** Panel title on frosted glass — macOS-style muted label. */
+  overlineGlass: "text-[11px] font-medium uppercase tracking-[0.06em] text-ink-muted",
   /** Default body copy. */
   body: "text-sm leading-relaxed",
   /** Tighter body copy for dense cards. */
@@ -70,6 +72,7 @@ export const color = {
   // Borders
   border: "border-line",
   borderStrong: "border-line-strong",
+  glassBorder: "border-[color:var(--glass-border)]",
   // Text (ink ramp, strongest → faintest)
   inkStrong: "text-ink",
   inkBody: "text-ink-body",
@@ -89,6 +92,8 @@ export const radius = {
   md: "rounded-md",
   lg: "rounded-lg",
   xl: "rounded-xl",
+  /** macOS window corner radius. */
+  window: "rounded-2xl",
   "2xl": "rounded-2xl",
   full: "rounded-full",
 } as const;
@@ -98,6 +103,10 @@ export const elevation = {
   none: "shadow-none",
   card: "shadow-card",
   pop: "shadow-pop",
+  // Soft, diffused glass shadows (depth levels for translucent surfaces).
+  glassSm: "shadow-glass-sm",
+  glassMd: "shadow-glass-md",
+  glassLg: "shadow-glass-lg",
 } as const;
 
 /**
@@ -107,8 +116,61 @@ export const elevation = {
  */
 export const cardEdge = "card-edge";
 
-/** Frosted-glass treatment for app chrome. */
-export const glass = "glass";
+/**
+ * Glass UI foundation (macOS-inspired). Reusable primitives backed by the
+ * glass tokens in `globals.css`.
+ *
+ *   - `frost`   — frosted backdrop blur only; compose onto any fill.
+ *   - `glass`   — a complete glass surface (translucent fill + blur + soft
+ *                 border + lit highlight + diffused shadow) in three depth
+ *                 levels for a layered hierarchy.
+ *
+ * `glassChrome` is the original app-chrome frost (kept for back-compat).
+ */
+export const frost = {
+  sm: "frost-sm",
+  md: "frost-md",
+  lg: "frost-lg",
+} as const;
+
+export const glass = {
+  sm: "glass-sm",
+  md: "glass-md",
+  lg: "glass-lg",
+} as const;
+
+/** Slightly denser header band for glass panels (no extra blur pass). */
+export const glassHeader = "glass-header";
+
+/** Nested translucent fill inside a glass module (no extra blur). */
+export const glassInset = "glass-inset";
+
+/** Default frosted-glass surface for dashboard module cards. */
+export const glassPanel = glass.md;
+
+/** Marker class for glass interaction CSS (paired with `.glass-module` wrapper). */
+export const glassPanelSurface = "glass-panel";
+
+/** Wrapper class for module-level glass interaction states. */
+export const glassModule = "glass-module";
+
+/**
+ * Depth layer z-index scale for the macOS-style glass environment:
+ *   bg      — ambient canvas (handled by body pseudo-elements)
+ *   mid     — dashboard modules / main content
+ *   fg      — app chrome (header)
+ *   overlay — maximized modules, drag targets
+ *   toast   — transient feedback (foreground interactions)
+ */
+export const layer = {
+  mid: "relative z-10",
+  fg: "relative z-20",
+  overlay: "z-40",
+  toast: "z-50",
+} as const;
+
+/** Original frosted-glass treatment for app chrome (header / floating bars). */
+export const glassChrome = "glass";
 
 /** Standard focus ring for interactive elements (opt-in per component). */
 export const focusRing =

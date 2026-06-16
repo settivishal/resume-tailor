@@ -1,6 +1,6 @@
 "use client";
 
-import { cn, color, elevation, focusRing, radius, typography } from "@/lib/ui";
+import { cn, color, focusRing, glassInset, radius, typography } from "@/lib/ui";
 import type { Impact, Patch } from "@/lib/types";
 
 const impactStyles: Record<Impact, string> = {
@@ -39,15 +39,15 @@ export default function SuggestionCard({
         }
       }}
       className={cn(
-        "border p-3.5 transition-all duration-150",
+        "p-3.5 transition-[background-color,border-color] duration-200 ease-out",
         radius.lg,
         focusRing,
         disabled
           ? "cursor-not-allowed opacity-50"
-          : "cursor-pointer hover:shadow-card",
+          : "cursor-pointer",
         selected
-          ? cn("border-accent bg-accent-subtle ring-1 ring-accent", elevation.card)
-          : cn(color.border, color.surface, "hover:border-line-strong"),
+          ? "border border-accent/50 bg-accent-subtle/40"
+          : glassInset,
       )}
     >
       <div className="flex items-start justify-between gap-2.5">
@@ -89,12 +89,12 @@ export default function SuggestionCard({
             onReject();
           }}
           className={cn(
-            "border px-2.5 py-1 text-xs font-medium transition-[background-color,transform] active:scale-95",
+            "border px-2.5 py-1 text-xs font-medium transition-colors duration-200 ease-out active:scale-[0.98]",
             radius.md,
             focusRing,
-            color.borderStrong,
+            glassInset,
             color.inkSoft,
-            "hover:bg-surface-subtle disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100",
+            "disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100",
           )}
         >
           Reject

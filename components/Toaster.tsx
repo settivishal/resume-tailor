@@ -7,7 +7,7 @@ import {
   subscribeToasts,
   type ToastItem,
 } from "@/lib/toast";
-import { cardEdge, cn, color, radius, typography } from "@/lib/ui";
+import { cn, color, glass, layer, radius, typography } from "@/lib/ui";
 
 const toneDot: Record<ToastItem["tone"], string> = {
   default: "bg-ink-faint",
@@ -26,7 +26,10 @@ export default function Toaster() {
     <div
       aria-live="polite"
       aria-atomic="false"
-      className="pointer-events-none fixed bottom-4 right-4 z-50 flex w-[min(20rem,calc(100vw-2rem))] flex-col gap-2"
+      className={cn(
+        "pointer-events-none fixed bottom-4 right-4 flex w-[min(20rem,calc(100vw-2rem))] flex-col gap-2",
+        layer.toast,
+      )}
     >
       {toasts.map((t) => (
         <ToastRow key={t.id} toast={t} />
@@ -61,8 +64,7 @@ function ToastRow({ toast }: { toast: ToastItem }) {
       className={cn(
         "pointer-events-auto flex items-center gap-2.5 px-3.5 py-2.5",
         radius.lg,
-        color.surface,
-        cardEdge,
+        glass.sm,
         leaving ? "animate-toast-out" : "animate-toast-in",
       )}
     >

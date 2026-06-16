@@ -6,13 +6,16 @@ import JobDescriptionPanel from "./JobDescriptionPanel";
 import LatexEditor from "./LatexEditor";
 import PdfPreviewPanel from "./PdfPreviewPanel";
 import SuggestionsPanel from "./SuggestionsPanel";
+import ModuleDock from "./ModuleDock";
+import { ModuleChromeProvider } from "./ModuleChromeContext";
 import Toaster from "./Toaster";
+import WindowControls from "./WindowControls";
 import { SAMPLE_LATEX } from "@/lib/constants";
 import { getErrorMessage, parseApiError } from "@/lib/errors";
 import { applyPatch, toTextPatch } from "@/lib/patches";
 import { toast } from "@/lib/toast";
 import { useDebounce } from "@/lib/use-debounce";
-import { cn, color, elevation, focusRing, glass, radius, typography } from "@/lib/ui";
+import { cn, color, focusRing, glassChrome, glassModule, layer, radius, typography } from "@/lib/ui";
 import type { AnalyzeResponse, Patch } from "@/lib/types";
 
 type ModuleKey = "job" | "latex" | "suggestions" | "diff" | "preview";
@@ -28,10 +31,26 @@ const moduleLabels: Record<ModuleKey, string> = {
   preview: "PDF Preview",
 };
 
+const MODULE_ABBREV: Record<ModuleKey, string> = {
+  job: "JD",
+  latex: "LX",
+  suggestions: "SG",
+  diff: "DF",
+  preview: "PDF",
+};
+
+type WindowSnapshot = {
+  slots: ModuleKey[];
+  leftPx: number;
+  rightPx: number;
+  minimized: ModuleKey[];
+};
+
 type LayoutState = {
   slots: ModuleKey[];
   leftPx: number;
   rightPx: number;
+  minimized?: ModuleKey[];
 };
 
 const LAYOUT_STORAGE_KEY = "resumeTailor.layout.v1";
@@ -55,6 +74,8 @@ export default function ResumeTailor() {
   const [slots, setSlots] = useState<ModuleKey[]>(DEFAULT_SLOTS);
   const [draggingModule, setDraggingModule] = useState<ModuleKey | null>(null);
   const [maximizedModule, setMaximizedModule] = useState<ModuleKey | null>(null);
+  const [minimizedModules, setMinimizedModules] = useState<ModuleKey[]>([]);
+  const layoutMemoryRef = useRef<WindowSnapshot | null>(null);
   const [leftPx, setLeftPx] = useState(DEFAULT_LEFT_PX);
   const [rightPx, setRightPx] = useState(DEFAULT_RIGHT_PX);
   const resizingRef = useRef<
@@ -180,6 +201,15 @@ export default function ResumeTailor() {
         setRightPx(parsed.rightPx);
         restored = true;
       }
+      if (Array.isArray(parsed.minimized)) {
+        const normalizedMin = parsed.minimized.filter((x): x is ModuleKey =>
+          DEFAULT_SLOTS.includes(x as ModuleKey),
+        );
+        if (normalizedMin.length > 0) {
+          setMinimizedModules(normalizedMin);
+          restored = true;
+        }
+      }
       if (restored) toast("Layout restored", { tone: "info" });
     } catch {
       // ignore
@@ -188,13 +218,13 @@ export default function ResumeTailor() {
 
   // Persist layout
   useEffect(() => {
-    const state: LayoutState = { slots, leftPx, rightPx };
+    const state: LayoutState = { slots, leftPx, rightPx, minimized: minimizedModules };
     try {
       localStorage.setItem(LAYOUT_STORAGE_KEY, JSON.stringify(state));
     } catch {
       // ignore
     }
-  }, [slots, leftPx, rightPx]);
+  }, [slots, leftPx, rightPx, minimizedModules]);
 
   // Global mouse listeners for resizing columns
   useEffect(() => {
@@ -239,28 +269,108 @@ export default function ResumeTailor() {
     if (didSwap) toast("Layout saved", { tone: "success" });
   };
 
-  const toggleMaximize = useCallback(
+  const captureLayoutSnapshot = useCallback((): WindowSnapshot => ({
+    slots: [...slots],
+    leftPx,
+    rightPx,
+    minimized: [],
+  }), [slots, leftPx, rightPx]);
+
+  const saveLayoutMemory = useCallback(() => {
+    if (layoutMemoryRef.current) return;
+    layoutMemoryRef.current = captureLayoutSnapshot();
+  }, [captureLayoutSnapshot]);
+
+  const applyLayoutMemory = useCallback(() => {
+    const mem = layoutMemoryRef.current;
+    if (!mem) return false;
+    setSlots([...mem.slots]);
+    setLeftPx(mem.leftPx);
+    setRightPx(mem.rightPx);
+    setMinimizedModules([]);
+    setMaximizedModule(null);
+    layoutMemoryRef.current = null;
+    return true;
+  }, []);
+
+  const handleMinimizeModule = useCallback(
     (module: ModuleKey) => {
-      // Compute next + toast in the event handler (not inside the state
-      // updater, which StrictMode double-invokes) so feedback fires once.
-      const next = maximizedModule === module ? null : module;
-      setMaximizedModule(next);
-      toast(next ? `Maximized ${moduleLabels[next]}` : "Restored layout", {
-        tone: "info",
-      });
+      if (minimizedModules.includes(module)) return;
+      if (maximizedModule === null && minimizedModules.length === 0) {
+        saveLayoutMemory();
+      }
+      if (maximizedModule === module) setMaximizedModule(null);
+      setMinimizedModules((prev) => [...prev, module]);
+      toast(`Minimized ${moduleLabels[module]}`, { tone: "info" });
     },
-    [maximizedModule],
+    [minimizedModules, maximizedModule, saveLayoutMemory],
   );
 
-  // Allow Escape to exit a maximized module.
+  const handleZoomModule = useCallback(
+    (module: ModuleKey) => {
+      if (maximizedModule === module) {
+        if (applyLayoutMemory()) {
+          toast("Restored layout", { tone: "info" });
+        } else {
+          setMaximizedModule(null);
+          toast("Restored layout", { tone: "info" });
+        }
+        return;
+      }
+      if (minimizedModules.includes(module)) {
+        const remaining = minimizedModules.filter((m) => m !== module);
+        setMinimizedModules(remaining);
+        if (!maximizedModule && remaining.length === 0) applyLayoutMemory();
+        toast(`Restored ${moduleLabels[module]}`, { tone: "info" });
+        return;
+      }
+      if (maximizedModule === null && minimizedModules.length === 0) {
+        saveLayoutMemory();
+      }
+      setMaximizedModule(module);
+      toast(`Maximized ${moduleLabels[module]}`, { tone: "info" });
+    },
+    [maximizedModule, minimizedModules, applyLayoutMemory, saveLayoutMemory],
+  );
+
+  const handleRestoreFromDock = useCallback(
+    (key: string) => {
+      const module = key as ModuleKey;
+      const remaining = minimizedModules.filter((m) => m !== module);
+      setMinimizedModules(remaining);
+      if (!maximizedModule && remaining.length === 0) applyLayoutMemory();
+      toast(`Restored ${moduleLabels[module]}`, { tone: "info" });
+    },
+    [maximizedModule, minimizedModules, applyLayoutMemory],
+  );
+
+  const dockModules = useMemo(
+    () =>
+      minimizedModules.map((key) => ({
+        key,
+        label: moduleLabels[key],
+        abbrev: MODULE_ABBREV[key],
+      })),
+    [minimizedModules],
+  );
+
+  const anyMaximized = maximizedModule !== null;
+
+  // Allow Escape to exit a maximized module and restore the saved layout.
   useEffect(() => {
     if (!maximizedModule) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMaximizedModule(null);
+      if (e.key !== "Escape") return;
+      if (applyLayoutMemory()) {
+        toast("Restored layout", { tone: "info" });
+      } else {
+        setMaximizedModule(null);
+        toast("Restored layout", { tone: "info" });
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [maximizedModule]);
+  }, [maximizedModule, applyLayoutMemory]);
 
   const renderModule = (module: ModuleKey) => {
     switch (module) {
@@ -312,41 +422,35 @@ export default function ResumeTailor() {
   }, [leftPx, rightPx]);
 
   return (
-    <div className={cn("flex h-screen flex-col", color.canvas)}>
+    <div className="relative flex h-screen flex-col">
       <header
         className={cn(
-          "sticky top-0 z-20 flex shrink-0 items-center justify-between gap-4 border-b px-5 py-3",
-          glass,
-          color.border,
+          "sticky top-0 flex shrink-0 items-center justify-between gap-4 px-5 py-2",
+          layer.fg,
+          glassChrome,
         )}
       >
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3">
           <div
             className={cn(
-              "flex h-9 w-9 items-center justify-center text-sm font-semibold text-white",
-              "bg-linear-to-br from-indigo-500 to-violet-600 shadow-sm ring-1 ring-inset ring-white/15",
-              radius.lg,
+              "flex h-7 w-7 items-center justify-center text-[11px] font-semibold text-white/95",
+              "bg-linear-to-br from-indigo-500/85 to-violet-600/85",
+              radius.md,
             )}
             aria-hidden
           >
             RT
           </div>
-          <div className="leading-tight">
-            <h1 className={cn(typography.h1, color.inkStrong)}>Resume Tailor AI</h1>
-            <p className={cn(typography.caption, color.inkMuted)}>
-              Tailor your LaTeX resume to a job description
-            </p>
-          </div>
+          <h1 className={cn(typography.h1, color.inkStrong)}>Resume Tailor AI</h1>
         </div>
         <button
           type="button"
           onClick={handleGenerate}
           disabled={!canGenerate}
           className={cn(
-            "flex items-center gap-2 px-4 py-2 text-sm font-medium ring-1 ring-inset ring-white/10 transition-all hover:-translate-y-px hover:shadow-pop active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none disabled:ring-0 disabled:hover:translate-y-0",
+            "flex items-center gap-2 px-3.5 py-1.5 text-sm font-medium transition-[background-color,opacity,transform] duration-200 ease-out hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-35",
             radius.lg,
             color.primary,
-            elevation.card,
             focusRing,
           )}
         >
@@ -357,9 +461,9 @@ export default function ResumeTailor() {
         </button>
       </header>
 
-      <main className="min-h-0 flex-1 p-5">
+      <main className={cn("min-h-0 flex-1 p-[var(--space-module-gap)]", layer.mid)}>
         <div
-          className="relative hidden h-full min-h-0 gap-4 lg:grid"
+          className="relative hidden h-full min-h-0 gap-[var(--space-module-gap)] lg:grid"
           style={{
             gridTemplateColumns: desktopGridTemplateColumns,
             gridTemplateRows: "minmax(180px, 1fr) minmax(180px, 1fr) minmax(180px, 1fr)",
@@ -400,8 +504,10 @@ export default function ResumeTailor() {
               isDragActive={draggingModule !== null}
               isDragging={draggingModule === module}
               isMaximized={maximizedModule === module}
-              anyMaximized={maximizedModule !== null}
-              onToggleMaximize={() => toggleMaximize(module)}
+              isMinimized={minimizedModules.includes(module)}
+              anyMaximized={anyMaximized}
+              onMinimize={() => handleMinimizeModule(module)}
+              onZoom={() => handleZoomModule(module)}
               onDragStart={() => setDraggingModule(module)}
               onDragEnd={() => setDraggingModule(null)}
               onDropModule={swapModules}
@@ -409,6 +515,7 @@ export default function ResumeTailor() {
               {renderModule(module)}
             </ModuleContainer>
           ))}
+          <ModuleDock modules={dockModules} onRestore={handleRestoreFromDock} />
         </div>
 
         <div className="grid min-h-0 grid-cols-1 gap-4 md:grid-cols-2 lg:hidden">
@@ -436,8 +543,10 @@ function ModuleContainer({
   isDragActive,
   isDragging,
   isMaximized,
+  isMinimized,
   anyMaximized,
-  onToggleMaximize,
+  onMinimize,
+  onZoom,
   onDragStart,
   onDragEnd,
   onDropModule,
@@ -449,8 +558,10 @@ function ModuleContainer({
   isDragActive: boolean;
   isDragging: boolean;
   isMaximized: boolean;
+  isMinimized: boolean;
   anyMaximized: boolean;
-  onToggleMaximize: () => void;
+  onMinimize: () => void;
+  onZoom: () => void;
   onDragStart: () => void;
   onDragEnd: () => void;
   onDropModule: (from: ModuleKey, to: ModuleKey) => void;
@@ -471,7 +582,11 @@ function ModuleContainer({
   };
 
   // A drop onto the module currently being dragged is a no-op; don't light up.
-  const isDropTarget = dragOver && !isDragging;
+  const isDropTarget = dragOver && !isDragging && !isMinimized;
+  const isActive = isMaximized;
+  const isDimmed =
+    (isDragActive && !isDragging && !isDropTarget) ||
+    (anyMaximized && !isMaximized);
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -482,84 +597,59 @@ function ModuleContainer({
 
   return (
     <div
-      style={isMaximized ? undefined : { gridArea: area }}
+      style={isMinimized ? undefined : isMaximized ? undefined : { gridArea: area }}
+      tabIndex={-1}
+      data-active={isActive ? "" : undefined}
+      data-dimmed={isDimmed ? "" : undefined}
+      data-dragging={isDragging ? "" : undefined}
+      data-minimized={isMinimized ? "" : undefined}
+      data-drop-target={isDropTarget ? "" : undefined}
       className={cn(
-        "group/module min-h-0 transition-[opacity,transform,box-shadow] duration-200 ease-in-out",
-        radius.xl,
-        // Maximized: lift out of the grid to cover the whole dashboard.
+        glassModule,
+        "group/module min-h-0 outline-none",
+        radius.window,
         isMaximized
-          ? "absolute inset-0 z-40 animate-panel-zoom-in"
+          ? cn("absolute inset-0 animate-panel-zoom-in", layer.overlay)
           : "relative",
-        // Gentle elevation on hover — no motion, no ring; just soft depth.
-        !isDragActive && !anyMaximized && "hover:shadow-pop",
-        // Drop target gets a clear accent ring.
-        isDropTarget && "ring-2 ring-accent ring-offset-2 ring-offset-canvas",
-        // Source module fades to a ghost while it is being dragged.
-        isDragging && "scale-[0.99] opacity-40",
       )}
     >
       <div
         className={cn(
-          "absolute right-1.5 top-1.5 z-30 flex items-center gap-0.5 transition-opacity duration-150",
-          isMaximized
-            ? "opacity-100"
+          "absolute right-2 top-[var(--space-panel-y)] z-30 transition-opacity duration-200 ease-out",
+          isMaximized || isMinimized
+            ? "pointer-events-none opacity-0"
             : "opacity-0 group-hover/module:opacity-100 focus-within:opacity-100",
         )}
       >
         <button
           type="button"
-          onClick={onToggleMaximize}
-          title={isMaximized ? "Restore layout" : `Maximize ${label}`}
-          aria-label={isMaximized ? "Restore layout" : `Maximize ${label}`}
+          draggable
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+          title={`Drag to move ${label}`}
+          aria-label={`Drag to move ${label}`}
           className={cn(
-            "flex items-center justify-center bg-surface/70 p-1.5 backdrop-blur transition-colors active:scale-90",
+            "flex cursor-grab items-center justify-center p-1.5 transition-colors active:cursor-grabbing",
             radius.md,
             color.inkFaint,
-            "hover:bg-surface-subtle hover:text-ink-soft",
+            "hover:text-ink-soft",
             focusRing,
           )}
         >
-          {isMaximized ? (
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <path d="M7 1v2.5a.5.5 0 0 0 .5.5H10M5 11V8.5a.5.5 0 0 0-.5-.5H2" />
-            </svg>
-          ) : (
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <path d="M4 1H1.5a.5.5 0 0 0-.5.5V4M8 1h2.5a.5.5 0 0 1 .5.5V4M4 11H1.5a.5.5 0 0 1-.5-.5V8M8 11h2.5a.5.5 0 0 0 .5-.5V8" />
-            </svg>
-          )}
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden>
+            <circle cx="3.5" cy="2.5" r="1" />
+            <circle cx="8.5" cy="2.5" r="1" />
+            <circle cx="3.5" cy="6" r="1" />
+            <circle cx="8.5" cy="6" r="1" />
+            <circle cx="3.5" cy="9.5" r="1" />
+            <circle cx="8.5" cy="9.5" r="1" />
+          </svg>
         </button>
-        {!isMaximized && (
-          <button
-            type="button"
-            draggable
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
-            title={`Drag to move ${label}`}
-            aria-label={`Drag to move ${label}`}
-            className={cn(
-              "flex cursor-grab items-center justify-center bg-surface/70 p-1.5 backdrop-blur transition-colors active:cursor-grabbing",
-              radius.md,
-              color.inkFaint,
-              "hover:bg-surface-subtle hover:text-ink-soft",
-              focusRing,
-            )}
-          >
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden>
-              <circle cx="3.5" cy="2.5" r="1" />
-              <circle cx="8.5" cy="2.5" r="1" />
-              <circle cx="3.5" cy="6" r="1" />
-              <circle cx="8.5" cy="6" r="1" />
-              <circle cx="3.5" cy="9.5" r="1" />
-              <circle cx="8.5" cy="9.5" r="1" />
-            </svg>
-          </button>
-        )}
       </div>
 
       {/* While any module is being dragged, this overlay sits above the panel
           content (Monaco / PDF iframe / textarea) so drops always register. */}
-      {isDragActive && (
+      {isDragActive && !isMinimized && (
         <div
           onDragOver={(event) => {
             event.preventDefault();
@@ -569,20 +659,17 @@ function ModuleContainer({
           onDragLeave={() => setDragOver(false)}
           onDrop={handleDrop}
           className={cn(
-            "absolute inset-0 z-20 flex items-center justify-center transition-colors",
-            radius.xl,
-            isDropTarget && "bg-accent-subtle/60",
-            isDragging && "border-2 border-dashed border-accent/50",
+            "absolute inset-0 z-20 flex items-center justify-center transition-colors duration-200 ease-out",
+            radius.window,
           )}
         >
           {isDropTarget && (
             <span
               className={cn(
-                "border px-2.5 py-1 font-medium shadow-pop backdrop-blur",
+                "px-3 py-1 font-medium",
                 radius.full,
                 typography.caption,
-                "border-accent text-accent",
-                color.surface,
+                "glass-sm text-ink-soft",
               )}
             >
               Drop to swap
@@ -591,7 +678,22 @@ function ModuleContainer({
         </div>
       )}
 
-      <div className="h-full min-h-0">{children}</div>
+      <ModuleChromeProvider
+        chrome={
+          <WindowControls
+            label={label}
+            isMaximized={isMaximized}
+            isMinimized={isMinimized}
+            onClose={onMinimize}
+            onMinimize={onMinimize}
+            onZoom={onZoom}
+          />
+        }
+      >
+        <div className={cn("window-surface h-full min-h-0", isMinimized && "window-surface--minimized")}>
+          {children}
+        </div>
+      </ModuleChromeProvider>
     </div>
   );
 }
@@ -644,7 +746,7 @@ function VerticalResizer({
     >
       {/* Invisible until hovered — the card edges already separate modules, so
           the resize affordance only appears when you reach for it. */}
-      <div className="h-full w-1 rounded-full bg-transparent transition-colors duration-150 group-hover/resizer:bg-accent/70 group-active/resizer:bg-accent" />
+      <div className="h-full w-1 rounded-full bg-transparent transition-colors duration-200 ease-out group-hover/resizer:bg-ink-faint/40 group-active/resizer:bg-ink-soft/60" />
     </div>
   );
 }
