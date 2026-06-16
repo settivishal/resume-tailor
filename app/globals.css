@@ -2,6 +2,7 @@
 @import "./theme.css";
 @import "./semantic-theme.css";
 @import "./gradient-theme.css";
+@import "./identity-theme.css";
 
 /* ==========================================================================
    Design tokens — glass UI + gradient integration (STEP 3–4).
@@ -26,10 +27,10 @@
   --card-highlight: rgb(var(--palette-icy-aqua-rgb) / 0.55);
   --dot: rgb(var(--palette-yale-blue-rgb) / 0.05);
 
-  /* Ambient depth — full palette wash (rosewood whisper + cool tones) */
-  --ambient-1: rgb(var(--palette-rosewood-rgb) / 0.05);
-  --ambient-2: rgb(var(--palette-frosted-blue-rgb) / 0.14);
-  --ambient-3: rgb(var(--palette-cerulean-rgb) / 0.08);
+  /* Ambient depth — brand identity wash (cerulean / frosted-blue / icy-aqua) */
+  --ambient-1: var(--ambient-brand-1);
+  --ambient-2: var(--ambient-brand-2);
+  --ambient-3: var(--ambient-brand-3);
   --vignette: rgb(var(--palette-yale-blue-rgb) / 0.04);
 
   /* Text — semantic theme (yale-blue / cerulean ramp) */
@@ -132,9 +133,9 @@
     --card-highlight: rgb(var(--palette-frosted-blue-rgb) / 0.1);
     --dot: rgb(var(--palette-frosted-blue-rgb) / 0.04);
 
-    --ambient-1: rgb(var(--palette-rosewood-rgb) / 0.08);
-    --ambient-2: rgb(var(--palette-cerulean-rgb) / 0.12);
-    --ambient-3: rgb(var(--palette-yale-blue-rgb) / 0.2);
+    --ambient-1: var(--ambient-brand-1);
+    --ambient-2: var(--ambient-brand-2);
+    --ambient-3: var(--ambient-brand-3);
     --vignette: rgb(0 0 0 / 0.28);
 
     --ink: var(--text-primary);
@@ -197,9 +198,9 @@
   --line-strong: var(--border-strong);
   --card-highlight: rgb(var(--palette-frosted-blue-rgb) / 0.1);
   --dot: rgb(var(--palette-frosted-blue-rgb) / 0.04);
-  --ambient-1: rgb(var(--palette-rosewood-rgb) / 0.08);
-  --ambient-2: rgb(var(--palette-cerulean-rgb) / 0.12);
-  --ambient-3: rgb(var(--palette-yale-blue-rgb) / 0.2);
+  --ambient-1: var(--ambient-brand-1);
+  --ambient-2: var(--ambient-brand-2);
+  --ambient-3: var(--ambient-brand-3);
   --vignette: rgb(0 0 0 / 0.28);
   --ink: var(--text-primary);
   --ink-body: color-mix(in srgb, var(--text-primary) 92%, var(--text-secondary) 8%);
@@ -276,6 +277,9 @@
   --color-focus: var(--focus);
   --shadow-focus-glow: var(--focus-glow);
   --shadow-hover-glow: var(--hover-glow);
+  --shadow-brand-glow: var(--brand-glow);
+  --shadow-brand-glow-focus: var(--brand-glow-focus);
+  --shadow-brand-glow-active: var(--brand-glow-active);
 
   --shadow-card: var(--elevation-card);
   --shadow-pop: var(--elevation-pop);
@@ -495,8 +499,7 @@
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight-strong),
     var(--elevation-glass-lg),
-    0 0 48px -8px hsl(var(--palette-frosted-blue-hsl) / 0.18),
-    0 16px 40px -16px hsl(var(--palette-cerulean-hsl) / 0.12);
+    var(--brand-glow-active);
 }
 
 .glass-module[data-active]:not([data-dragging]) .glass-panel::after {
@@ -573,7 +576,7 @@
 
 .window-controls:hover .window-control--close {
   background-color: var(--chrome-control-close);
-  border-color: hsl(var(--palette-rosewood-hsl) / 0.45);
+  border-color: hsl(var(--palette-yale-blue-hsl) / 0.45);
 }
 
 .window-controls:hover .window-control--minimize {
@@ -645,7 +648,45 @@ body::before {
     var(--canvas-gradient);
 }
 
-/* Primary action — gradient sheen on hover (glow via button utility) */
+/* ==========================================================================
+   Signature brand identity — header accent + logo treatments
+   ========================================================================== */
+.app-chrome {
+  position: relative;
+}
+
+.app-chrome::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(var(--palette-cerulean-hsl) / 0.35) 22%,
+    hsl(var(--palette-frosted-blue-hsl) / 0.45) 50%,
+    hsl(var(--palette-cerulean-hsl) / 0.35) 78%,
+    transparent 100%
+  );
+  box-shadow: 0 1px 12px hsl(var(--palette-frosted-blue-hsl) / 0.12);
+}
+
+@utility brand-mark {
+  background-image: var(--brand-gradient);
+  box-shadow: var(--brand-glow);
+}
+
+@utility brand-glow-hover {
+  transition: box-shadow var(--glass-duration) var(--glass-ease);
+}
+
+.brand-glow-hover:hover {
+  box-shadow: var(--brand-glow);
+}
+
+/* Primary action — brand gradient sheen on hover */
 header .bg-primary:hover:not(:disabled) {
   background-image: var(--gradient-action-hover);
 }

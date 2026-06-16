@@ -1,0 +1,105 @@
+/**
+ * Signature UI identity layer.
+ *
+ * Brand face: cerulean + frosted-blue (primary identity).
+ * Rosewood: reserved for alerts / destructive feedback only.
+ *
+ * Consumed via semantic aliases in globals.css and lib/ui exports.
+ */
+
+:root,
+[data-theme="light"] {
+  /* Brand core */
+  --brand-primary: var(--palette-cerulean);
+  --brand-secondary: var(--palette-frosted-blue);
+  --brand-gradient: linear-gradient(
+    135deg,
+    var(--palette-cerulean) 0%,
+    color-mix(in srgb, var(--palette-cerulean) 42%, var(--palette-frosted-blue) 58%) 52%,
+    var(--palette-frosted-blue) 100%
+  );
+  --brand-gradient-soft: linear-gradient(
+    135deg,
+    hsl(var(--palette-cerulean-hsl) / 0.14) 0%,
+    hsl(var(--palette-frosted-blue-hsl) / 0.1) 100%
+  );
+
+  /* Unified interactive glow — the signature “RT” light */
+  --brand-glow: 0 8px 28px -10px hsl(var(--palette-cerulean-hsl) / 0.22),
+    0 4px 16px -8px hsl(var(--palette-frosted-blue-hsl) / 0.16);
+  --brand-glow-focus: 0 0 0 2px hsl(var(--palette-cerulean-hsl) / 0.34),
+    0 0 14px hsl(var(--palette-cerulean-hsl) / 0.2),
+    0 0 28px -6px hsl(var(--palette-frosted-blue-hsl) / 0.14);
+  --brand-glow-active: 0 0 52px -8px hsl(var(--palette-frosted-blue-hsl) / 0.24),
+    0 18px 44px -16px hsl(var(--palette-cerulean-hsl) / 0.18);
+
+  /* Map existing polish tokens to brand glow (single source of truth) */
+  --hover-glow: var(--brand-glow);
+  --focus-glow: var(--brand-glow-focus);
+
+  /* Ambient canvas — brand tones only (no rosewood wash) */
+  --ambient-brand-1: rgb(var(--palette-frosted-blue-rgb) / 0.12);
+  --ambient-brand-2: rgb(var(--palette-cerulean-rgb) / 0.09);
+  --ambient-brand-3: rgb(var(--palette-icy-aqua-rgb) / 0.08);
+
+  /* Window chrome — brand palette (close uses yale-blue, not rosewood) */
+  --chrome-control-rest: color-mix(
+    in srgb,
+    var(--palette-frosted-blue) 38%,
+    var(--palette-yale-blue) 62%
+  );
+  --chrome-control-border: hsl(var(--palette-icy-aqua-hsl) / 0.32);
+  --chrome-control-close: var(--palette-yale-blue);
+  --chrome-control-minimize: var(--palette-cerulean);
+  --chrome-control-zoom: var(--palette-frosted-blue);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --brand-glow: 0 8px 28px -10px hsl(var(--palette-cerulean-hsl) / 0.26),
+      0 4px 16px -8px hsl(var(--palette-frosted-blue-hsl) / 0.18);
+    --brand-glow-focus: 0 0 0 2px hsl(var(--palette-cerulean-hsl) / 0.4),
+      0 0 16px hsl(var(--palette-cerulean-hsl) / 0.24),
+      0 0 32px -6px hsl(var(--palette-frosted-blue-hsl) / 0.16);
+    --brand-glow-active: 0 0 56px -8px hsl(var(--palette-frosted-blue-hsl) / 0.28),
+      0 20px 48px -16px hsl(var(--palette-cerulean-hsl) / 0.22);
+    --hover-glow: var(--brand-glow);
+    --focus-glow: var(--brand-glow-focus);
+    --ambient-brand-1: rgb(var(--palette-cerulean-rgb) / 0.14);
+    --ambient-brand-2: rgb(var(--palette-frosted-blue-rgb) / 0.1);
+    --ambient-brand-3: rgb(var(--palette-yale-blue-rgb) / 0.16);
+    --chrome-control-rest: color-mix(
+      in srgb,
+      var(--palette-yale-blue) 55%,
+      var(--palette-cerulean) 45%
+    );
+    --chrome-control-border: hsl(var(--palette-icy-aqua-hsl) / 0.18);
+    --chrome-control-close: var(--palette-yale-blue);
+    --chrome-control-minimize: var(--palette-cerulean);
+    --chrome-control-zoom: var(--palette-frosted-blue);
+  }
+}
+
+[data-theme="dark"] {
+  --brand-glow: 0 8px 28px -10px hsl(var(--palette-cerulean-hsl) / 0.26),
+    0 4px 16px -8px hsl(var(--palette-frosted-blue-hsl) / 0.18);
+  --brand-glow-focus: 0 0 0 2px hsl(var(--palette-cerulean-hsl) / 0.4),
+    0 0 16px hsl(var(--palette-cerulean-hsl) / 0.24),
+    0 0 32px -6px hsl(var(--palette-frosted-blue-hsl) / 0.16);
+  --brand-glow-active: 0 0 56px -8px hsl(var(--palette-frosted-blue-hsl) / 0.28),
+    0 20px 48px -16px hsl(var(--palette-cerulean-hsl) / 0.22);
+  --hover-glow: var(--brand-glow);
+  --focus-glow: var(--brand-glow-focus);
+  --ambient-brand-1: rgb(var(--palette-cerulean-rgb) / 0.14);
+  --ambient-brand-2: rgb(var(--palette-frosted-blue-rgb) / 0.1);
+  --ambient-brand-3: rgb(var(--palette-yale-blue-rgb) / 0.16);
+  --chrome-control-rest: color-mix(
+    in srgb,
+    var(--palette-yale-blue) 55%,
+    var(--palette-cerulean) 45%
+  );
+  --chrome-control-border: hsl(var(--palette-icy-aqua-hsl) / 0.18);
+  --chrome-control-close: var(--palette-yale-blue);
+  --chrome-control-minimize: var(--palette-cerulean);
+  --chrome-control-zoom: var(--palette-frosted-blue);
+}

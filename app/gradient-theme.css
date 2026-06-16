@@ -11,8 +11,8 @@
   /* Primary canvas wash — gradient-bottom-right at very low opacity */
   --gradient-bg-soft: linear-gradient(
     135deg,
-    hsl(var(--palette-rosewood-hsl) / 0.03) 0%,
-    hsl(var(--palette-yale-blue-hsl) / 0.04) 22%,
+    hsl(var(--palette-cerulean-hsl) / 0.04) 0%,
+    hsl(var(--palette-yale-blue-hsl) / 0.03) 22%,
     hsl(var(--palette-cerulean-hsl) / 0.05) 44%,
     hsl(var(--palette-frosted-blue-hsl) / 0.07) 68%,
     hsl(var(--palette-icy-aqua-hsl) / 0.09) 100%
@@ -61,8 +61,8 @@
   :root:not([data-theme="light"]) {
     --gradient-bg-soft: linear-gradient(
       135deg,
-      hsl(var(--palette-rosewood-hsl) / 0.05) 0%,
-      hsl(var(--palette-yale-blue-hsl) / 0.12) 24%,
+      hsl(var(--palette-cerulean-hsl) / 0.06) 0%,
+      hsl(var(--palette-yale-blue-hsl) / 0.1) 24%,
       hsl(var(--palette-cerulean-hsl) / 0.1) 48%,
       hsl(var(--palette-frosted-blue-hsl) / 0.06) 72%,
       hsl(var(--palette-icy-aqua-hsl) / 0.04) 100%
@@ -106,8 +106,8 @@
 [data-theme="dark"] {
   --gradient-bg-soft: linear-gradient(
     135deg,
-    hsl(var(--palette-rosewood-hsl) / 0.05) 0%,
-    hsl(var(--palette-yale-blue-hsl) / 0.12) 24%,
+    hsl(var(--palette-cerulean-hsl) / 0.06) 0%,
+    hsl(var(--palette-yale-blue-hsl) / 0.1) 24%,
     hsl(var(--palette-cerulean-hsl) / 0.1) 48%,
     hsl(var(--palette-frosted-blue-hsl) / 0.06) 72%,
     hsl(var(--palette-icy-aqua-hsl) / 0.04) 100%

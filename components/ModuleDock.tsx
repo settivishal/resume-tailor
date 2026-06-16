@@ -40,7 +40,7 @@ export default function ModuleDock({ modules, onRestore }: ModuleDockProps) {
               typography.caption,
               color.inkSoft,
               transitionPolish,
-              "hover:text-ink-body hover:shadow-hover-glow",
+              "hover:text-ink-body hover:shadow-brand-glow",
               focusRing,
             )}
           >

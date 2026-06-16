@@ -15,7 +15,7 @@ import { getErrorMessage, parseApiError } from "@/lib/errors";
 import { applyPatch, toTextPatch } from "@/lib/patches";
 import { toast } from "@/lib/toast";
 import { useDebounce } from "@/lib/use-debounce";
-import { cn, button, color, focusRing, glassChrome, glassModule, layer, radius, transitionPolish, typography } from "@/lib/ui";
+import { cn, brand, button, color, focusRing, glassChrome, glassModule, layer, radius, transitionPolish, typography } from "@/lib/ui";
 import type { AnalyzeResponse, Patch } from "@/lib/types";
 
 type ModuleKey = "job" | "latex" | "suggestions" | "diff" | "preview";
@@ -425,7 +425,7 @@ export default function ResumeTailor() {
     <div className="relative flex h-screen flex-col">
       <header
         className={cn(
-          "sticky top-0 flex shrink-0 items-center justify-between gap-4 px-5 py-2",
+          "app-chrome sticky top-0 flex shrink-0 items-center justify-between gap-4 px-5 py-2",
           layer.fg,
           glassChrome,
         )}
@@ -434,14 +434,15 @@ export default function ResumeTailor() {
           <div
             className={cn(
               "flex h-7 w-7 items-center justify-center text-[11px] font-semibold text-white/95",
-              "bg-linear-to-br from-[color:var(--palette-cerulean)] to-[color:var(--palette-rosewood)]",
+              brand.mark,
+              brand.glowHover,
               radius.md,
             )}
             aria-hidden
           >
             RT
           </div>
-          <h1 className={cn(typography.h1, color.inkStrong)}>Resume Tailor AI</h1>
+          <h1 className={cn(typography.h1, brand.titleAccent)}>Resume Tailor AI</h1>
         </div>
         <button
           type="button"

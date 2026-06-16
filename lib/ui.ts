@@ -89,6 +89,13 @@ export const color = {
   accentSubtle: "bg-accent-subtle",
 } as const;
 
+/** Signature brand identity — cerulean + frosted-blue. */
+export const brand = {
+  mark: "brand-mark",
+  glowHover: "brand-glow-hover",
+  titleAccent: "bg-linear-to-r from-[color:var(--brand-primary)] to-[color:var(--brand-secondary)] bg-clip-text text-transparent",
+} as const;
+
 /** Shared polish transition for interactive surfaces. */
 export const transitionPolish =
   "transition-[background-color,border-color,box-shadow,color,opacity,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]";
@@ -96,13 +103,13 @@ export const transitionPolish =
 /** Button treatments — primary (cerulean), secondary (yale-blue), destructive (rosewood). */
 export const button = {
   primary:
-    "bg-primary text-primary-foreground transition-[background-color,opacity,transform,box-shadow] duration-200 ease-out hover:opacity-90 hover:shadow-hover-glow active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100 disabled:shadow-none",
+    "bg-primary text-primary-foreground transition-[background-color,opacity,transform,box-shadow] duration-200 ease-out hover:opacity-90 hover:shadow-brand-glow active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100 disabled:shadow-none",
   secondary:
-    "bg-secondary text-secondary-foreground transition-[background-color,opacity,transform,box-shadow] duration-200 ease-out hover:opacity-90 hover:shadow-hover-glow active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100 disabled:shadow-none",
+    "bg-secondary text-secondary-foreground transition-[background-color,opacity,transform,box-shadow] duration-200 ease-out hover:opacity-90 hover:shadow-brand-glow active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100 disabled:shadow-none",
   destructive:
     "bg-destructive text-destructive-foreground transition-[background-color,opacity,transform,box-shadow] duration-200 ease-out hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100",
   secondaryOutline:
-    "border border-secondary/35 bg-transparent text-secondary transition-[background-color,border-color,color,box-shadow,transform] duration-200 ease-out hover:border-secondary/50 hover:bg-secondary/8 hover:shadow-hover-glow active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100 disabled:shadow-none",
+    "border border-secondary/35 bg-transparent text-secondary transition-[background-color,border-color,color,box-shadow,transform] duration-200 ease-out hover:border-secondary/50 hover:bg-secondary/8 hover:shadow-brand-glow active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100 disabled:shadow-none",
 } as const;
 
 /** Status / feedback surfaces derived from the palette. */
@@ -215,4 +222,4 @@ export const glassChrome = "glass";
 
 /** Standard focus ring — cerulean glow for accessible highlights. */
 export const focusRing =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-canvas focus-visible:shadow-focus-glow";
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-canvas focus-visible:shadow-brand-glow-focus";

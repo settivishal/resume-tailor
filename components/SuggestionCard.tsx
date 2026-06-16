@@ -47,7 +47,7 @@ export default function SuggestionCard({
           ? "cursor-not-allowed opacity-50"
           : "cursor-pointer",
         selected
-          ? "border border-accent/45 bg-accent-subtle/40 shadow-hover-glow"
+          ? "border border-accent/45 bg-accent-subtle/40 shadow-brand-glow"
           : glassInset,
       )}
     >
