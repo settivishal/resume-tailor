@@ -98,6 +98,10 @@ export const elevation = {
   none: "shadow-none",
   card: "shadow-card",
   pop: "shadow-pop",
+  // Soft, diffused glass shadows (depth levels for translucent surfaces).
+  glassSm: "shadow-glass-sm",
+  glassMd: "shadow-glass-md",
+  glassLg: "shadow-glass-lg",
 } as const;
 
 /**
@@ -107,8 +111,31 @@ export const elevation = {
  */
 export const cardEdge = "card-edge";
 
-/** Frosted-glass treatment for app chrome. */
-export const glass = "glass";
+/**
+ * Glass UI foundation (macOS-inspired). Reusable primitives backed by the
+ * glass tokens in `globals.css`.
+ *
+ *   - `frost`   — frosted backdrop blur only; compose onto any fill.
+ *   - `glass`   — a complete glass surface (translucent fill + blur + soft
+ *                 border + lit highlight + diffused shadow) in three depth
+ *                 levels for a layered hierarchy.
+ *
+ * `glassChrome` is the original app-chrome frost (kept for back-compat).
+ */
+export const frost = {
+  sm: "frost-sm",
+  md: "frost-md",
+  lg: "frost-lg",
+} as const;
+
+export const glass = {
+  sm: "glass-sm",
+  md: "glass-md",
+  lg: "glass-lg",
+} as const;
+
+/** Original frosted-glass treatment for app chrome (header / floating bars). */
+export const glassChrome = "glass";
 
 /** Standard focus ring for interactive elements (opt-in per component). */
 export const focusRing =

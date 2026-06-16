@@ -50,6 +50,32 @@
   --elevation-pop:
     0 4px 12px rgba(16, 24, 40, 0.08), 0 12px 28px rgba(16, 24, 40, 0.1);
 
+  /* ----------------------------------------------------------------------
+     Glass UI foundation (macOS-inspired).
+     Translucent fills + frosted blur + soft white borders + lit highlight,
+     layered into three depth levels (sm → lg). Consumed via the
+     `frost-*` / `glass-*` utilities and the `lib/ui` exports.
+     ---------------------------------------------------------------------- */
+  /* Translucent surface fills (rgba) — three depth levels. */
+  --glass-bg-subtle: rgba(255, 255, 255, 0.45);
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-bg-strong: rgba(255, 255, 255, 0.74);
+  /* Soft, low-opacity borders + inner top highlight. */
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --glass-border-strong: rgba(255, 255, 255, 0.75);
+  --glass-highlight: rgba(255, 255, 255, 0.6);
+  /* Frosted-blur levels: small / medium / heavy. */
+  --blur-sm: 8px;
+  --blur-md: 16px;
+  --blur-lg: 28px;
+  /* Soft, diffused glass shadows (elevation levels). */
+  --elevation-glass-sm:
+    0 1px 2px rgba(16, 24, 40, 0.04), 0 4px 12px rgba(16, 24, 40, 0.06);
+  --elevation-glass-md:
+    0 4px 16px rgba(16, 24, 40, 0.08), 0 12px 32px rgba(16, 24, 40, 0.1);
+  --elevation-glass-lg:
+    0 8px 28px rgba(16, 24, 40, 0.12), 0 24px 56px rgba(16, 24, 40, 0.16);
+
   /* Back-compat aliases (consumed by <body> + earlier code paths) */
   --background: var(--canvas);
   --foreground: var(--ink);
@@ -88,6 +114,22 @@
       0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
     --elevation-pop:
       0 8px 24px rgba(0, 0, 0, 0.5), 0 16px 40px rgba(0, 0, 0, 0.45);
+
+    /* Glass UI — dark: deeper translucent fills, hairline white borders,
+       and heavier diffused shadows so depth still reads on near-black. */
+    --glass-bg-subtle: rgba(30, 30, 35, 0.4);
+    --glass-bg: rgba(32, 32, 37, 0.58);
+    --glass-bg-strong: rgba(38, 38, 44, 0.72);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-border-strong: rgba(255, 255, 255, 0.16);
+    --glass-highlight: rgba(255, 255, 255, 0.08);
+    /* blur levels are unitless and shared across themes */
+    --elevation-glass-sm:
+      0 1px 2px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.35);
+    --elevation-glass-md:
+      0 6px 20px rgba(0, 0, 0, 0.5), 0 16px 40px rgba(0, 0, 0, 0.42);
+    --elevation-glass-lg:
+      0 10px 32px rgba(0, 0, 0, 0.58), 0 28px 64px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -120,6 +162,9 @@
 
   --shadow-card: var(--elevation-card);
   --shadow-pop: var(--elevation-pop);
+  --shadow-glass-sm: var(--elevation-glass-sm);
+  --shadow-glass-md: var(--elevation-glass-md);
+  --shadow-glass-lg: var(--elevation-glass-lg);
 
   /* Back-compat */
   --color-background: var(--background);
@@ -143,6 +188,62 @@
   box-shadow:
     inset 0 1px 0 0 var(--card-highlight),
     var(--elevation-card);
+}
+
+/* ==========================================================================
+   Glass UI utilities (reusable, composable).
+
+   - `frost-sm|md|lg`  → frosted backdrop blur only (compose onto any fill).
+   - `glass-sm|md|lg`  → full glass surface: translucent fill + blur + soft
+                          border + lit highlight + diffused shadow. Each level
+                          steps up fill opacity, blur, and elevation for a
+                          layered depth hierarchy.
+   These are foundation primitives — apply them in a later pass; nothing in
+   the app consumes them yet.
+   ========================================================================== */
+@utility frost-sm {
+  backdrop-filter: saturate(180%) blur(var(--blur-sm));
+  -webkit-backdrop-filter: saturate(180%) blur(var(--blur-sm));
+}
+
+@utility frost-md {
+  backdrop-filter: saturate(180%) blur(var(--blur-md));
+  -webkit-backdrop-filter: saturate(180%) blur(var(--blur-md));
+}
+
+@utility frost-lg {
+  backdrop-filter: saturate(180%) blur(var(--blur-lg));
+  -webkit-backdrop-filter: saturate(180%) blur(var(--blur-lg));
+}
+
+@utility glass-sm {
+  background-color: var(--glass-bg-subtle);
+  backdrop-filter: saturate(180%) blur(var(--blur-sm));
+  -webkit-backdrop-filter: saturate(180%) blur(var(--blur-sm));
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-highlight),
+    var(--elevation-glass-sm);
+}
+
+@utility glass-md {
+  background-color: var(--glass-bg);
+  backdrop-filter: saturate(180%) blur(var(--blur-md));
+  -webkit-backdrop-filter: saturate(180%) blur(var(--blur-md));
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-highlight),
+    var(--elevation-glass-md);
+}
+
+@utility glass-lg {
+  background-color: var(--glass-bg-strong);
+  backdrop-filter: saturate(180%) blur(var(--blur-lg));
+  -webkit-backdrop-filter: saturate(180%) blur(var(--blur-lg));
+  border: 1px solid var(--glass-border-strong);
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-highlight),
+    var(--elevation-glass-lg);
 }
 
 body {

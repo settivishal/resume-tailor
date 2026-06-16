@@ -12,7 +12,7 @@ import { getErrorMessage, parseApiError } from "@/lib/errors";
 import { applyPatch, toTextPatch } from "@/lib/patches";
 import { toast } from "@/lib/toast";
 import { useDebounce } from "@/lib/use-debounce";
-import { cn, color, elevation, focusRing, glass, radius, typography } from "@/lib/ui";
+import { cn, color, elevation, focusRing, glassChrome, radius, typography } from "@/lib/ui";
 import type { AnalyzeResponse, Patch } from "@/lib/types";
 
 type ModuleKey = "job" | "latex" | "suggestions" | "diff" | "preview";
@@ -316,7 +316,7 @@ export default function ResumeTailor() {
       <header
         className={cn(
           "sticky top-0 z-20 flex shrink-0 items-center justify-between gap-4 border-b px-5 py-3",
-          glass,
+          glassChrome,
           color.border,
         )}
       >
