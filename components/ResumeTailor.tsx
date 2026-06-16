@@ -7,13 +7,66 @@ import LatexEditor from "./LatexEditor";
 import PdfPreviewPanel from "./PdfPreviewPanel";
 import SuggestionsPanel from "./SuggestionsPanel";
 import { SAMPLE_LATEX } from "@/lib/constants";
+import type { AnalyzeResponse, Patch, PatchStatus } from "@/lib/types";
 
 export default function ResumeTailor() {
   const [jobDescription, setJobDescription] = useState("");
   const [latexResume, setLatexResume] = useState(SAMPLE_LATEX);
+  const [patches, setPatches] = useState<Patch[]>([]);
+  const [patchStatus, setPatchStatus] = useState<Record<string, PatchStatus>>({});
+  const [matchScore, setMatchScore] = useState<number | null>(null);
+  const [missingKeywords, setMissingKeywords] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const canGenerate =
-    jobDescription.trim().length > 0 && latexResume.trim().length > 0;
+    !loading &&
+    jobDescription.trim().length > 0 &&
+    latexResume.trim().length > 0;
+
+  const handleGenerate = async () => {
+    setLoading(true);
+    setError(null);
+    setPatches([]);
+    setPatchStatus({});
+    setMatchScore(null);
+    setMissingKeywords([]);
+
+    try {
+      const res = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ jobDescription, latexResume }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error ?? "Failed to analyze resume");
+      }
+
+      const result = data as AnalyzeResponse;
+      setPatches(result.patches);
+      setMatchScore(result.matchScore);
+      setMissingKeywords(result.missingKeywords ?? []);
+      setPatchStatus(
+        Object.fromEntries(
+          result.patches.map((p) => [p.id, "pending" as PatchStatus]),
+        ),
+      );
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAccept = (id: string) => {
+    setPatchStatus((prev) => ({ ...prev, [id]: "accepted" }));
+  };
+
+  const handleReject = (id: string) => {
+    setPatchStatus((prev) => ({ ...prev, [id]: "rejected" }));
+  };
 
   return (
     <div className="flex h-screen flex-col bg-zinc-100 dark:bg-zinc-950">
@@ -28,10 +81,11 @@ export default function ResumeTailor() {
         </div>
         <button
           type="button"
+          onClick={handleGenerate}
           disabled={!canGenerate}
           className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
         >
-          Generate Suggestions
+          {loading ? "Generating…" : "Generate Suggestions"}
         </button>
       </header>
 
@@ -45,7 +99,16 @@ export default function ResumeTailor() {
           <LatexEditor value={latexResume} onChange={setLatexResume} />
 
           <div className="grid min-h-0 grid-cols-1 gap-3 md:grid-cols-2">
-            <SuggestionsPanel />
+            <SuggestionsPanel
+              patches={patches}
+              patchStatus={patchStatus}
+              matchScore={matchScore}
+              missingKeywords={missingKeywords}
+              loading={loading}
+              error={error}
+              onAccept={handleAccept}
+              onReject={handleReject}
+            />
             <DiffViewer />
           </div>
 

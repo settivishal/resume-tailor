@@ -28,7 +28,7 @@ export default function PatchDiff({
           <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
             Patch {patch.id}
           </p>
-          <p className="mt-1 text-sm font-medium">{patch.description}</p>
+          <p className="mt-1 text-sm font-medium">{patch.reason}</p>
         </div>
         {status === "pending" && (
           <div className="flex shrink-0 gap-2">

@@ -1,14 +1,17 @@
 import { NextResponse } from "next/server";
-import type { SuggestResponse } from "@/lib/types";
+import type { AnalyzeResponse } from "@/lib/types";
 
-const SYSTEM_PROMPT = `You are a resume tailoring assistant. Given a job description and a LaTeX resume, suggest minimal targeted edits.
+const SYSTEM_PROMPT = `You are a resume tailoring assistant. Given a job description and a LaTeX resume, analyze fit and suggest minimal targeted edits.
 
 Return ONLY valid JSON with this shape:
 {
+  "matchScore": 72,
+  "missingKeywords": ["keyword1", "keyword2"],
   "patches": [
     {
       "id": "1",
-      "description": "Brief reason for this change",
+      "reason": "Brief reason for this change",
+      "impact": "high",
       "search": "exact substring from the resume to replace",
       "replace": "replacement text"
     }
@@ -16,7 +19,10 @@ Return ONLY valid JSON with this shape:
 }
 
 Rules:
+- matchScore is 0-100 reflecting resume fit for the job.
+- missingKeywords lists important job keywords absent or underrepresented in the resume (max 8).
 - Return 3-8 patches maximum.
+- impact must be "high", "medium", or "low".
 - "search" must match the resume EXACTLY (character-for-character).
 - Keep LaTeX valid; preserve structure and formatting.
 - Tailor wording to the job description without inventing experience.
@@ -79,7 +85,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const parsed = JSON.parse(content) as SuggestResponse;
+    const parsed = JSON.parse(content) as AnalyzeResponse;
     if (!Array.isArray(parsed.patches)) {
       throw new Error("Invalid patches array");
     }
