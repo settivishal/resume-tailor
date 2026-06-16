@@ -140,6 +140,12 @@ export const glassHeader = "glass-header";
 /** Default frosted-glass surface for dashboard module cards. */
 export const glassPanel = glass.md;
 
+/** Marker class for glass interaction CSS (paired with `.glass-module` wrapper). */
+export const glassPanelSurface = "glass-panel";
+
+/** Wrapper class for module-level glass interaction states. */
+export const glassModule = "glass-module";
+
 /**
  * Depth layer z-index scale for the macOS-style glass environment:
  *   bg      — ambient canvas (handled by body pseudo-elements)

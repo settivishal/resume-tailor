@@ -70,6 +70,10 @@
   --glass-border: rgba(255, 255, 255, 0.55);
   --glass-border-strong: rgba(255, 255, 255, 0.75);
   --glass-highlight: rgba(255, 255, 255, 0.6);
+  /* Interaction — hover / active brighten the frosted surface. */
+  --glass-bg-hover: rgba(255, 255, 255, 0.68);
+  --glass-highlight-strong: rgba(255, 255, 255, 0.82);
+  --glass-glow: rgba(99, 102, 241, 0.12);
   /* Frosted-blur levels: small / medium / heavy. */
   --blur-sm: 8px;
   --blur-md: 16px;
@@ -133,6 +137,9 @@
     --glass-border: rgba(255, 255, 255, 0.1);
     --glass-border-strong: rgba(255, 255, 255, 0.16);
     --glass-highlight: rgba(255, 255, 255, 0.08);
+    --glass-bg-hover: rgba(42, 42, 48, 0.78);
+    --glass-highlight-strong: rgba(255, 255, 255, 0.14);
+    --glass-glow: rgba(129, 140, 248, 0.18);
     /* blur levels are unitless and shared across themes */
     --elevation-glass-sm:
       0 1px 2px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.35);
@@ -260,6 +267,81 @@
 @utility glass-header {
   background-color: color-mix(in srgb, var(--glass-bg-strong) 55%, transparent);
   border-bottom: 1px solid var(--glass-border);
+}
+
+/* ==========================================================================
+   Glass module interaction states (hover / drag / focus).
+   Applied via `.glass-module` wrapper + `.glass-panel` surface inside Panel.
+   ========================================================================== */
+.glass-panel {
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    backdrop-filter 220ms ease,
+    -webkit-backdrop-filter 220ms ease;
+}
+
+.glass-module {
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease,
+    filter 220ms ease;
+}
+
+/* Hover — brighter glass, stronger border, soft lift + glow. */
+.glass-module:hover:not([data-dimmed]):not([data-dragging]) {
+  transform: scale(1.003);
+}
+
+.glass-module:hover:not([data-dimmed]):not([data-dragging]) .glass-panel {
+  background-color: var(--glass-bg-hover);
+  border-color: var(--glass-border-strong);
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-highlight-strong),
+    var(--elevation-glass-lg),
+    0 0 0 1px color-mix(in srgb, var(--glass-glow) 40%, transparent);
+}
+
+/* Keyboard focus within module — same lift as hover, no scale jump. */
+.glass-module:focus-within:not([data-dimmed]):not([data-dragging]) .glass-panel {
+  background-color: var(--glass-bg-hover);
+  border-color: var(--glass-border-strong);
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-highlight-strong),
+    var(--elevation-glass-lg);
+}
+
+/* Active / drop-target / maximized — strongest glass contrast. */
+.glass-module[data-active]:not([data-dragging]) .glass-panel {
+  background-color: var(--glass-bg-strong);
+  border-color: var(--glass-border-strong);
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-highlight-strong),
+    var(--elevation-glass-lg),
+    0 0 24px color-mix(in srgb, var(--glass-glow) 55%, transparent);
+}
+
+/* Drag source — elevated blur + soft shadow, slightly faded wrapper. */
+.glass-module[data-dragging] {
+  opacity: 0.88;
+  transform: scale(0.998);
+}
+
+.glass-module[data-dragging] .glass-panel {
+  background-color: var(--glass-bg-strong);
+  backdrop-filter: saturate(200%) blur(var(--blur-lg));
+  -webkit-backdrop-filter: saturate(200%) blur(var(--blur-lg));
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-highlight-strong),
+    var(--elevation-glass-lg);
+}
+
+/* Non-active modules dim while one is focused (drag or maximize). */
+.glass-module[data-dimmed] {
+  opacity: 0.62;
+  filter: saturate(0.82) brightness(0.92);
+  transform: none;
 }
 
 body {

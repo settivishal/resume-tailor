@@ -12,7 +12,7 @@ import { getErrorMessage, parseApiError } from "@/lib/errors";
 import { applyPatch, toTextPatch } from "@/lib/patches";
 import { toast } from "@/lib/toast";
 import { useDebounce } from "@/lib/use-debounce";
-import { cn, color, elevation, focusRing, glassChrome, layer, radius, typography } from "@/lib/ui";
+import { cn, color, elevation, focusRing, glassChrome, glassModule, layer, radius, typography } from "@/lib/ui";
 import type { AnalyzeResponse, Patch } from "@/lib/types";
 
 type ModuleKey = "job" | "latex" | "suggestions" | "diff" | "preview";
@@ -473,6 +473,10 @@ function ModuleContainer({
 
   // A drop onto the module currently being dragged is a no-op; don't light up.
   const isDropTarget = dragOver && !isDragging;
+  const isActive = isMaximized || isDropTarget;
+  const isDimmed =
+    (isDragActive && !isDragging && !isDropTarget) ||
+    (anyMaximized && !isMaximized);
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -484,19 +488,18 @@ function ModuleContainer({
   return (
     <div
       style={isMaximized ? undefined : { gridArea: area }}
+      tabIndex={-1}
+      data-active={isActive ? "" : undefined}
+      data-dimmed={isDimmed ? "" : undefined}
+      data-dragging={isDragging ? "" : undefined}
       className={cn(
-        "group/module min-h-0 transition-[opacity,transform,box-shadow] duration-200 ease-in-out",
+        glassModule,
+        "group/module min-h-0 outline-none",
         radius.xl,
-        // Maximized: lift out of the grid to cover the whole dashboard.
         isMaximized
           ? cn("absolute inset-0 animate-panel-zoom-in", layer.overlay)
           : "relative",
-        // Gentle elevation on hover — no motion, no ring; just soft depth.
-        !isDragActive && !anyMaximized && "hover:shadow-glass-lg",
-        // Drop target gets a clear accent ring.
-        isDropTarget && "ring-2 ring-accent ring-offset-2 ring-offset-canvas",
-        // Source module fades to a ghost while it is being dragged.
-        isDragging && "scale-[0.99] opacity-40",
+        isDropTarget && "ring-2 ring-accent/70 ring-offset-2 ring-offset-canvas",
       )}
     >
       <div

@@ -1,4 +1,4 @@
-import { cn, color, glassHeader, glassPanel, radius, typography } from "@/lib/ui";
+import { cn, color, glassHeader, glassPanel, glassPanelSurface, radius, typography } from "@/lib/ui";
 
 interface PanelProps {
   title: string;
@@ -14,6 +14,7 @@ export default function Panel({ title, children, className = "", action }: Panel
         "flex min-h-0 flex-col overflow-hidden",
         radius.xl,
         glassPanel,
+        glassPanelSurface,
         className,
       )}
     >
