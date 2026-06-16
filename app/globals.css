@@ -133,7 +133,7 @@
     --ambient-1: var(--ambient-brand-1);
     --ambient-2: var(--ambient-brand-2);
     --ambient-3: var(--ambient-brand-3);
-    --vignette: rgb(0 0 0 / 0.28);
+    --vignette: rgb(var(--palette-graphite-rgb) / 0.35);
 
     --ink: var(--text-primary);
     --ink-body: color-mix(in srgb, var(--text-primary) 92%, var(--text-secondary) 8%);
@@ -153,47 +153,47 @@
     --focus: var(--border-focus);
 
     --elevation-card:
-      0 1px 2px rgb(0 0 0 / 0.35),
+      0 1px 2px rgb(var(--palette-graphite-rgb) / 0.45),
       0 2px 6px rgb(var(--palette-silver-rgb) / 0.2);
     --elevation-pop:
-      0 8px 24px rgb(0 0 0 / 0.45),
-      0 16px 40px rgb(var(--palette-pumpkin-spice-rgb) / 0.12);
+      0 8px 24px rgb(var(--palette-graphite-rgb) / 0.4),
+      0 16px 40px rgb(var(--palette-blushed-brick-rgb) / 0.12);
 
-    --glass-bg-subtle: rgb(255 255 255 / 0.05);
-    --glass-bg: rgb(255 255 255 / 0.07);
-    --glass-bg-strong: rgb(255 255 255 / 0.1);
-    --glass-module-border: rgb(0 0 0 / 0.28);
-    --glass-module-border-strong: rgb(0 0 0 / 0.38);
+    --glass-bg-subtle: var(--surface-glass-subtle);
+    --glass-bg: var(--surface-glass);
+    --glass-bg-strong: var(--surface-glass-strong);
+    --glass-module-border: rgb(255 255 255 / 0.1);
+    --glass-module-border-strong: rgb(255 255 255 / 0.16);
     --glass-border: var(--glass-module-border);
     --glass-border-strong: var(--glass-module-border-strong);
     --elevation-module:
-      0 1px 3px rgb(0 0 0 / 0.2),
+      0 1px 3px rgb(var(--palette-graphite-rgb) / 0.35),
       0 4px 12px rgb(0 0 0 / 0.18),
-      0 8px 24px rgb(0 0 0 / 0.14);
+      0 8px 24px rgb(var(--palette-graphite-rgb) / 0.28);
     --elevation-module-hover:
-      0 2px 6px rgb(0 0 0 / 0.22),
+      0 2px 6px rgb(var(--palette-graphite-rgb) / 0.4),
       0 6px 16px rgb(0 0 0 / 0.2),
-      0 12px 32px rgb(0 0 0 / 0.18);
-    --glass-highlight: rgb(255 255 255 / 0.1);
+      0 12px 32px rgb(var(--palette-graphite-rgb) / 0.32);
+    --glass-highlight: var(--surface-glass-highlight);
     --glass-bg-hover: rgb(255 255 255 / 0.09);
     --glass-highlight-strong: rgb(255 255 255 / 0.14);
-    --glass-glow: rgb(var(--palette-pumpkin-spice-rgb) / 0.12);
+    --glass-glow: rgb(var(--palette-blushed-brick-rgb) / 0.12);
     --glass-ambient: rgb(var(--palette-silver-rgb) / 0.06);
     --glass-inset-bg: rgb(255 255 255 / 0.04);
     --glass-inset-border: hsl(var(--palette-silver-hsl) / 0.22);
-    --glass-hover-glow-a: hsl(var(--palette-pumpkin-spice-hsl) / 0.12);
-    --glass-hover-glow-b: hsl(var(--palette-pumpkin-spice-hsl) / 0.06);
+    --glass-hover-glow-a: hsl(var(--palette-blushed-brick-hsl) / 0.12);
+    --glass-hover-glow-b: hsl(var(--palette-blushed-brick-hsl) / 0.06);
 
     --elevation-glass-sm:
-      0 1px 2px rgb(0 0 0 / 0.4),
+      0 1px 2px rgb(var(--palette-graphite-rgb) / 0.4),
       0 4px 12px rgb(var(--palette-silver-rgb) / 0.22);
     --elevation-glass-md:
-      0 2px 6px rgb(0 0 0 / 0.32),
-      0 12px 32px rgb(var(--palette-pumpkin-spice-rgb) / 0.1),
-      0 24px 56px rgb(0 0 0 / 0.14);
+      0 2px 6px rgb(var(--palette-graphite-rgb) / 0.32),
+      0 12px 32px rgb(var(--palette-blushed-brick-rgb) / 0.1),
+      0 24px 56px rgb(var(--palette-graphite-rgb) / 0.28);
     --elevation-glass-lg:
-      0 10px 32px rgb(0 0 0 / 0.5),
-      0 28px 64px rgb(var(--palette-pumpkin-spice-rgb) / 0.14);
+      0 10px 32px rgb(var(--palette-graphite-rgb) / 0.45),
+      0 28px 64px rgb(var(--palette-blushed-brick-rgb) / 0.14);
   }
 }
 
@@ -210,7 +210,7 @@
   --ambient-1: var(--ambient-brand-1);
   --ambient-2: var(--ambient-brand-2);
   --ambient-3: var(--ambient-brand-3);
-  --vignette: rgb(0 0 0 / 0.28);
+  --vignette: rgb(var(--palette-graphite-rgb) / 0.35);
   --ink: var(--text-primary);
   --ink-body: color-mix(in srgb, var(--text-primary) 92%, var(--text-secondary) 8%);
   --ink-soft: var(--text-secondary);
@@ -226,30 +226,30 @@
   --accent-foreground: var(--text-on-accent);
   --accent-subtle: var(--accent-subtle);
   --focus: var(--border-focus);
-  --glass-bg-subtle: rgb(255 255 255 / 0.05);
-  --glass-bg: rgb(255 255 255 / 0.07);
-  --glass-bg-strong: rgb(255 255 255 / 0.1);
-  --glass-module-border: rgb(0 0 0 / 0.28);
-  --glass-module-border-strong: rgb(0 0 0 / 0.38);
+  --glass-bg-subtle: var(--surface-glass-subtle);
+  --glass-bg: var(--surface-glass);
+  --glass-bg-strong: var(--surface-glass-strong);
+  --glass-module-border: rgb(255 255 255 / 0.1);
+  --glass-module-border-strong: rgb(255 255 255 / 0.16);
   --glass-border: var(--glass-module-border);
   --glass-border-strong: var(--glass-module-border-strong);
   --elevation-module:
-    0 1px 3px rgb(0 0 0 / 0.2),
+    0 1px 3px rgb(var(--palette-graphite-rgb) / 0.35),
     0 4px 12px rgb(0 0 0 / 0.18),
-    0 8px 24px rgb(0 0 0 / 0.14);
+    0 8px 24px rgb(var(--palette-graphite-rgb) / 0.28);
   --elevation-module-hover:
-    0 2px 6px rgb(0 0 0 / 0.22),
+    0 2px 6px rgb(var(--palette-graphite-rgb) / 0.4),
     0 6px 16px rgb(0 0 0 / 0.2),
-    0 12px 32px rgb(0 0 0 / 0.18);
-  --glass-highlight: rgb(255 255 255 / 0.1);
+    0 12px 32px rgb(var(--palette-graphite-rgb) / 0.32);
+  --glass-highlight: var(--surface-glass-highlight);
   --glass-bg-hover: rgb(255 255 255 / 0.09);
   --glass-highlight-strong: rgb(255 255 255 / 0.14);
-  --glass-glow: rgb(var(--palette-pumpkin-spice-rgb) / 0.12);
+  --glass-glow: rgb(var(--palette-blushed-brick-rgb) / 0.12);
   --glass-ambient: rgb(var(--palette-silver-rgb) / 0.06);
   --glass-inset-bg: rgb(255 255 255 / 0.04);
   --glass-inset-border: hsl(var(--palette-silver-hsl) / 0.22);
-  --glass-hover-glow-a: hsl(var(--palette-pumpkin-spice-hsl) / 0.1);
-  --glass-hover-glow-b: hsl(var(--palette-pumpkin-spice-hsl) / 0.05);
+  --glass-hover-glow-a: hsl(var(--palette-blushed-brick-hsl) / 0.1);
+  --glass-hover-glow-b: hsl(var(--palette-blushed-brick-hsl) / 0.05);
 }
 
 /* Expose tokens to Tailwind as semantic utilities: bg-*, text-*, border-*,
@@ -523,7 +523,7 @@
   background: var(--gradient-hover-glow), var(--gradient-glass-highlight);
 }
 
-/* Active / maximized — pumpkin-spice radial accent */
+/* Active / maximized — accent radial glow */
 .glass-module[data-active]:not([data-dragging]) .glass-panel::before {
   content: "";
   position: absolute;
@@ -551,7 +551,7 @@
   background: var(--gradient-glass-highlight);
 }
 
-/* Drop target during drag — pumpkin-spice border glow */
+/* Drop target during drag — accent border glow */
 .glass-module[data-drop-target]:not([data-dragging]):not([data-minimized]) {
   border-color: color-mix(in srgb, var(--accent) 35%, var(--glass-module-border-strong));
   box-shadow:

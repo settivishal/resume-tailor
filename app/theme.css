@@ -5,7 +5,7 @@
  * variables from `semantic-theme.css` instead.
  *
  * Light mode: blushed-brick + platinum + silver.
- * Dark mode: pumpkin-spice + platinum + silver (see semantic-theme.css).
+ * Dark mode: neutral charcoal glass + blushed-brick / platinum / silver.
  */
 
 :root {
@@ -32,15 +32,22 @@
   --palette-silver: hsl(var(--palette-silver-hsl));
 
   /* -----------------------------------------------------------------------
-     Dark-mode accent (unchanged)
+     Dark theme palette — neutral charcoal + shared neutrals / accent
      ----------------------------------------------------------------------- */
 
-  --palette-pumpkin-spice-hex: #ff781f;
-  --palette-pumpkin-spice-hsl: 24 100% 56%;
-  --palette-pumpkin-spice-rgb: 255 120 31;
-  --palette-pumpkin-spice: hsl(var(--palette-pumpkin-spice-hsl));
+  /* Charcoal — primary dark canvas (never pure #000) */
+  --palette-charcoal-hex: #1a1a1a;
+  --palette-charcoal-hsl: 0 0% 10%;
+  --palette-charcoal-rgb: 26 26 26;
+  --palette-charcoal: hsl(var(--palette-charcoal-hsl));
 
-  /* Palette gradients — blushed-brick → platinum → silver */
+  /* Graphite — deeper background layer */
+  --palette-graphite-hex: #121212;
+  --palette-graphite-hsl: 0 0% 7%;
+  --palette-graphite-rgb: 18 18 18;
+  --palette-graphite: hsl(var(--palette-graphite-hsl));
+
+  /* Palette gradients — blushed-brick → platinum → silver (light) */
   --palette-gradient-top: linear-gradient(
     0deg,
     var(--palette-blushed-brick) 0%,

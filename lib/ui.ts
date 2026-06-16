@@ -89,7 +89,7 @@ export const color = {
   accentSubtle: "bg-accent-subtle",
 } as const;
 
-/** Signature brand identity — blushed-brick (light) / pumpkin-spice (dark) on neutrals. */
+/** Signature brand identity — blushed-brick on platinum + silver (both themes). */
 export const brand = {
   mark: "brand-mark",
   glowHover: "brand-glow-hover",
@@ -100,7 +100,7 @@ export const brand = {
 export const transitionPolish =
   "transition-[background-color,border-color,box-shadow,color,opacity,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]";
 
-/** Button treatments — primary (pumpkin-spice), secondary (charcoal), destructive (dark pumpkin). */
+/** Button treatments — primary accent, secondary charcoal, destructive danger. */
 export const button = {
   primary:
     "bg-primary text-primary-foreground transition-[background-color,opacity,transform,box-shadow] duration-200 ease-out hover:opacity-90 hover:shadow-brand-glow active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100 disabled:shadow-none",
@@ -119,7 +119,7 @@ export const status = {
   accentBadge: "bg-status-accent-subtle text-accent",
 } as const;
 
-/** Diff highlighting — pumpkin-spice (removed / added variants). */
+/** Diff highlighting — danger (removed) / accent (added) variants. */
 export const diff = {
   removeMark: "rounded-sm bg-diff-remove-subtle text-diff-remove",
   addMark: "rounded-sm bg-diff-add-subtle text-diff-add",
@@ -220,6 +220,6 @@ export const layer = {
 /** Original frosted-glass treatment for app chrome (header / floating bars). */
 export const glassChrome = "glass";
 
-/** Standard focus ring — pumpkin-spice glow for accessible highlights. */
+/** Standard focus ring — accent glow for accessible highlights. */
 export const focusRing =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-canvas focus-visible:shadow-brand-glow-focus";

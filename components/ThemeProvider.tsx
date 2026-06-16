@@ -11,12 +11,11 @@ import {
 } from "react";
 import {
   applyTheme,
-  DEFAULT_THEME,
   getStoredTheme,
   setStoredTheme,
   toggleTheme,
-  type ThemeMode,
-} from "@/lib/theme";
+} from "@/lib/theme/client";
+import { DEFAULT_THEME, type ThemeMode } from "@/lib/theme/constants";
 
 type ThemeContextValue = {
   theme: ThemeMode;

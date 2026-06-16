@@ -74,14 +74,14 @@
 }
 
 /* -------------------------------------------------------------------------
-   Dark theme — system preference
+   Dark theme — neutral charcoal glass + blushed-brick accent
    ------------------------------------------------------------------------- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
 
-    --bg-primary: color-mix(in srgb, #121212 88%, var(--palette-silver) 12%);
-    --bg-secondary: color-mix(in srgb, #1a1a1a 82%, var(--palette-silver) 18%);
+    --bg-primary: color-mix(in srgb, var(--palette-charcoal) 88%, var(--palette-silver) 12%);
+    --bg-secondary: color-mix(in srgb, var(--palette-graphite) 82%, var(--palette-silver) 18%);
 
     --surface-glass: color-mix(in srgb, rgb(255 255 255 / 0.07) 88%, var(--palette-silver) 12%);
     --surface-glass-strong: color-mix(in srgb, rgb(255 255 255 / 0.1) 85%, var(--palette-silver) 15%);
@@ -93,55 +93,52 @@
     --text-muted: hsl(var(--palette-silver-hsl) / 0.72);
     --text-faint: hsl(var(--palette-silver-hsl) / 0.52);
     --text-on-accent: #ffffff;
-    --text-destructive: color-mix(in srgb, var(--palette-pumpkin-spice) 92%, #fff 8%);
-    --surface-panel-header: color-mix(in srgb, var(--palette-silver) 32%, #2a2a2a 68%);
+    --text-destructive: color-mix(in srgb, var(--palette-blushed-brick) 92%, #fff 8%);
+    --surface-panel-header: color-mix(in srgb, var(--palette-silver) 32%, var(--palette-charcoal) 68%);
     --text-panel-header: var(--palette-platinum);
 
     --border-subtle: hsl(var(--palette-silver-hsl) / 0.22);
     --border-strong: hsl(var(--palette-silver-hsl) / 0.36);
-    --border-focus: var(--palette-pumpkin-spice);
+    --border-focus: var(--palette-blushed-brick);
 
-    --accent-primary: var(--palette-pumpkin-spice);
-    --accent-secondary: color-mix(in srgb, var(--palette-silver) 55%, #1a1a1a 45%);
-    --accent-highlight: color-mix(in srgb, var(--palette-pumpkin-spice) 80%, #ffffff 20%);
-    --accent-destructive: color-mix(in srgb, var(--palette-pumpkin-spice) 88%, #000 12%);
-    --accent-subtle: hsl(var(--palette-pumpkin-spice-hsl) / 0.2);
-    --accent-subtle-strong: hsl(var(--palette-pumpkin-spice-hsl) / 0.28);
+    --accent-primary: var(--palette-blushed-brick);
+    --accent-secondary: color-mix(in srgb, var(--palette-silver) 55%, var(--palette-charcoal) 45%);
+    --accent-highlight: color-mix(in srgb, var(--palette-blushed-brick) 80%, var(--palette-platinum) 20%);
+    --accent-destructive: color-mix(in srgb, var(--palette-blushed-brick) 88%, #000 12%);
+    --accent-subtle: hsl(var(--palette-blushed-brick-hsl) / 0.2);
+    --accent-subtle-strong: hsl(var(--palette-blushed-brick-hsl) / 0.28);
 
     --surface-module: rgb(255 255 255 / 0.06);
-    --destructive-subtle: hsl(var(--palette-pumpkin-spice-hsl) / 0.18);
-    --status-accent-subtle: hsl(var(--palette-pumpkin-spice-hsl) / 0.16);
-    --impact-high-bg: hsl(var(--palette-pumpkin-spice-hsl) / 0.22);
-    --impact-high-fg: var(--palette-pumpkin-spice);
+    --destructive-subtle: hsl(var(--palette-blushed-brick-hsl) / 0.18);
+    --status-accent-subtle: hsl(var(--palette-blushed-brick-hsl) / 0.16);
+    --impact-high-bg: hsl(var(--palette-blushed-brick-hsl) / 0.22);
+    --impact-high-fg: var(--palette-blushed-brick);
     --impact-medium-bg: hsl(var(--palette-silver-hsl) / 0.18);
     --impact-medium-fg: hsl(var(--palette-platinum-hsl) / 0.88);
-    --diff-remove-bg: hsl(var(--palette-pumpkin-spice-hsl) / 0.22);
-    --diff-remove-fg: color-mix(in srgb, var(--palette-pumpkin-spice) 90%, #fff 10%);
-    --diff-add-bg: hsl(var(--palette-pumpkin-spice-hsl) / 0.14);
-    --diff-add-fg: color-mix(in srgb, var(--palette-pumpkin-spice) 88%, #fff 12%);
+    --diff-remove-bg: hsl(var(--palette-blushed-brick-hsl) / 0.22);
+    --diff-remove-fg: color-mix(in srgb, var(--palette-blushed-brick) 90%, #fff 10%);
+    --diff-add-bg: hsl(var(--palette-blushed-brick-hsl) / 0.14);
+    --diff-add-fg: color-mix(in srgb, var(--palette-blushed-brick) 88%, #fff 12%);
 
-    --accent-primary-hover: color-mix(in srgb, var(--palette-pumpkin-spice) 92%, #fff 8%);
-    --accent-primary-active: color-mix(in srgb, var(--palette-pumpkin-spice) 85%, #fff 15%);
-    --accent-destructive-hover: color-mix(in srgb, var(--palette-pumpkin-spice) 82%, #fff 18%);
+    --accent-primary-hover: color-mix(in srgb, var(--palette-blushed-brick) 92%, #fff 8%);
+    --accent-primary-active: color-mix(in srgb, var(--palette-blushed-brick) 85%, #fff 15%);
+    --accent-destructive-hover: color-mix(in srgb, var(--palette-blushed-brick) 82%, #fff 18%);
 
     --canvas-gradient: linear-gradient(
       168deg,
-      color-mix(in srgb, #0e0e0e 92%, var(--palette-silver) 8%) 0%,
-      color-mix(in srgb, #161616 88%, var(--palette-silver) 12%) 45%,
-      color-mix(in srgb, #1a1a1a 90%, var(--palette-pumpkin-spice) 4%) 72%,
+      color-mix(in srgb, var(--palette-graphite) 92%, var(--palette-silver) 8%) 0%,
+      color-mix(in srgb, var(--palette-charcoal) 88%, var(--palette-silver) 12%) 45%,
+      color-mix(in srgb, var(--palette-charcoal) 90%, var(--palette-blushed-brick) 4%) 72%,
       var(--canvas) 100%
     );
   }
 }
 
-/* -------------------------------------------------------------------------
-   Dark theme — manual override (`<html data-theme="dark">`)
-   ------------------------------------------------------------------------- */
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --bg-primary: color-mix(in srgb, #121212 88%, var(--palette-silver) 12%);
-  --bg-secondary: color-mix(in srgb, #1a1a1a 82%, var(--palette-silver) 18%);
+  --bg-primary: color-mix(in srgb, var(--palette-charcoal) 88%, var(--palette-silver) 12%);
+  --bg-secondary: color-mix(in srgb, var(--palette-graphite) 82%, var(--palette-silver) 18%);
 
   --surface-glass: color-mix(in srgb, rgb(255 255 255 / 0.07) 88%, var(--palette-silver) 12%);
   --surface-glass-strong: color-mix(in srgb, rgb(255 255 255 / 0.1) 85%, var(--palette-silver) 15%);
@@ -153,42 +150,42 @@
   --text-muted: hsl(var(--palette-silver-hsl) / 0.72);
   --text-faint: hsl(var(--palette-silver-hsl) / 0.52);
   --text-on-accent: #ffffff;
-  --text-destructive: color-mix(in srgb, var(--palette-pumpkin-spice) 92%, #fff 8%);
-  --surface-panel-header: color-mix(in srgb, var(--palette-silver) 32%, #2a2a2a 68%);
+  --text-destructive: color-mix(in srgb, var(--palette-blushed-brick) 92%, #fff 8%);
+  --surface-panel-header: color-mix(in srgb, var(--palette-silver) 32%, var(--palette-charcoal) 68%);
   --text-panel-header: var(--palette-platinum);
 
   --border-subtle: hsl(var(--palette-silver-hsl) / 0.22);
   --border-strong: hsl(var(--palette-silver-hsl) / 0.36);
-  --border-focus: var(--palette-pumpkin-spice);
+  --border-focus: var(--palette-blushed-brick);
 
-  --accent-primary: var(--palette-pumpkin-spice);
-  --accent-secondary: color-mix(in srgb, var(--palette-silver) 55%, #1a1a1a 45%);
-  --accent-highlight: color-mix(in srgb, var(--palette-pumpkin-spice) 80%, #ffffff 20%);
-  --accent-destructive: color-mix(in srgb, var(--palette-pumpkin-spice) 88%, #000 12%);
-  --accent-subtle: hsl(var(--palette-pumpkin-spice-hsl) / 0.2);
-  --accent-subtle-strong: hsl(var(--palette-pumpkin-spice-hsl) / 0.28);
+  --accent-primary: var(--palette-blushed-brick);
+  --accent-secondary: color-mix(in srgb, var(--palette-silver) 55%, var(--palette-charcoal) 45%);
+  --accent-highlight: color-mix(in srgb, var(--palette-blushed-brick) 80%, var(--palette-platinum) 20%);
+  --accent-destructive: color-mix(in srgb, var(--palette-blushed-brick) 88%, #000 12%);
+  --accent-subtle: hsl(var(--palette-blushed-brick-hsl) / 0.2);
+  --accent-subtle-strong: hsl(var(--palette-blushed-brick-hsl) / 0.28);
 
   --surface-module: rgb(255 255 255 / 0.06);
-  --destructive-subtle: hsl(var(--palette-pumpkin-spice-hsl) / 0.18);
-  --status-accent-subtle: hsl(var(--palette-pumpkin-spice-hsl) / 0.16);
-  --impact-high-bg: hsl(var(--palette-pumpkin-spice-hsl) / 0.22);
-  --impact-high-fg: var(--palette-pumpkin-spice);
+  --destructive-subtle: hsl(var(--palette-blushed-brick-hsl) / 0.18);
+  --status-accent-subtle: hsl(var(--palette-blushed-brick-hsl) / 0.16);
+  --impact-high-bg: hsl(var(--palette-blushed-brick-hsl) / 0.22);
+  --impact-high-fg: var(--palette-blushed-brick);
   --impact-medium-bg: hsl(var(--palette-silver-hsl) / 0.18);
   --impact-medium-fg: hsl(var(--palette-platinum-hsl) / 0.88);
-  --diff-remove-bg: hsl(var(--palette-pumpkin-spice-hsl) / 0.22);
-  --diff-remove-fg: color-mix(in srgb, var(--palette-pumpkin-spice) 90%, #fff 10%);
-  --diff-add-bg: hsl(var(--palette-pumpkin-spice-hsl) / 0.14);
-  --diff-add-fg: color-mix(in srgb, var(--palette-pumpkin-spice) 88%, #fff 12%);
+  --diff-remove-bg: hsl(var(--palette-blushed-brick-hsl) / 0.22);
+  --diff-remove-fg: color-mix(in srgb, var(--palette-blushed-brick) 90%, #fff 10%);
+  --diff-add-bg: hsl(var(--palette-blushed-brick-hsl) / 0.14);
+  --diff-add-fg: color-mix(in srgb, var(--palette-blushed-brick) 88%, #fff 12%);
 
-  --accent-primary-hover: color-mix(in srgb, var(--palette-pumpkin-spice) 92%, #fff 8%);
-  --accent-primary-active: color-mix(in srgb, var(--palette-pumpkin-spice) 85%, #fff 15%);
-  --accent-destructive-hover: color-mix(in srgb, var(--palette-pumpkin-spice) 82%, #fff 18%);
+  --accent-primary-hover: color-mix(in srgb, var(--palette-blushed-brick) 92%, #fff 8%);
+  --accent-primary-active: color-mix(in srgb, var(--palette-blushed-brick) 85%, #fff 15%);
+  --accent-destructive-hover: color-mix(in srgb, var(--palette-blushed-brick) 82%, #fff 18%);
 
   --canvas-gradient: linear-gradient(
     168deg,
-    color-mix(in srgb, #0e0e0e 92%, var(--palette-silver) 8%) 0%,
-    color-mix(in srgb, #161616 88%, var(--palette-silver) 12%) 45%,
-    color-mix(in srgb, #1a1a1a 90%, var(--palette-pumpkin-spice) 4%) 72%,
+    color-mix(in srgb, var(--palette-graphite) 92%, var(--palette-silver) 8%) 0%,
+    color-mix(in srgb, var(--palette-charcoal) 88%, var(--palette-silver) 12%) 45%,
+    color-mix(in srgb, var(--palette-charcoal) 90%, var(--palette-blushed-brick) 4%) 72%,
     var(--canvas) 100%
   );
 }

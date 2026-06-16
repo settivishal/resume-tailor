@@ -8,8 +8,8 @@
  *   :root, [data-theme="light"]  → Light theme (default)
  *   [data-theme="dark"]           → Dark theme
  *
- * Runtime: `<html data-theme="light|dark">` is set by `lib/theme.ts` and
- * the inline init script in `app/layout.tsx`.
+ * Runtime: `<html data-theme="light|dark">` is set by `lib/theme/client.ts` and
+ * the inline init script in `app/layout.tsx` (from `lib/theme/constants.ts`).
  */
 
 html[data-theme="light"],
@@ -36,4 +36,31 @@ html[data-theme="dark"] {
 [data-theme="light"] {
   --background: var(--bg-primary);
   --border: var(--border-subtle);
+}
+
+/**
+ * STEP 3 — Dark theme palette contract (canonical aliases).
+ *
+ *   --background-primary   → --bg-primary        (charcoal canvas)
+ *   --background-secondary → --bg-secondary      (graphite layer)
+ *   --surface-glass        → semantic-theme.css
+ *   --text-primary         → platinum
+ *   --text-muted           → silver
+ *   --border-subtle        → silver transparency
+ *   --accent-primary       → blushed-brick
+ *   --accent-secondary     → silver / charcoal
+ *   --danger               → --accent-destructive (blushed-brick)
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background-primary: var(--bg-primary);
+    --background-secondary: var(--bg-secondary);
+    --danger: var(--accent-destructive);
+  }
+}
+
+[data-theme="dark"] {
+  --background-primary: var(--bg-primary);
+  --background-secondary: var(--bg-secondary);
+  --danger: var(--accent-destructive);
 }
