@@ -140,7 +140,7 @@ export default function ResumeTailor() {
             <DiffViewer patch={selectedPatch} />
           </div>
 
-          <PdfPreviewPanel />
+          <PdfPreviewPanel latex={latexResume} />
         </div>
       </main>
     </div>
