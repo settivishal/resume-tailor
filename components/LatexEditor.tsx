@@ -15,26 +15,32 @@ const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
 interface LatexEditorProps {
   value: string;
   onChange: (value: string) => void;
+  disabled?: boolean;
 }
 
-export default function LatexEditor({ value, onChange }: LatexEditorProps) {
+export default function LatexEditor({
+  value,
+  onChange,
+  disabled = false,
+}: LatexEditorProps) {
   return (
     <Panel title="LaTeX Resume" className="h-full">
       <div className="h-full min-h-[200px]">
         <MonacoEditor
           height="100%"
           language="latex"
-        theme="vs-dark"
-        value={value}
-        onChange={(next) => onChange(next ?? "")}
-        options={{
-          minimap: { enabled: false },
-          fontSize: 13,
-          lineNumbers: "on",
-          scrollBeyondLastLine: false,
-          wordWrap: "on",
-          padding: { top: 12 },
-        }}
+          theme="vs-dark"
+          value={value}
+          onChange={(next) => onChange(next ?? "")}
+          options={{
+            readOnly: disabled,
+            minimap: { enabled: false },
+            fontSize: 13,
+            lineNumbers: "on",
+            scrollBeyondLastLine: false,
+            wordWrap: "on",
+            padding: { top: 12 },
+          }}
         />
       </div>
     </Panel>

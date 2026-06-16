@@ -11,6 +11,7 @@ const impactStyles: Record<Impact, string> = {
 interface SuggestionCardProps {
   patch: Patch;
   selected: boolean;
+  disabled?: boolean;
   onSelect: () => void;
   onAccept: () => void;
   onReject: () => void;
@@ -19,6 +20,7 @@ interface SuggestionCardProps {
 export default function SuggestionCard({
   patch,
   selected,
+  disabled = false,
   onSelect,
   onAccept,
   onReject,
@@ -26,15 +28,20 @@ export default function SuggestionCard({
   return (
     <div
       role="button"
-      tabIndex={0}
-      onClick={onSelect}
+      tabIndex={disabled ? -1 : 0}
+      onClick={disabled ? undefined : onSelect}
       onKeyDown={(e) => {
+        if (disabled) return;
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           onSelect();
         }
       }}
-      className={`cursor-pointer rounded-lg border p-3 transition-colors ${
+      className={`rounded-lg border p-3 transition-colors ${
+        disabled
+          ? "cursor-not-allowed opacity-50"
+          : "cursor-pointer"
+      } ${
         selected
           ? "border-blue-400 bg-blue-50/50 ring-1 ring-blue-400 dark:border-blue-600 dark:bg-blue-950/20 dark:ring-blue-600"
           : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-700 dark:hover:border-zinc-600"
@@ -54,21 +61,23 @@ export default function SuggestionCard({
       <div className="mt-3 flex gap-2">
         <button
           type="button"
+          disabled={disabled}
           onClick={(e) => {
             e.stopPropagation();
             onAccept();
           }}
-          className="rounded-md bg-green-600 px-2.5 py-1 text-xs font-medium text-white hover:bg-green-700"
+          className="rounded-md bg-green-600 px-2.5 py-1 text-xs font-medium text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           Accept
         </button>
         <button
           type="button"
+          disabled={disabled}
           onClick={(e) => {
             e.stopPropagation();
             onReject();
           }}
-          className="rounded-md bg-zinc-200 px-2.5 py-1 text-xs font-medium text-zinc-800 hover:bg-zinc-300 dark:bg-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-600"
+          className="rounded-md bg-zinc-200 px-2.5 py-1 text-xs font-medium text-zinc-800 hover:bg-zinc-300 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-600"
         >
           Reject
         </button>
