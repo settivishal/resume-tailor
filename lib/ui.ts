@@ -45,7 +45,7 @@ export const typography = {
   h2: "text-base font-semibold tracking-tight",
   /** Small all-caps section label (panel headers, field labels). */
   overline: "text-xs font-semibold uppercase tracking-wide",
-  /** Panel title on frosted glass — black on grey header strip (light theme). */
+  /** Panel title on frosted glass header strip — theme-aware ink. */
   overlineGlass: "text-[11px] font-semibold uppercase tracking-[0.06em] text-panel-header",
   /** Default body copy. */
   body: "text-sm leading-relaxed",
@@ -67,13 +67,16 @@ export const color = {
   // Surfaces
   canvas: "bg-canvas",
   surface: "bg-surface",
+  surfaceGlass: "bg-surface-glass",
   surfaceSubtle: "bg-surface-subtle",
   surfaceHeader: "bg-surface-header",
   // Borders
   border: "border-line",
+  borderSubtle: "border-border-subtle",
   borderStrong: "border-line-strong",
   glassBorder: "border-[color:var(--glass-border)]",
   // Text (ink ramp, strongest → faintest)
+  textPrimary: "text-text-primary",
   inkStrong: "text-ink",
   inkBody: "text-ink-body",
   inkSoft: "text-ink-soft",

@@ -17,10 +17,10 @@
   --canvas: var(--bg-primary);
   --canvas-tint: var(--bg-secondary);
 
-  /* Surfaces — neutral platinum frost; palette shows through glass blur */
-  --surface: color-mix(in srgb, rgb(255 255 255 / 0.45) 68%, var(--palette-platinum) 32%);
-  --surface-subtle: color-mix(in srgb, rgb(255 255 255 / 0.28) 65%, var(--palette-platinum) 35%);
-  --surface-header: color-mix(in srgb, rgb(255 255 255 / 0.32) 62%, var(--palette-platinum) 38%);
+  /* Surfaces — map to semantic glass tokens (STEP 4) */
+  --surface: var(--surface-glass);
+  --surface-subtle: var(--surface-glass-subtle);
+  --surface-header: var(--surface-panel-header);
 
   /* Borders — silver at low opacity */
   --line: var(--border-subtle);
@@ -67,8 +67,8 @@
   --glass-bg-subtle: var(--surface-glass-subtle);
   --glass-bg: var(--surface-glass);
   --glass-bg-strong: var(--surface-glass-strong);
-  --glass-module-border: rgb(0 0 0 / 0.12);
-  --glass-module-border-strong: rgb(0 0 0 / 0.18);
+  --glass-module-border: var(--border-subtle);
+  --glass-module-border-strong: var(--border-strong);
   --glass-border: var(--glass-module-border);
   --glass-border-strong: var(--glass-module-border-strong);
   --elevation-module:
@@ -84,8 +84,8 @@
   --glass-highlight-strong: color-mix(in srgb, var(--palette-platinum) 12%, hsl(0 0% 98%) 88%);
   --glass-glow: rgb(var(--palette-blushed-brick-rgb) / 0.08);
   --glass-ambient: rgb(var(--palette-platinum-rgb) / 0.35);
-  --glass-inset-bg: color-mix(in srgb, var(--palette-platinum) 55%, rgb(255 255 255 / 0.45) 45%);
-  --glass-inset-border: hsl(var(--palette-silver-hsl) / 0.42);
+  --glass-inset-bg: var(--surface-glass-subtle);
+  --glass-inset-border: var(--border-subtle);
   --glass-hover-glow-a: hsl(var(--palette-blushed-brick-hsl) / 0.12);
   --glass-hover-glow-b: hsl(var(--palette-blushed-brick-hsl) / 0.06);
 
@@ -96,9 +96,11 @@
   --space-panel-x: 14px;
   --space-panel-y: 8px;
   --space-content: 14px;
-  --blur-sm: 8px;
-  --blur-md: 16px;
-  --blur-lg: 28px;
+  --blur-sm: 6px;
+  --blur-md: 12px;
+  --blur-lg: 22px;
+  --glass-saturate: 1.12;
+  --glass-contrast: 1;
 
   /* Glass shadows — neutral frost + blushed-brick accent tint */
   --elevation-glass-sm:
@@ -121,9 +123,9 @@
     --canvas: var(--bg-primary);
     --canvas-tint: var(--bg-secondary);
 
-    --surface: rgb(255 255 255 / 0.05);
-    --surface-subtle: rgb(255 255 255 / 0.03);
-    --surface-header: rgb(255 255 255 / 0.07);
+    --surface: var(--surface-glass);
+    --surface-subtle: var(--surface-glass-subtle);
+    --surface-header: var(--surface-panel-header);
 
     --line: var(--border-subtle);
     --line-strong: var(--border-strong);
@@ -162,8 +164,8 @@
     --glass-bg-subtle: var(--surface-glass-subtle);
     --glass-bg: var(--surface-glass);
     --glass-bg-strong: var(--surface-glass-strong);
-    --glass-module-border: rgb(255 255 255 / 0.1);
-    --glass-module-border-strong: rgb(255 255 255 / 0.16);
+    --glass-module-border: var(--border-subtle);
+    --glass-module-border-strong: var(--border-strong);
     --glass-border: var(--glass-module-border);
     --glass-border-strong: var(--glass-module-border-strong);
     --elevation-module:
@@ -179,10 +181,16 @@
     --glass-highlight-strong: rgb(255 255 255 / 0.14);
     --glass-glow: rgb(var(--palette-blushed-brick-rgb) / 0.12);
     --glass-ambient: rgb(var(--palette-silver-rgb) / 0.06);
-    --glass-inset-bg: rgb(255 255 255 / 0.04);
-    --glass-inset-border: hsl(var(--palette-silver-hsl) / 0.22);
+    --glass-inset-bg: var(--surface-glass-subtle);
+    --glass-inset-border: var(--border-subtle);
     --glass-hover-glow-a: hsl(var(--palette-blushed-brick-hsl) / 0.12);
     --glass-hover-glow-b: hsl(var(--palette-blushed-brick-hsl) / 0.06);
+
+    --blur-sm: 10px;
+    --blur-md: 20px;
+    --blur-lg: 34px;
+    --glass-saturate: 1.32;
+    --glass-contrast: 1.06;
 
     --elevation-glass-sm:
       0 1px 2px rgb(var(--palette-graphite-rgb) / 0.4),
@@ -200,9 +208,9 @@
 [data-theme="dark"] {
   --canvas: var(--bg-primary);
   --canvas-tint: var(--bg-secondary);
-  --surface: rgb(255 255 255 / 0.05);
-  --surface-subtle: rgb(255 255 255 / 0.03);
-  --surface-header: rgb(255 255 255 / 0.07);
+  --surface: var(--surface-glass);
+  --surface-subtle: var(--surface-glass-subtle);
+  --surface-header: var(--surface-panel-header);
   --line: var(--border-subtle);
   --line-strong: var(--border-strong);
   --card-highlight: rgb(var(--palette-silver-rgb) / 0.12);
@@ -229,8 +237,8 @@
   --glass-bg-subtle: var(--surface-glass-subtle);
   --glass-bg: var(--surface-glass);
   --glass-bg-strong: var(--surface-glass-strong);
-  --glass-module-border: rgb(255 255 255 / 0.1);
-  --glass-module-border-strong: rgb(255 255 255 / 0.16);
+  --glass-module-border: var(--border-subtle);
+  --glass-module-border-strong: var(--border-strong);
   --glass-border: var(--glass-module-border);
   --glass-border-strong: var(--glass-module-border-strong);
   --elevation-module:
@@ -246,10 +254,15 @@
   --glass-highlight-strong: rgb(255 255 255 / 0.14);
   --glass-glow: rgb(var(--palette-blushed-brick-rgb) / 0.12);
   --glass-ambient: rgb(var(--palette-silver-rgb) / 0.06);
-  --glass-inset-bg: rgb(255 255 255 / 0.04);
-  --glass-inset-border: hsl(var(--palette-silver-hsl) / 0.22);
+  --glass-inset-bg: var(--surface-glass-subtle);
+  --glass-inset-border: var(--border-subtle);
   --glass-hover-glow-a: hsl(var(--palette-blushed-brick-hsl) / 0.1);
   --glass-hover-glow-b: hsl(var(--palette-blushed-brick-hsl) / 0.05);
+  --blur-sm: 10px;
+  --blur-md: 20px;
+  --blur-lg: 34px;
+  --glass-saturate: 1.32;
+  --glass-contrast: 1.06;
 }
 
 /* Expose tokens to Tailwind as semantic utilities: bg-*, text-*, border-*,
@@ -257,6 +270,9 @@
    prefers-color-scheme overrides apply at runtime. */
 @theme inline {
   --color-canvas: var(--canvas);
+  --color-surface-glass: var(--surface-glass);
+  --color-border-subtle: var(--border-subtle);
+  --color-text-primary: var(--text-primary);
   --color-surface: var(--surface);
   --color-surface-subtle: var(--surface-subtle);
   --color-surface-header: var(--surface-header);
@@ -322,8 +338,8 @@
 @utility glass {
   background-color: var(--glass-bg-subtle);
   background-image: var(--gradient-chrome-highlight);
-  backdrop-filter: blur(var(--blur-sm));
-  -webkit-backdrop-filter: blur(var(--blur-sm));
+  backdrop-filter: blur(var(--blur-sm)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--blur-sm)) saturate(var(--glass-saturate));
   border-bottom: 1px solid var(--glass-border);
   box-shadow: inset 0 1px 0 0 var(--glass-highlight);
   transition:
@@ -352,24 +368,24 @@
    Consumed by dashboard modules (`Panel`) and composable elsewhere.
    ========================================================================== */
 @utility frost-sm {
-  backdrop-filter: blur(var(--blur-sm));
-  -webkit-backdrop-filter: blur(var(--blur-sm));
+  backdrop-filter: blur(var(--blur-sm)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--blur-sm)) saturate(var(--glass-saturate));
 }
 
 @utility frost-md {
-  backdrop-filter: blur(var(--blur-md));
-  -webkit-backdrop-filter: blur(var(--blur-md));
+  backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate));
 }
 
 @utility frost-lg {
-  backdrop-filter: blur(var(--blur-lg));
-  -webkit-backdrop-filter: blur(var(--blur-lg));
+  backdrop-filter: blur(var(--blur-lg)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(var(--glass-saturate));
 }
 
 @utility glass-sm {
   background-color: var(--glass-bg-subtle);
-  backdrop-filter: blur(var(--blur-sm));
-  -webkit-backdrop-filter: blur(var(--blur-sm));
+  backdrop-filter: blur(var(--blur-sm)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--blur-sm)) saturate(var(--glass-saturate));
   border: 1px solid var(--glass-border);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight),
@@ -382,8 +398,8 @@
 
 @utility glass-md {
   background-color: var(--glass-bg);
-  backdrop-filter: blur(var(--blur-md));
-  -webkit-backdrop-filter: blur(var(--blur-md));
+  backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate));
   border: none;
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight),
@@ -396,8 +412,8 @@
 
 @utility glass-lg {
   background-color: var(--glass-bg-strong);
-  backdrop-filter: blur(var(--blur-lg));
-  -webkit-backdrop-filter: blur(var(--blur-lg));
+  backdrop-filter: blur(var(--blur-lg)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(var(--glass-saturate));
   border: 1px solid var(--glass-border-strong);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight),
@@ -408,15 +424,15 @@
     box-shadow var(--glass-duration) var(--glass-ease);
 }
 
-/* Panel header band — sapphire-tinted strip; label stays neutral ink */
+/* Panel header band — theme-aware glass strip; label uses --text-panel-header */
 @utility glass-header {
   background-color: var(--surface-panel-header);
   background-image: linear-gradient(
     180deg,
-    rgb(255 255 255 / 0.28) 0%,
+    var(--glass-highlight) 0%,
     transparent 100%
   );
-  border-bottom: 1px solid hsl(var(--palette-silver-hsl) / 0.55);
+  border-bottom: 1px solid var(--border-subtle);
   transition:
     background-color var(--glass-duration) var(--glass-ease),
     border-color var(--glass-duration) var(--glass-ease);
@@ -426,7 +442,7 @@
 @utility glass-inset {
   background-color: var(--glass-inset-bg);
   border: 1px solid var(--glass-inset-border);
-  box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.55);
+  box-shadow: inset 0 1px 0 0 var(--glass-highlight);
   transition:
     background-color var(--glass-duration) var(--glass-ease),
     border-color var(--glass-duration) var(--glass-ease),

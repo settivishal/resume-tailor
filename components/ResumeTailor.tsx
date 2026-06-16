@@ -434,7 +434,7 @@ export default function ResumeTailor() {
         <div className="flex items-center gap-3">
           <div
             className={cn(
-              "flex h-7 w-7 items-center justify-center text-[11px] font-semibold text-white/95",
+              "flex h-7 w-7 items-center justify-center text-[11px] font-semibold text-primary-foreground",
               brand.mark,
               brand.glowHover,
               radius.md,

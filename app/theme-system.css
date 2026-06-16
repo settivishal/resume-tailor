@@ -35,6 +35,7 @@ html[data-theme="dark"] {
 :root,
 [data-theme="light"] {
   --background: var(--bg-primary);
+  --surface: var(--surface-glass);
   --border: var(--border-subtle);
 }
 
@@ -62,5 +63,6 @@ html[data-theme="dark"] {
 [data-theme="dark"] {
   --background-primary: var(--bg-primary);
   --background-secondary: var(--bg-secondary);
+  --surface: var(--surface-glass);
   --danger: var(--accent-destructive);
 }
