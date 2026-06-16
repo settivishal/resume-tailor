@@ -6,115 +6,83 @@
  */
 
 :root {
-  /* Rosewood — alerts, destructive actions, highlights */
-  --palette-rosewood-hex: #c33c54;
-  --palette-rosewood-hsl: 349 53% 50%;
-  --palette-rosewood-rgb: 195 60 84;
-  --palette-rosewood: hsl(var(--palette-rosewood-hsl));
+  /* Pumpkin Spice — primary actions, brand accent, alerts */
+  --palette-pumpkin-spice-hex: #ff781f;
+  --palette-pumpkin-spice-hsl: 24 100% 56%;
+  --palette-pumpkin-spice-rgb: 255 120 31;
+  --palette-pumpkin-spice: hsl(var(--palette-pumpkin-spice-hsl));
 
-  /* Yale Blue — UI structure, headings, chrome */
-  --palette-yale-blue-hex: #254e70;
-  --palette-yale-blue-hsl: 207 50% 29%;
-  --palette-yale-blue-rgb: 37 78 112;
-  --palette-yale-blue: hsl(var(--palette-yale-blue-hsl));
+  /* Platinum — canvas, glass surfaces, light fills */
+  --palette-platinum-hex: #ebebeb;
+  --palette-platinum-hsl: 0 0% 92%;
+  --palette-platinum-rgb: 235 235 235;
+  --palette-platinum: hsl(var(--palette-platinum-hsl));
 
-  /* Cerulean — primary actions, interactive emphasis */
-  --palette-cerulean-hex: #37718e;
-  --palette-cerulean-hsl: 200 44% 39%;
-  --palette-cerulean-rgb: 55 113 142;
-  --palette-cerulean: hsl(var(--palette-cerulean-hsl));
+  /* Silver — structure, borders, muted typography */
+  --palette-silver-hex: #c0c0c0;
+  --palette-silver-hsl: 0 0% 75%;
+  --palette-silver-rgb: 192 192 192;
+  --palette-silver: hsl(var(--palette-silver-hsl));
 
-  /* Frosted Blue — glass surfaces, soft borders */
-  --palette-frosted-blue-hex: #70dceb;
-  --palette-frosted-blue-hsl: 187 75% 68%;
-  --palette-frosted-blue-rgb: 112 220 235;
-  --palette-frosted-blue: hsl(var(--palette-frosted-blue-hsl));
-
-  /* Icy Aqua — background washes, airy base layers */
-  --palette-icy-aqua-hex: #aef3e7;
-  --palette-icy-aqua-hsl: 170 74% 82%;
-  --palette-icy-aqua-rgb: 174 243 231;
-  --palette-icy-aqua: hsl(var(--palette-icy-aqua-hsl));
-
-  /* Palette gradients — full-strength direction tokens (STEP 4) */
+  /* Palette gradients — direction tokens (STEP 4) */
   --palette-gradient-top: linear-gradient(
     0deg,
-    var(--palette-rosewood) 0%,
-    var(--palette-yale-blue) 25%,
-    var(--palette-cerulean) 50%,
-    var(--palette-frosted-blue) 75%,
-    var(--palette-icy-aqua) 100%
+    var(--palette-pumpkin-spice) 0%,
+    var(--palette-platinum) 50%,
+    var(--palette-silver) 100%
   );
   --palette-gradient-right: linear-gradient(
     90deg,
-    var(--palette-rosewood) 0%,
-    var(--palette-yale-blue) 25%,
-    var(--palette-cerulean) 50%,
-    var(--palette-frosted-blue) 75%,
-    var(--palette-icy-aqua) 100%
+    var(--palette-pumpkin-spice) 0%,
+    var(--palette-platinum) 50%,
+    var(--palette-silver) 100%
   );
   --palette-gradient-bottom: linear-gradient(
     180deg,
-    var(--palette-rosewood) 0%,
-    var(--palette-yale-blue) 25%,
-    var(--palette-cerulean) 50%,
-    var(--palette-frosted-blue) 75%,
-    var(--palette-icy-aqua) 100%
+    var(--palette-pumpkin-spice) 0%,
+    var(--palette-platinum) 50%,
+    var(--palette-silver) 100%
   );
   --palette-gradient-left: linear-gradient(
     270deg,
-    var(--palette-rosewood) 0%,
-    var(--palette-yale-blue) 25%,
-    var(--palette-cerulean) 50%,
-    var(--palette-frosted-blue) 75%,
-    var(--palette-icy-aqua) 100%
+    var(--palette-pumpkin-spice) 0%,
+    var(--palette-platinum) 50%,
+    var(--palette-silver) 100%
   );
   --palette-gradient-top-right: linear-gradient(
     45deg,
-    var(--palette-rosewood) 0%,
-    var(--palette-yale-blue) 25%,
-    var(--palette-cerulean) 50%,
-    var(--palette-frosted-blue) 75%,
-    var(--palette-icy-aqua) 100%
+    var(--palette-pumpkin-spice) 0%,
+    var(--palette-platinum) 50%,
+    var(--palette-silver) 100%
   );
   --palette-gradient-bottom-right: linear-gradient(
     135deg,
-    var(--palette-rosewood) 0%,
-    var(--palette-yale-blue) 25%,
-    var(--palette-cerulean) 50%,
-    var(--palette-frosted-blue) 75%,
-    var(--palette-icy-aqua) 100%
+    var(--palette-pumpkin-spice) 0%,
+    var(--palette-platinum) 50%,
+    var(--palette-silver) 100%
   );
   --palette-gradient-top-left: linear-gradient(
     225deg,
-    var(--palette-rosewood) 0%,
-    var(--palette-yale-blue) 25%,
-    var(--palette-cerulean) 50%,
-    var(--palette-frosted-blue) 75%,
-    var(--palette-icy-aqua) 100%
+    var(--palette-pumpkin-spice) 0%,
+    var(--palette-platinum) 50%,
+    var(--palette-silver) 100%
   );
   --palette-gradient-bottom-left: linear-gradient(
     315deg,
-    var(--palette-rosewood) 0%,
-    var(--palette-yale-blue) 25%,
-    var(--palette-cerulean) 50%,
-    var(--palette-frosted-blue) 75%,
-    var(--palette-icy-aqua) 100%
+    var(--palette-pumpkin-spice) 0%,
+    var(--palette-platinum) 50%,
+    var(--palette-silver) 100%
   );
   --palette-gradient-linear: linear-gradient(
     135deg,
-    var(--palette-rosewood) 0%,
-    var(--palette-yale-blue) 25%,
-    var(--palette-cerulean) 50%,
-    var(--palette-frosted-blue) 75%,
-    var(--palette-icy-aqua) 100%
+    var(--palette-pumpkin-spice) 0%,
+    var(--palette-platinum) 50%,
+    var(--palette-silver) 100%
   );
   --palette-gradient-radial: radial-gradient(
     ellipse at 50% 0%,
-    var(--palette-icy-aqua) 0%,
-    var(--palette-frosted-blue) 35%,
-    var(--palette-cerulean) 55%,
-    var(--palette-yale-blue) 75%,
-    var(--palette-rosewood) 100%
+    var(--palette-pumpkin-spice) 0%,
+    var(--palette-platinum) 45%,
+    var(--palette-silver) 100%
   );
 }

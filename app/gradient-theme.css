@@ -2,58 +2,48 @@
  * STEP 4 — Gradient design system.
  *
  * Raw direction gradients live in `theme.css` (`--palette-gradient-*`).
- * This file exposes soft, UI-safe semantic gradients for backgrounds,
- * highlights, hover glows, and active overlays only.
+ * Soft, UI-safe semantic gradients for backgrounds and interactions.
  */
 
 :root,
 [data-theme="light"] {
-  /* Primary canvas wash — gradient-bottom-right at very low opacity */
   --gradient-bg-soft: linear-gradient(
     135deg,
-    hsl(var(--palette-cerulean-hsl) / 0.04) 0%,
-    hsl(var(--palette-yale-blue-hsl) / 0.03) 22%,
-    hsl(var(--palette-cerulean-hsl) / 0.05) 44%,
-    hsl(var(--palette-frosted-blue-hsl) / 0.07) 68%,
-    hsl(var(--palette-icy-aqua-hsl) / 0.09) 100%
+    hsl(var(--palette-pumpkin-spice-hsl) / 0.04) 0%,
+    hsl(var(--palette-platinum-hsl) / 0.55) 45%,
+    hsl(var(--palette-silver-hsl) / 0.18) 100%
   );
 
-  /* Glass panel top-edge highlight */
   --gradient-glass-highlight: linear-gradient(
     180deg,
-    rgb(255 255 255 / 0.34) 0%,
-    rgb(var(--palette-frosted-blue-rgb) / 0.06) 38%,
+    rgb(255 255 255 / 0.52) 0%,
     transparent 100%
   );
 
-  /* Hover — cerulean → frosted-blue glow */
   --gradient-hover-glow: linear-gradient(
     145deg,
-    hsl(var(--palette-cerulean-hsl) / 0.11) 0%,
-    hsl(var(--palette-frosted-blue-hsl) / 0.07) 52%,
+    hsl(var(--palette-pumpkin-spice-hsl) / 0.08) 0%,
+    hsl(var(--palette-platinum-hsl) / 0.12) 52%,
     transparent 100%
   );
 
-  /* Active module — frosted-blue / icy-aqua radial wash */
   --gradient-active-radial: radial-gradient(
     ellipse 115% 82% at 50% -6%,
-    hsl(var(--palette-frosted-blue-hsl) / 0.16) 0%,
-    hsl(var(--palette-icy-aqua-hsl) / 0.09) 44%,
+    hsl(var(--palette-pumpkin-spice-hsl) / 0.1) 0%,
+    hsl(var(--palette-platinum-hsl) / 0.08) 44%,
     transparent 72%
   );
 
-  /* App chrome (header) — subtle top lit edge */
   --gradient-chrome-highlight: linear-gradient(
     180deg,
-    rgb(255 255 255 / 0.28) 0%,
+    rgb(255 255 255 / 0.32) 0%,
     transparent 100%
   );
 
-  /* Primary action hover sheen */
   --gradient-action-hover: linear-gradient(
     135deg,
-    hsl(var(--palette-cerulean-hsl) / 1) 0%,
-    color-mix(in srgb, var(--palette-cerulean) 82%, var(--palette-frosted-blue) 18%) 100%
+    hsl(var(--palette-pumpkin-spice-hsl) / 1) 0%,
+    color-mix(in srgb, var(--palette-pumpkin-spice) 82%, #000 18%) 100%
   );
 }
 
@@ -61,31 +51,29 @@
   :root:not([data-theme="light"]) {
     --gradient-bg-soft: linear-gradient(
       135deg,
-      hsl(var(--palette-cerulean-hsl) / 0.06) 0%,
-      hsl(var(--palette-yale-blue-hsl) / 0.1) 24%,
-      hsl(var(--palette-cerulean-hsl) / 0.1) 48%,
-      hsl(var(--palette-frosted-blue-hsl) / 0.06) 72%,
-      hsl(var(--palette-icy-aqua-hsl) / 0.04) 100%
+      hsl(var(--palette-pumpkin-spice-hsl) / 0.06) 0%,
+      hsl(var(--palette-silver-hsl) / 0.08) 40%,
+      hsl(var(--palette-platinum-hsl) / 0.04) 100%
     );
 
     --gradient-glass-highlight: linear-gradient(
       180deg,
       rgb(255 255 255 / 0.08) 0%,
-      rgb(var(--palette-cerulean-rgb) / 0.04) 40%,
+      rgb(var(--palette-silver-rgb) / 0.04) 40%,
       transparent 100%
     );
 
     --gradient-hover-glow: linear-gradient(
       145deg,
-      hsl(var(--palette-cerulean-hsl) / 0.14) 0%,
-      hsl(var(--palette-frosted-blue-hsl) / 0.08) 55%,
+      hsl(var(--palette-pumpkin-spice-hsl) / 0.14) 0%,
+      hsl(var(--palette-silver-hsl) / 0.06) 55%,
       transparent 100%
     );
 
     --gradient-active-radial: radial-gradient(
       ellipse 115% 82% at 50% -6%,
-      hsl(var(--palette-frosted-blue-hsl) / 0.12) 0%,
-      hsl(var(--palette-icy-aqua-hsl) / 0.06) 44%,
+      hsl(var(--palette-pumpkin-spice-hsl) / 0.14) 0%,
+      hsl(var(--palette-silver-hsl) / 0.05) 44%,
       transparent 72%
     );
 
@@ -97,8 +85,8 @@
 
     --gradient-action-hover: linear-gradient(
       135deg,
-      hsl(var(--palette-cerulean-hsl) / 1) 0%,
-      color-mix(in srgb, var(--palette-cerulean) 78%, var(--palette-frosted-blue) 22%) 100%
+      hsl(var(--palette-pumpkin-spice-hsl) / 1) 0%,
+      color-mix(in srgb, var(--palette-pumpkin-spice) 78%, #fff 22%) 100%
     );
   }
 }
@@ -106,31 +94,29 @@
 [data-theme="dark"] {
   --gradient-bg-soft: linear-gradient(
     135deg,
-    hsl(var(--palette-cerulean-hsl) / 0.06) 0%,
-    hsl(var(--palette-yale-blue-hsl) / 0.1) 24%,
-    hsl(var(--palette-cerulean-hsl) / 0.1) 48%,
-    hsl(var(--palette-frosted-blue-hsl) / 0.06) 72%,
-    hsl(var(--palette-icy-aqua-hsl) / 0.04) 100%
+    hsl(var(--palette-pumpkin-spice-hsl) / 0.06) 0%,
+    hsl(var(--palette-silver-hsl) / 0.08) 40%,
+    hsl(var(--palette-platinum-hsl) / 0.04) 100%
   );
 
   --gradient-glass-highlight: linear-gradient(
     180deg,
     rgb(255 255 255 / 0.08) 0%,
-    rgb(var(--palette-cerulean-rgb) / 0.04) 40%,
+    rgb(var(--palette-silver-rgb) / 0.04) 40%,
     transparent 100%
   );
 
   --gradient-hover-glow: linear-gradient(
     145deg,
-    hsl(var(--palette-cerulean-hsl) / 0.14) 0%,
-    hsl(var(--palette-frosted-blue-hsl) / 0.08) 55%,
+    hsl(var(--palette-pumpkin-spice-hsl) / 0.14) 0%,
+    hsl(var(--palette-silver-hsl) / 0.06) 55%,
     transparent 100%
   );
 
   --gradient-active-radial: radial-gradient(
     ellipse 115% 82% at 50% -6%,
-    hsl(var(--palette-frosted-blue-hsl) / 0.12) 0%,
-    hsl(var(--palette-icy-aqua-hsl) / 0.06) 44%,
+    hsl(var(--palette-pumpkin-spice-hsl) / 0.14) 0%,
+    hsl(var(--palette-silver-hsl) / 0.05) 44%,
     transparent 72%
   );
 
@@ -142,7 +128,7 @@
 
   --gradient-action-hover: linear-gradient(
     135deg,
-    hsl(var(--palette-cerulean-hsl) / 1) 0%,
-    color-mix(in srgb, var(--palette-cerulean) 78%, var(--palette-frosted-blue) 22%) 100%
+    hsl(var(--palette-pumpkin-spice-hsl) / 1) 0%,
+    color-mix(in srgb, var(--palette-pumpkin-spice) 78%, #fff 22%) 100%
   );
 }

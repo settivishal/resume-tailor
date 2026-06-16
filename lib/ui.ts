@@ -45,8 +45,8 @@ export const typography = {
   h2: "text-base font-semibold tracking-tight",
   /** Small all-caps section label (panel headers, field labels). */
   overline: "text-xs font-semibold uppercase tracking-wide",
-  /** Panel title on frosted glass — macOS-style muted label. */
-  overlineGlass: "text-[11px] font-medium uppercase tracking-[0.06em] text-ink-muted",
+  /** Panel title on frosted glass — silver/platinum structure label. */
+  overlineGlass: "text-[11px] font-semibold uppercase tracking-[0.06em] text-ink-soft",
   /** Default body copy. */
   body: "text-sm leading-relaxed",
   /** Tighter body copy for dense cards. */
@@ -89,7 +89,7 @@ export const color = {
   accentSubtle: "bg-accent-subtle",
 } as const;
 
-/** Signature brand identity — cerulean + frosted-blue. */
+/** Signature brand identity — pumpkin-spice on platinum + silver. */
 export const brand = {
   mark: "brand-mark",
   glowHover: "brand-glow-hover",
@@ -100,7 +100,7 @@ export const brand = {
 export const transitionPolish =
   "transition-[background-color,border-color,box-shadow,color,opacity,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]";
 
-/** Button treatments — primary (cerulean), secondary (yale-blue), destructive (rosewood). */
+/** Button treatments — primary (pumpkin-spice), secondary (charcoal), destructive (dark pumpkin). */
 export const button = {
   primary:
     "bg-primary text-primary-foreground transition-[background-color,opacity,transform,box-shadow] duration-200 ease-out hover:opacity-90 hover:shadow-brand-glow active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100 disabled:shadow-none",
@@ -119,7 +119,7 @@ export const status = {
   accentBadge: "bg-status-accent-subtle text-accent",
 } as const;
 
-/** Diff highlighting — rosewood (removed) / cerulean (added). */
+/** Diff highlighting — pumpkin-spice (removed / added variants). */
 export const diff = {
   removeMark: "rounded-sm bg-diff-remove-subtle text-diff-remove",
   addMark: "rounded-sm bg-diff-add-subtle text-diff-add",
@@ -220,6 +220,6 @@ export const layer = {
 /** Original frosted-glass treatment for app chrome (header / floating bars). */
 export const glassChrome = "glass";
 
-/** Standard focus ring — cerulean glow for accessible highlights. */
+/** Standard focus ring — pumpkin-spice glow for accessible highlights. */
 export const focusRing =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-canvas focus-visible:shadow-brand-glow-focus";

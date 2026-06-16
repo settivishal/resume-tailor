@@ -748,7 +748,7 @@ function VerticalResizer({
     >
       {/* Invisible until hovered — the card edges already separate modules, so
           the resize affordance only appears when you reach for it. */}
-      <div className="h-full w-1 rounded-full bg-transparent transition-colors duration-200 ease-out group-hover/resizer:bg-[hsl(var(--palette-frosted-blue-hsl)/0.45)] group-active/resizer:bg-[hsl(var(--palette-cerulean-hsl)/0.55)]" />
+      <div className="h-full w-1 rounded-full bg-transparent transition-colors duration-200 ease-out group-hover/resizer:bg-[hsl(var(--palette-pumpkin-spice-hsl)/0.45)] group-active/resizer:bg-[hsl(var(--palette-pumpkin-spice-hsl)/0.65)]" />
     </div>
   );
 }

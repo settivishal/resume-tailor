@@ -12,7 +12,7 @@
    consume these via Tailwind utilities — never raw palette names.
    ========================================================================== */
 :root {
-  /* Background — icy-aqua base + palette gradient wash (see body::before) */
+  /* Background — platinum base + palette gradient wash (see body::before) */
   --canvas: var(--bg-primary);
   --canvas-tint: var(--bg-secondary);
 
@@ -21,19 +21,19 @@
   --surface-subtle: rgb(255 255 255 / 0.28);
   --surface-header: rgb(255 255 255 / 0.32);
 
-  /* Borders — icy-aqua at low opacity */
+  /* Borders — silver at low opacity */
   --line: var(--border-subtle);
   --line-strong: var(--border-strong);
-  --card-highlight: rgb(var(--palette-icy-aqua-rgb) / 0.55);
-  --dot: rgb(var(--palette-yale-blue-rgb) / 0.05);
+  --card-highlight: rgb(255 255 255 / 0.68);
+  --dot: rgb(var(--palette-silver-rgb) / 0.08);
 
-  /* Ambient depth — brand identity wash (cerulean / frosted-blue / icy-aqua) */
+  /* Ambient depth — pumpkin-spice whisper on platinum / silver */
   --ambient-1: var(--ambient-brand-1);
   --ambient-2: var(--ambient-brand-2);
   --ambient-3: var(--ambient-brand-3);
-  --vignette: rgb(var(--palette-yale-blue-rgb) / 0.04);
+  --vignette: rgb(0 0 0 / 0.04);
 
-  /* Text — semantic theme (yale-blue / cerulean ramp) */
+  /* Text — semantic theme (charcoal / silver ramp) */
   --ink: var(--text-primary);
   --ink-body: color-mix(in srgb, var(--text-primary) 90%, var(--text-secondary) 10%);
   --ink-soft: var(--text-secondary);
@@ -54,43 +54,27 @@
 
   /* Elevation — neutral card shadows with palette tint */
   --elevation-card:
-    0 1px 2px rgb(var(--palette-yale-blue-rgb) / 0.05),
-    0 2px 6px rgb(var(--palette-cerulean-rgb) / 0.06);
+    0 1px 2px rgb(0 0 0 / 0.05),
+    0 2px 6px rgb(var(--palette-silver-rgb) / 0.12);
   --elevation-pop:
-    0 4px 12px rgb(var(--palette-yale-blue-rgb) / 0.08),
-    0 12px 28px rgb(var(--palette-cerulean-rgb) / 0.1);
+    0 4px 12px rgb(0 0 0 / 0.08),
+    0 12px 28px rgb(var(--palette-silver-rgb) / 0.14);
 
   /* ----------------------------------------------------------------------
-     Glass UI — neutral translucent frost + subtle palette tint
+     Glass UI — neutral translucent frost; palette via accents & canvas only
      ---------------------------------------------------------------------- */
-  --glass-bg-subtle: color-mix(
-    in srgb,
-    color-mix(in srgb, var(--surface-module) 34%, rgb(255 255 255 / 0.48) 66%) 100%,
-    transparent 0%
-  );
-  --glass-bg: color-mix(
-    in srgb,
-    color-mix(in srgb, var(--surface-module) 40%, rgb(255 255 255 / 0.54) 60%) 100%,
-    transparent 0%
-  );
-  --glass-bg-strong: color-mix(
-    in srgb,
-    color-mix(in srgb, var(--surface-module) 48%, rgb(255 255 255 / 0.62) 52%) 100%,
-    transparent 0%
-  );
+  --glass-bg-subtle: var(--surface-glass-subtle);
+  --glass-bg: var(--surface-glass);
+  --glass-bg-strong: var(--surface-glass-strong);
   --glass-border: var(--border-subtle);
   --glass-border-strong: var(--border-strong);
-  --glass-highlight: rgb(255 255 255 / 0.72);
-  --glass-bg-hover: color-mix(
-    in srgb,
-    rgb(255 255 255 / 0.62) 80%,
-    rgb(var(--palette-frosted-blue-rgb) / 0.16) 20%
-  );
-  --glass-highlight-strong: rgb(255 255 255 / 0.82);
-  --glass-glow: rgb(var(--palette-cerulean-rgb) / 0.08);
-  --glass-ambient: rgb(var(--palette-frosted-blue-rgb) / 0.06);
-  --glass-inset-bg: color-mix(in srgb, var(--palette-icy-aqua) 18%, rgb(255 255 255 / 0.35) 82%);
-  --glass-inset-border: rgb(var(--palette-frosted-blue-rgb) / 0.28);
+  --glass-highlight: var(--surface-glass-highlight);
+  --glass-bg-hover: rgb(255 255 255 / 0.74);
+  --glass-highlight-strong: rgb(255 255 255 / 0.92);
+  --glass-glow: rgb(var(--palette-pumpkin-spice-rgb) / 0.08);
+  --glass-ambient: rgb(var(--palette-platinum-rgb) / 0.35);
+  --glass-inset-bg: color-mix(in srgb, var(--palette-platinum) 55%, rgb(255 255 255 / 0.45) 45%);
+  --glass-inset-border: hsl(var(--palette-silver-hsl) / 0.42);
 
   /* Motion & spacing (unchanged) */
   --glass-ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -103,17 +87,17 @@
   --blur-md: 16px;
   --blur-lg: 28px;
 
-  /* Glass shadows — yale-blue / cerulean tint, very low opacity */
+  /* Glass shadows — neutral + pumpkin-spice accent tint */
   --elevation-glass-sm:
-    0 1px 2px rgb(var(--palette-yale-blue-rgb) / 0.05),
-    0 4px 12px rgb(var(--palette-cerulean-rgb) / 0.06);
+    0 1px 2px rgb(0 0 0 / 0.05),
+    0 4px 12px rgb(var(--palette-silver-rgb) / 0.1);
   --elevation-glass-md:
-    0 2px 4px rgb(var(--palette-yale-blue-rgb) / 0.05),
-    0 8px 24px rgb(var(--palette-cerulean-rgb) / 0.07),
-    0 20px 48px rgb(var(--palette-yale-blue-rgb) / 0.04);
+    0 2px 4px rgb(0 0 0 / 0.05),
+    0 8px 24px rgb(var(--palette-silver-rgb) / 0.12),
+    0 20px 48px rgb(0 0 0 / 0.04);
   --elevation-glass-lg:
-    0 6px 20px rgb(var(--palette-cerulean-rgb) / 0.09),
-    0 16px 40px rgb(var(--palette-yale-blue-rgb) / 0.08);
+    0 6px 20px rgb(var(--palette-pumpkin-spice-rgb) / 0.08),
+    0 16px 40px rgb(0 0 0 / 0.08);
 
   --background: var(--canvas);
   --foreground: var(--ink);
@@ -130,8 +114,8 @@
 
     --line: var(--border-subtle);
     --line-strong: var(--border-strong);
-    --card-highlight: rgb(var(--palette-frosted-blue-rgb) / 0.1);
-    --dot: rgb(var(--palette-frosted-blue-rgb) / 0.04);
+    --card-highlight: rgb(var(--palette-silver-rgb) / 0.12);
+    --dot: rgb(var(--palette-silver-rgb) / 0.06);
 
     --ambient-1: var(--ambient-brand-1);
     --ambient-2: var(--ambient-brand-2);
@@ -157,10 +141,10 @@
 
     --elevation-card:
       0 1px 2px rgb(0 0 0 / 0.35),
-      0 2px 6px rgb(var(--palette-yale-blue-rgb) / 0.2);
+      0 2px 6px rgb(var(--palette-silver-rgb) / 0.2);
     --elevation-pop:
       0 8px 24px rgb(0 0 0 / 0.45),
-      0 16px 40px rgb(var(--palette-cerulean-rgb) / 0.15);
+      0 16px 40px rgb(var(--palette-pumpkin-spice-rgb) / 0.12);
 
     --glass-bg-subtle: rgb(255 255 255 / 0.05);
     --glass-bg: rgb(255 255 255 / 0.07);
@@ -170,21 +154,21 @@
     --glass-highlight: rgb(255 255 255 / 0.1);
     --glass-bg-hover: rgb(255 255 255 / 0.09);
     --glass-highlight-strong: rgb(255 255 255 / 0.14);
-    --glass-glow: rgb(var(--palette-frosted-blue-rgb) / 0.1);
-    --glass-ambient: rgb(var(--palette-cerulean-rgb) / 0.06);
+    --glass-glow: rgb(var(--palette-pumpkin-spice-rgb) / 0.12);
+    --glass-ambient: rgb(var(--palette-silver-rgb) / 0.06);
     --glass-inset-bg: rgb(255 255 255 / 0.04);
-    --glass-inset-border: hsl(var(--palette-icy-aqua-hsl) / 0.14);
+    --glass-inset-border: hsl(var(--palette-silver-hsl) / 0.22);
 
     --elevation-glass-sm:
       0 1px 2px rgb(0 0 0 / 0.4),
-      0 4px 12px rgb(var(--palette-yale-blue-rgb) / 0.25);
+      0 4px 12px rgb(var(--palette-silver-rgb) / 0.22);
     --elevation-glass-md:
       0 2px 6px rgb(0 0 0 / 0.32),
-      0 12px 32px rgb(var(--palette-cerulean-rgb) / 0.18),
-      0 24px 56px rgb(var(--palette-yale-blue-rgb) / 0.14);
+      0 12px 32px rgb(var(--palette-pumpkin-spice-rgb) / 0.1),
+      0 24px 56px rgb(0 0 0 / 0.14);
     --elevation-glass-lg:
       0 10px 32px rgb(0 0 0 / 0.5),
-      0 28px 64px rgb(var(--palette-cerulean-rgb) / 0.2);
+      0 28px 64px rgb(var(--palette-pumpkin-spice-rgb) / 0.14);
   }
 }
 
@@ -196,8 +180,8 @@
   --surface-header: rgb(255 255 255 / 0.07);
   --line: var(--border-subtle);
   --line-strong: var(--border-strong);
-  --card-highlight: rgb(var(--palette-frosted-blue-rgb) / 0.1);
-  --dot: rgb(var(--palette-frosted-blue-rgb) / 0.04);
+  --card-highlight: rgb(var(--palette-silver-rgb) / 0.12);
+  --dot: rgb(var(--palette-silver-rgb) / 0.06);
   --ambient-1: var(--ambient-brand-1);
   --ambient-2: var(--ambient-brand-2);
   --ambient-3: var(--ambient-brand-3);
@@ -225,10 +209,10 @@
   --glass-highlight: rgb(255 255 255 / 0.1);
   --glass-bg-hover: rgb(255 255 255 / 0.09);
   --glass-highlight-strong: rgb(255 255 255 / 0.14);
-  --glass-glow: rgb(var(--palette-frosted-blue-rgb) / 0.1);
-  --glass-ambient: rgb(var(--palette-cerulean-rgb) / 0.06);
+  --glass-glow: rgb(var(--palette-pumpkin-spice-rgb) / 0.12);
+  --glass-ambient: rgb(var(--palette-silver-rgb) / 0.06);
   --glass-inset-bg: rgb(255 255 255 / 0.04);
-  --glass-inset-border: hsl(var(--palette-icy-aqua-hsl) / 0.14);
+  --glass-inset-border: hsl(var(--palette-silver-hsl) / 0.22);
 }
 
 /* Expose tokens to Tailwind as semantic utilities: bg-*, text-*, border-*,
@@ -300,8 +284,8 @@
 @utility glass {
   background-color: var(--glass-bg-subtle);
   background-image: var(--gradient-chrome-highlight);
-  backdrop-filter: saturate(130%) blur(var(--blur-sm));
-  -webkit-backdrop-filter: saturate(130%) blur(var(--blur-sm));
+  backdrop-filter: blur(var(--blur-sm));
+  -webkit-backdrop-filter: blur(var(--blur-sm));
   border-bottom: 1px solid var(--glass-border);
   box-shadow: inset 0 1px 0 0 var(--glass-highlight);
   transition:
@@ -330,24 +314,24 @@
    Consumed by dashboard modules (`Panel`) and composable elsewhere.
    ========================================================================== */
 @utility frost-sm {
-  backdrop-filter: saturate(130%) blur(var(--blur-sm));
-  -webkit-backdrop-filter: saturate(130%) blur(var(--blur-sm));
+  backdrop-filter: blur(var(--blur-sm));
+  -webkit-backdrop-filter: blur(var(--blur-sm));
 }
 
 @utility frost-md {
-  backdrop-filter: saturate(130%) blur(var(--blur-md));
-  -webkit-backdrop-filter: saturate(130%) blur(var(--blur-md));
+  backdrop-filter: blur(var(--blur-md));
+  -webkit-backdrop-filter: blur(var(--blur-md));
 }
 
 @utility frost-lg {
-  backdrop-filter: saturate(130%) blur(var(--blur-lg));
-  -webkit-backdrop-filter: saturate(130%) blur(var(--blur-lg));
+  backdrop-filter: blur(var(--blur-lg));
+  -webkit-backdrop-filter: blur(var(--blur-lg));
 }
 
 @utility glass-sm {
   background-color: var(--glass-bg-subtle);
-  backdrop-filter: saturate(130%) blur(var(--blur-sm));
-  -webkit-backdrop-filter: saturate(130%) blur(var(--blur-sm));
+  backdrop-filter: blur(var(--blur-sm));
+  -webkit-backdrop-filter: blur(var(--blur-sm));
   border: 1px solid var(--glass-border);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight),
@@ -360,8 +344,8 @@
 
 @utility glass-md {
   background-color: var(--glass-bg);
-  backdrop-filter: saturate(130%) blur(var(--blur-md));
-  -webkit-backdrop-filter: saturate(130%) blur(var(--blur-md));
+  backdrop-filter: blur(var(--blur-md));
+  -webkit-backdrop-filter: blur(var(--blur-md));
   border: 1px solid var(--glass-border);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight),
@@ -374,8 +358,8 @@
 
 @utility glass-lg {
   background-color: var(--glass-bg-strong);
-  backdrop-filter: saturate(130%) blur(var(--blur-lg));
-  -webkit-backdrop-filter: saturate(130%) blur(var(--blur-lg));
+  backdrop-filter: blur(var(--blur-lg));
+  -webkit-backdrop-filter: blur(var(--blur-lg));
   border: 1px solid var(--glass-border-strong);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight),
@@ -401,7 +385,7 @@
 @utility glass-inset {
   background-color: var(--glass-inset-bg);
   border: 1px solid var(--glass-inset-border);
-  box-shadow: inset 0 1px 0 0 rgb(var(--palette-frosted-blue-rgb) / 0.08);
+  box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.55);
   transition:
     background-color var(--glass-duration) var(--glass-ease),
     border-color var(--glass-duration) var(--glass-ease),
@@ -452,15 +436,15 @@
     var(--elevation-glass-md);
 }
 
-/* Hover — subtle cerulean → frosted-blue gradient glow */
+/* Hover — subtle pumpkin-spice gradient glow */
 .glass-module:hover:not([data-dimmed]):not([data-dragging]):not([data-active]) .glass-panel {
   background-color: var(--glass-bg-hover);
   border-color: color-mix(in srgb, var(--glass-border-strong) 85%, transparent);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight-strong),
     var(--elevation-glass-md),
-    0 10px 36px -12px hsl(var(--palette-cerulean-hsl) / 0.14),
-    0 4px 18px -8px hsl(var(--palette-frosted-blue-hsl) / 0.1);
+    0 10px 36px -12px hsl(var(--palette-pumpkin-spice-hsl) / 0.16),
+    0 4px 18px -8px hsl(var(--palette-pumpkin-spice-hsl) / 0.08);
 }
 
 .glass-module:hover:not([data-dimmed]):not([data-dragging]):not([data-active]) .glass-panel::after {
@@ -474,15 +458,15 @@
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight-strong),
     var(--elevation-glass-md),
-    0 10px 36px -12px hsl(var(--palette-cerulean-hsl) / 0.12),
-    0 4px 18px -8px hsl(var(--palette-frosted-blue-hsl) / 0.08);
+    0 10px 36px -12px hsl(var(--palette-pumpkin-spice-hsl) / 0.14),
+    0 4px 18px -8px hsl(var(--palette-pumpkin-spice-hsl) / 0.06);
 }
 
 .glass-module:focus-within:not([data-dimmed]):not([data-dragging]):not([data-active]) .glass-panel::after {
   background: var(--gradient-hover-glow), var(--gradient-glass-highlight);
 }
 
-/* Active / maximized — frosted-blue / icy-aqua radial overlay */
+/* Active / maximized — pumpkin-spice radial accent */
 .glass-module[data-active]:not([data-dragging]) .glass-panel::before {
   content: "";
   position: absolute;
@@ -506,7 +490,7 @@
   background: var(--gradient-glass-highlight);
 }
 
-/* Drop target during drag — cerulean border glow */
+/* Drop target during drag — pumpkin-spice border glow */
 .glass-module[data-drop-target]:not([data-dragging]) .glass-panel {
   border-color: color-mix(in srgb, var(--accent) 40%, var(--glass-border-strong));
   box-shadow:
@@ -576,18 +560,18 @@
 
 .window-controls:hover .window-control--close {
   background-color: var(--chrome-control-close);
-  border-color: hsl(var(--palette-yale-blue-hsl) / 0.45);
+  border-color: hsl(var(--palette-silver-hsl) / 0.55);
 }
 
 .window-controls:hover .window-control--minimize {
   background-color: var(--chrome-control-minimize);
-  border-color: hsl(var(--palette-cerulean-hsl) / 0.45);
+  border-color: hsl(var(--palette-pumpkin-spice-hsl) / 0.45);
 }
 
 .window-controls:hover .window-control--zoom,
 .window-controls:hover .window-control--zoom-restore {
   background-color: var(--chrome-control-zoom);
-  border-color: hsl(var(--palette-frosted-blue-hsl) / 0.5);
+  border-color: hsl(var(--palette-platinum-hsl) / 0.65);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -665,12 +649,12 @@ body::before {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    hsl(var(--palette-cerulean-hsl) / 0.35) 22%,
-    hsl(var(--palette-frosted-blue-hsl) / 0.45) 50%,
-    hsl(var(--palette-cerulean-hsl) / 0.35) 78%,
+    hsl(var(--palette-pumpkin-spice-hsl) / 0.4) 22%,
+    hsl(var(--palette-pumpkin-spice-hsl) / 0.55) 50%,
+    hsl(var(--palette-pumpkin-spice-hsl) / 0.4) 78%,
     transparent 100%
   );
-  box-shadow: 0 1px 12px hsl(var(--palette-frosted-blue-hsl) / 0.12);
+  box-shadow: 0 1px 12px hsl(var(--palette-pumpkin-spice-hsl) / 0.14);
 }
 
 @utility brand-mark {
@@ -721,7 +705,7 @@ body::after {
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background-color: hsl(var(--palette-cerulean-hsl) / 0.45);
+  background-color: hsl(var(--palette-pumpkin-spice-hsl) / 0.45);
 }
 
 /* ==========================================================================
