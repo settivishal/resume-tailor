@@ -15,7 +15,7 @@ import { getErrorMessage, parseApiError } from "@/lib/errors";
 import { applyPatch, toTextPatch } from "@/lib/patches";
 import { toast } from "@/lib/toast";
 import { useDebounce } from "@/lib/use-debounce";
-import { cn, color, focusRing, glassChrome, glassModule, layer, radius, typography } from "@/lib/ui";
+import { cn, button, color, focusRing, glassChrome, glassModule, layer, radius, typography } from "@/lib/ui";
 import type { AnalyzeResponse, Patch } from "@/lib/types";
 
 type ModuleKey = "job" | "latex" | "suggestions" | "diff" | "preview";
@@ -448,9 +448,9 @@ export default function ResumeTailor() {
           onClick={handleGenerate}
           disabled={!canGenerate}
           className={cn(
-            "flex items-center gap-2 px-3.5 py-1.5 text-sm font-medium transition-[background-color,opacity,transform] duration-200 ease-out hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-35",
+            "flex items-center gap-2 px-3.5 py-1.5 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-35",
             radius.lg,
-            color.primary,
+            button.primary,
             focusRing,
           )}
         >

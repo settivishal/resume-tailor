@@ -21,9 +21,9 @@
   --surface-header: rgb(255 255 255 / 0.32);
 
   /* Borders — icy-aqua at low opacity */
-  --line: rgb(var(--palette-icy-aqua-rgb) / 0.44);
-  --line-strong: rgb(var(--palette-icy-aqua-rgb) / 0.58);
-  --card-highlight: rgb(var(--palette-icy-aqua-rgb) / 0.62);
+  --line: var(--border-subtle);
+  --line-strong: var(--border-strong);
+  --card-highlight: rgb(var(--palette-icy-aqua-rgb) / 0.55);
   --dot: rgb(var(--palette-yale-blue-rgb) / 0.05);
 
   /* Ambient depth — full palette wash (rosewood whisper + cool tones) */
@@ -42,6 +42,10 @@
   /* Actions & accents */
   --primary: var(--accent-primary);
   --primary-foreground: var(--text-on-accent);
+  --secondary: var(--accent-secondary);
+  --secondary-foreground: var(--text-on-accent);
+  --destructive: var(--accent-destructive);
+  --destructive-foreground: var(--text-on-accent);
   --accent: var(--accent-primary);
   --accent-foreground: var(--text-on-accent);
   --accent-subtle: var(--accent-subtle);
@@ -60,21 +64,21 @@
      ---------------------------------------------------------------------- */
   --glass-bg-subtle: color-mix(
     in srgb,
-    rgb(255 255 255 / 0.48) 62%,
-    var(--palette-frosted-blue) 38%
+    color-mix(in srgb, var(--surface-module) 34%, rgb(255 255 255 / 0.48) 66%) 100%,
+    transparent 0%
   );
   --glass-bg: color-mix(
     in srgb,
-    rgb(255 255 255 / 0.58) 58%,
-    var(--palette-frosted-blue) 42%
+    color-mix(in srgb, var(--surface-module) 40%, rgb(255 255 255 / 0.54) 60%) 100%,
+    transparent 0%
   );
   --glass-bg-strong: color-mix(
     in srgb,
-    rgb(255 255 255 / 0.68) 55%,
-    var(--palette-icy-aqua) 45%
+    color-mix(in srgb, var(--surface-module) 48%, rgb(255 255 255 / 0.62) 52%) 100%,
+    transparent 0%
   );
-  --glass-border: rgb(var(--palette-frosted-blue-rgb) / 0.32);
-  --glass-border-strong: rgb(var(--palette-frosted-blue-rgb) / 0.48);
+  --glass-border: var(--border-subtle);
+  --glass-border-strong: var(--border-strong);
   --glass-highlight: rgb(255 255 255 / 0.72);
   --glass-bg-hover: color-mix(
     in srgb,
@@ -123,8 +127,8 @@
     --surface-subtle: rgb(255 255 255 / 0.03);
     --surface-header: rgb(255 255 255 / 0.07);
 
-    --line: rgb(var(--palette-cerulean-rgb) / 0.22);
-    --line-strong: rgb(var(--palette-cerulean-rgb) / 0.34);
+    --line: var(--border-subtle);
+    --line-strong: var(--border-strong);
     --card-highlight: rgb(var(--palette-frosted-blue-rgb) / 0.1);
     --dot: rgb(var(--palette-frosted-blue-rgb) / 0.04);
 
@@ -141,6 +145,10 @@
 
     --primary: var(--accent-primary);
     --primary-foreground: var(--text-on-accent);
+    --secondary: var(--accent-secondary);
+    --secondary-foreground: var(--text-on-accent);
+    --destructive: var(--accent-destructive);
+    --destructive-foreground: var(--text-on-accent);
     --accent: var(--accent-primary);
     --accent-foreground: var(--text-on-accent);
     --accent-subtle: var(--accent-subtle);
@@ -156,8 +164,8 @@
     --glass-bg-subtle: rgb(255 255 255 / 0.05);
     --glass-bg: rgb(255 255 255 / 0.07);
     --glass-bg-strong: rgb(255 255 255 / 0.1);
-    --glass-border: rgb(var(--palette-cerulean-rgb) / 0.16);
-    --glass-border-strong: rgb(var(--palette-frosted-blue-rgb) / 0.14);
+    --glass-border: var(--border-subtle);
+    --glass-border-strong: var(--border-strong);
     --glass-highlight: rgb(255 255 255 / 0.1);
     --glass-bg-hover: rgb(255 255 255 / 0.09);
     --glass-highlight-strong: rgb(255 255 255 / 0.14);
@@ -185,8 +193,8 @@
   --surface: rgb(255 255 255 / 0.05);
   --surface-subtle: rgb(255 255 255 / 0.03);
   --surface-header: rgb(255 255 255 / 0.07);
-  --line: rgb(var(--palette-cerulean-rgb) / 0.22);
-  --line-strong: rgb(var(--palette-cerulean-rgb) / 0.34);
+  --line: var(--border-subtle);
+  --line-strong: var(--border-strong);
   --card-highlight: rgb(var(--palette-frosted-blue-rgb) / 0.1);
   --dot: rgb(var(--palette-frosted-blue-rgb) / 0.04);
   --ambient-1: rgb(var(--palette-rosewood-rgb) / 0.08);
@@ -200,6 +208,10 @@
   --ink-faint: var(--text-faint);
   --primary: var(--accent-primary);
   --primary-foreground: var(--text-on-accent);
+  --secondary: var(--accent-secondary);
+  --secondary-foreground: var(--text-on-accent);
+  --destructive: var(--accent-destructive);
+  --destructive-foreground: var(--text-on-accent);
   --accent: var(--accent-primary);
   --accent-foreground: var(--text-on-accent);
   --accent-subtle: var(--accent-subtle);
@@ -207,8 +219,8 @@
   --glass-bg-subtle: rgb(255 255 255 / 0.05);
   --glass-bg: rgb(255 255 255 / 0.07);
   --glass-bg-strong: rgb(255 255 255 / 0.1);
-  --glass-border: rgb(var(--palette-cerulean-rgb) / 0.16);
-  --glass-border-strong: rgb(var(--palette-frosted-blue-rgb) / 0.14);
+  --glass-border: var(--border-subtle);
+  --glass-border-strong: var(--border-strong);
   --glass-highlight: rgb(255 255 255 / 0.1);
   --glass-bg-hover: rgb(255 255 255 / 0.09);
   --glass-highlight-strong: rgb(255 255 255 / 0.14);
@@ -239,11 +251,30 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
 
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-subtle: var(--destructive-subtle);
+
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent-subtle: var(--accent-subtle);
+  --color-status-accent-subtle: var(--status-accent-subtle);
+
+  --color-impact-high: var(--impact-high-fg);
+  --color-impact-high-subtle: var(--impact-high-bg);
+  --color-impact-medium: var(--impact-medium-fg);
+  --color-impact-medium-subtle: var(--impact-medium-bg);
+
+  --color-diff-remove: var(--diff-remove-fg);
+  --color-diff-remove-subtle: var(--diff-remove-bg);
+  --color-diff-add: var(--diff-add-fg);
+  --color-diff-add-subtle: var(--diff-add-bg);
 
   --color-focus: var(--focus);
+  --shadow-focus-glow: var(--focus-glow);
 
   --shadow-card: var(--elevation-card);
   --shadow-pop: var(--elevation-pop);

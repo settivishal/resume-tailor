@@ -79,11 +79,48 @@ export const color = {
   inkSoft: "text-ink-soft",
   inkMuted: "text-ink-muted",
   inkFaint: "text-ink-faint",
-  // Primary action
+  // Semantic actions
   primary: "bg-primary text-primary-foreground",
+  secondary: "bg-secondary text-secondary-foreground",
+  destructive: "bg-destructive text-destructive-foreground",
+  destructiveText: "text-destructive",
   // Accent (selection / highlight)
   accent: "text-accent",
   accentSubtle: "bg-accent-subtle",
+} as const;
+
+/** Button treatments — primary (cerulean), secondary (yale-blue), destructive (rosewood). */
+export const button = {
+  primary:
+    "bg-primary text-primary-foreground transition-[background-color,opacity,transform] duration-200 ease-out hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100",
+  secondary:
+    "bg-secondary text-secondary-foreground transition-[background-color,opacity,transform] duration-200 ease-out hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100",
+  destructive:
+    "bg-destructive text-destructive-foreground transition-[background-color,opacity,transform] duration-200 ease-out hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100",
+  secondaryOutline:
+    "border border-secondary/35 bg-transparent text-secondary transition-colors duration-200 ease-out hover:bg-secondary/8 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100",
+} as const;
+
+/** Status / feedback surfaces derived from the palette. */
+export const status = {
+  destructiveBanner: "border border-destructive/25 bg-destructive-subtle text-destructive",
+  destructiveLink: "font-medium text-destructive underline hover:no-underline",
+  accentBadge: "bg-status-accent-subtle text-accent",
+} as const;
+
+/** Diff highlighting — rosewood (removed) / cerulean (added). */
+export const diff = {
+  removeMark: "rounded-sm bg-diff-remove-subtle text-diff-remove",
+  addMark: "rounded-sm bg-diff-add-subtle text-diff-add",
+  removeDot: "bg-destructive/70",
+  addDot: "bg-primary/75",
+} as const;
+
+/** Suggestion impact pills. */
+export const impact = {
+  high: "bg-impact-high-subtle text-impact-high",
+  medium: "bg-impact-medium-subtle text-impact-medium",
+  low: "bg-surface-subtle text-ink-soft",
 } as const;
 
 /** Corner radius scale. */
@@ -172,6 +209,6 @@ export const layer = {
 /** Original frosted-glass treatment for app chrome (header / floating bars). */
 export const glassChrome = "glass";
 
-/** Standard focus ring for interactive elements (opt-in per component). */
+/** Standard focus ring — cerulean glow for accessible highlights. */
 export const focusRing =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-canvas";
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-canvas focus-visible:shadow-focus-glow";

@@ -1,4 +1,4 @@
-import { cn, radius, typography } from "@/lib/ui";
+import { cn, color, radius, status, typography } from "@/lib/ui";
 
 interface ErrorBannerProps {
   message: string;
@@ -12,26 +12,12 @@ export default function ErrorBanner({
   onRetry,
 }: ErrorBannerProps) {
   return (
-    <div
-      className={cn(
-        "border border-red-200 bg-red-50 px-3 py-2 dark:border-red-900 dark:bg-red-950/30",
-        radius.md,
-      )}
-    >
-      <p className={cn(typography.caption, "text-red-700 dark:text-red-300")}>
-        {message}
-      </p>
+    <div className={cn("px-3 py-2", radius.md, status.destructiveBanner)}>
+      <p className={cn(typography.caption, color.destructiveText)}>{message}</p>
       {(onDismiss || onRetry) && (
         <div className="mt-2 flex gap-2">
           {onRetry && (
-            <button
-              type="button"
-              onClick={onRetry}
-              className={cn(
-                typography.caption,
-                "font-medium text-red-800 underline hover:no-underline dark:text-red-200",
-              )}
-            >
+            <button type="button" onClick={onRetry} className={cn(typography.caption, status.destructiveLink)}>
               Try again
             </button>
           )}
@@ -39,10 +25,7 @@ export default function ErrorBanner({
             <button
               type="button"
               onClick={onDismiss}
-              className={cn(
-                typography.caption,
-                "text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-200",
-              )}
+              className={cn(typography.caption, color.destructiveText, "hover:opacity-80")}
             >
               Dismiss
             </button>

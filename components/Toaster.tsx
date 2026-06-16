@@ -11,7 +11,7 @@ import { cn, color, glass, layer, radius, typography } from "@/lib/ui";
 
 const toneDot: Record<ToastItem["tone"], string> = {
   default: "bg-ink-faint",
-  success: "bg-emerald-500",
+  success: "bg-primary",
   info: "bg-accent",
 };
 

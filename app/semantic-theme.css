@@ -25,17 +25,17 @@
   --surface-glass-subtle: color-mix(in srgb, rgb(255 255 255 / 0.42) 72%, var(--palette-icy-aqua) 28%);
   --surface-glass-highlight: rgb(255 255 255 / 0.82);
 
-  /* Typography */
+  /* Typography — yale-blue primary; muted icy-aqua/cerulean secondary */
   --text-primary: var(--palette-yale-blue);
-  --text-secondary: var(--palette-cerulean);
-  --text-muted: hsl(var(--palette-cerulean-hsl) / 0.72);
-  --text-faint: hsl(var(--palette-yale-blue-hsl) / 0.55);
+  --text-secondary: color-mix(in srgb, var(--palette-cerulean) 72%, var(--palette-icy-aqua) 28%);
+  --text-muted: hsl(var(--palette-cerulean-hsl) / 0.68);
+  --text-faint: hsl(var(--palette-yale-blue-hsl) / 0.52);
   --text-on-accent: #ffffff;
   --text-destructive: var(--palette-rosewood);
 
-  /* Borders */
-  --border-subtle: hsl(var(--palette-frosted-blue-hsl) / 0.38);
-  --border-strong: hsl(var(--palette-frosted-blue-hsl) / 0.58);
+  /* Borders — icy-aqua at low opacity */
+  --border-subtle: hsl(var(--palette-icy-aqua-hsl) / 0.42);
+  --border-strong: hsl(var(--palette-icy-aqua-hsl) / 0.58);
   --border-focus: var(--palette-cerulean);
 
   /* Accents & actions */
@@ -45,6 +45,25 @@
   --accent-destructive: var(--palette-rosewood);
   --accent-subtle: hsl(var(--palette-cerulean-hsl) / 0.14);
   --accent-subtle-strong: hsl(var(--palette-cerulean-hsl) / 0.22);
+
+  /* Component semantics (STEP 5) */
+  --surface-module: color-mix(
+    in srgb,
+    var(--palette-frosted-blue) 46%,
+    var(--palette-icy-aqua) 54%
+  );
+  --destructive-subtle: hsl(var(--palette-rosewood-hsl) / 0.12);
+  --status-accent-subtle: hsl(var(--palette-cerulean-hsl) / 0.13);
+  --impact-high-bg: hsl(var(--palette-rosewood-hsl) / 0.14);
+  --impact-high-fg: var(--palette-rosewood);
+  --impact-medium-bg: hsl(var(--palette-cerulean-hsl) / 0.14);
+  --impact-medium-fg: var(--palette-cerulean);
+  --diff-remove-bg: hsl(var(--palette-rosewood-hsl) / 0.16);
+  --diff-remove-fg: color-mix(in srgb, var(--palette-rosewood) 88%, var(--palette-yale-blue) 12%);
+  --diff-add-bg: hsl(var(--palette-cerulean-hsl) / 0.16);
+  --diff-add-fg: var(--palette-cerulean);
+  --focus-glow: 0 0 0 2px hsl(var(--palette-cerulean-hsl) / 0.32),
+    0 0 12px hsl(var(--palette-cerulean-hsl) / 0.18);
 
   /* Interactive states (derived, no new palette colors) */
   --accent-primary-hover: color-mix(in srgb, var(--palette-cerulean) 88%, var(--palette-yale-blue) 12%);
@@ -76,24 +95,42 @@
     --surface-glass-subtle: rgb(255 255 255 / 0.04);
     --surface-glass-highlight: rgb(255 255 255 / 0.14);
 
-    /* Neutral text — cerulean/frosted-blue for secondary only */
-    --text-primary: hsl(210 18% 94%);
-    --text-secondary: hsl(var(--palette-frosted-blue-hsl) / 0.78);
-    --text-muted: hsl(var(--palette-cerulean-hsl) / 0.62);
-    --text-faint: hsl(var(--palette-cerulean-hsl) / 0.45);
+    /* Near-white primary; muted icy-aqua secondary */
+    --text-primary: hsl(210 20% 96%);
+    --text-secondary: hsl(var(--palette-icy-aqua-hsl) / 0.68);
+    --text-muted: hsl(var(--palette-frosted-blue-hsl) / 0.58);
+    --text-faint: hsl(var(--palette-cerulean-hsl) / 0.42);
     --text-on-accent: #ffffff;
     --text-destructive: hsl(var(--palette-rosewood-hsl) / 0.92);
 
-    --border-subtle: hsl(var(--palette-cerulean-hsl) / 0.28);
-    --border-strong: hsl(var(--palette-cerulean-hsl) / 0.42);
-    --border-focus: var(--palette-frosted-blue);
+    --border-subtle: hsl(var(--palette-icy-aqua-hsl) / 0.16);
+    --border-strong: hsl(var(--palette-icy-aqua-hsl) / 0.24);
+    --border-focus: var(--palette-cerulean);
 
     --accent-primary: var(--palette-cerulean);
-    --accent-secondary: var(--palette-frosted-blue);
+    --accent-secondary: var(--palette-yale-blue);
     --accent-highlight: var(--palette-rosewood);
     --accent-destructive: var(--palette-rosewood);
     --accent-subtle: hsl(var(--palette-cerulean-hsl) / 0.2);
     --accent-subtle-strong: hsl(var(--palette-cerulean-hsl) / 0.3);
+
+    --surface-module: color-mix(
+      in srgb,
+      var(--palette-frosted-blue) 38%,
+      var(--palette-icy-aqua) 62%
+    );
+    --destructive-subtle: hsl(var(--palette-rosewood-hsl) / 0.16);
+    --status-accent-subtle: hsl(var(--palette-cerulean-hsl) / 0.18);
+    --impact-high-bg: hsl(var(--palette-rosewood-hsl) / 0.18);
+    --impact-high-fg: hsl(var(--palette-rosewood-hsl) / 0.92);
+    --impact-medium-bg: hsl(var(--palette-cerulean-hsl) / 0.18);
+    --impact-medium-fg: hsl(var(--palette-frosted-blue-hsl) / 0.92);
+    --diff-remove-bg: hsl(var(--palette-rosewood-hsl) / 0.2);
+    --diff-remove-fg: hsl(var(--palette-rosewood-hsl) / 0.95);
+    --diff-add-bg: hsl(var(--palette-cerulean-hsl) / 0.2);
+    --diff-add-fg: hsl(var(--palette-frosted-blue-hsl) / 0.95);
+    --focus-glow: 0 0 0 2px hsl(var(--palette-cerulean-hsl) / 0.38),
+      0 0 14px hsl(var(--palette-cerulean-hsl) / 0.22);
 
     --accent-primary-hover: color-mix(in srgb, var(--palette-frosted-blue) 92%, white 8%);
     --accent-primary-active: var(--palette-icy-aqua);
@@ -123,23 +160,41 @@
   --surface-glass-subtle: rgb(255 255 255 / 0.04);
   --surface-glass-highlight: rgb(255 255 255 / 0.14);
 
-  --text-primary: hsl(210 18% 94%);
-  --text-secondary: hsl(var(--palette-frosted-blue-hsl) / 0.78);
-  --text-muted: hsl(var(--palette-cerulean-hsl) / 0.62);
-  --text-faint: hsl(var(--palette-cerulean-hsl) / 0.45);
+  --text-primary: hsl(210 20% 96%);
+  --text-secondary: hsl(var(--palette-icy-aqua-hsl) / 0.68);
+  --text-muted: hsl(var(--palette-frosted-blue-hsl) / 0.58);
+  --text-faint: hsl(var(--palette-cerulean-hsl) / 0.42);
   --text-on-accent: #ffffff;
   --text-destructive: hsl(var(--palette-rosewood-hsl) / 0.92);
 
-  --border-subtle: hsl(var(--palette-cerulean-hsl) / 0.28);
-  --border-strong: hsl(var(--palette-cerulean-hsl) / 0.42);
-  --border-focus: var(--palette-frosted-blue);
+  --border-subtle: hsl(var(--palette-icy-aqua-hsl) / 0.16);
+  --border-strong: hsl(var(--palette-icy-aqua-hsl) / 0.24);
+  --border-focus: var(--palette-cerulean);
 
   --accent-primary: var(--palette-cerulean);
-  --accent-secondary: var(--palette-frosted-blue);
+  --accent-secondary: var(--palette-yale-blue);
   --accent-highlight: var(--palette-rosewood);
   --accent-destructive: var(--palette-rosewood);
   --accent-subtle: hsl(var(--palette-cerulean-hsl) / 0.2);
   --accent-subtle-strong: hsl(var(--palette-cerulean-hsl) / 0.3);
+
+  --surface-module: color-mix(
+    in srgb,
+    var(--palette-frosted-blue) 38%,
+    var(--palette-icy-aqua) 62%
+  );
+  --destructive-subtle: hsl(var(--palette-rosewood-hsl) / 0.16);
+  --status-accent-subtle: hsl(var(--palette-cerulean-hsl) / 0.18);
+  --impact-high-bg: hsl(var(--palette-rosewood-hsl) / 0.18);
+  --impact-high-fg: hsl(var(--palette-rosewood-hsl) / 0.92);
+  --impact-medium-bg: hsl(var(--palette-cerulean-hsl) / 0.18);
+  --impact-medium-fg: hsl(var(--palette-frosted-blue-hsl) / 0.92);
+  --diff-remove-bg: hsl(var(--palette-rosewood-hsl) / 0.2);
+  --diff-remove-fg: hsl(var(--palette-rosewood-hsl) / 0.95);
+  --diff-add-bg: hsl(var(--palette-cerulean-hsl) / 0.2);
+  --diff-add-fg: hsl(var(--palette-frosted-blue-hsl) / 0.95);
+  --focus-glow: 0 0 0 2px hsl(var(--palette-cerulean-hsl) / 0.38),
+    0 0 14px hsl(var(--palette-cerulean-hsl) / 0.22);
 
   --accent-primary-hover: color-mix(in srgb, var(--palette-frosted-blue) 92%, white 8%);
   --accent-primary-active: var(--palette-icy-aqua);
