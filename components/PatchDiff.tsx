@@ -1,5 +1,6 @@
 "use client";
 
+import { cn, button, color, diff, focusRing, glassInset, radius, typography } from "@/lib/ui";
 import type { Patch, PatchStatus } from "@/lib/types";
 
 interface PatchDiffProps {
@@ -16,57 +17,57 @@ export default function PatchDiff({
   onReject,
 }: PatchDiffProps) {
   const statusStyles: Record<PatchStatus, string> = {
-    pending: "border-zinc-200 dark:border-zinc-700",
-    accepted: "border-green-300 bg-green-50 dark:border-green-800 dark:bg-green-950/30",
-    rejected: "border-red-300 bg-red-50 opacity-60 dark:border-red-800 dark:bg-red-950/30",
+    pending: cn(glassInset, color.glassBorder, "border"),
+    accepted: cn("border border-primary/35 bg-accent-subtle/50"),
+    rejected: cn("border border-destructive/30 bg-destructive-subtle opacity-70"),
   };
 
   return (
-    <div className={`rounded-lg border p-4 ${statusStyles[status]}`}>
+    <div className={cn("p-4", radius.lg, statusStyles[status])}>
       <div className="mb-3 flex items-start justify-between gap-3">
         <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+          <p className={cn(typography.micro, "font-medium uppercase tracking-wide", color.inkMuted)}>
             Patch {patch.id}
           </p>
-          <p className="mt-1 text-sm font-medium">{patch.reason}</p>
+          <p className={cn("mt-1", typography.body, "font-medium", color.inkBody)}>
+            {patch.reason}
+          </p>
         </div>
         {status === "pending" && (
           <div className="flex shrink-0 gap-2">
             <button
               type="button"
               onClick={onAccept}
-              className="rounded-md bg-green-600 px-3 py-1 text-xs font-medium text-white hover:bg-green-700"
+              className={cn("px-3 py-1 text-xs font-medium", radius.md, focusRing, button.primary)}
             >
               Accept
             </button>
             <button
               type="button"
               onClick={onReject}
-              className="rounded-md bg-zinc-200 px-3 py-1 text-xs font-medium text-zinc-800 hover:bg-zinc-300 dark:bg-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-600"
+              className={cn("px-3 py-1 text-xs font-medium", radius.md, focusRing, button.secondaryOutline)}
             >
               Reject
             </button>
           </div>
         )}
         {status === "accepted" && (
-          <span className="text-xs font-medium text-green-700 dark:text-green-400">
-            Accepted
-          </span>
+          <span className={cn(typography.caption, "font-medium text-primary")}>Accepted</span>
         )}
         {status === "rejected" && (
-          <span className="text-xs font-medium text-red-700 dark:text-red-400">
+          <span className={cn(typography.caption, "font-medium", color.destructiveText)}>
             Rejected
           </span>
         )}
       </div>
 
-      <div className="space-y-2 font-mono text-xs">
-        <div className="rounded bg-red-100 p-2 text-red-900 dark:bg-red-950/50 dark:text-red-200">
-          <span className="select-none text-red-500">− </span>
+      <div className={cn("space-y-2", typography.mono)}>
+        <div className={cn("rounded p-2", diff.removeMark)}>
+          <span className={cn("select-none", color.destructiveText)}>− </span>
           {patch.search}
         </div>
-        <div className="rounded bg-green-100 p-2 text-green-900 dark:bg-green-950/50 dark:text-green-200">
-          <span className="select-none text-green-500">+ </span>
+        <div className={cn("rounded p-2", diff.addMark)}>
+          <span className="select-none text-primary">+ </span>
           {patch.replace}
         </div>
       </div>

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { cn, color, radius, typography } from "@/lib/ui";
+import { cn, color, radius, status, transitionPolish, typography } from "@/lib/ui";
 
 interface EmptyStateProps {
   title: string;
@@ -29,7 +29,8 @@ export default function EmptyState({
         className={cn(
           "flex h-10 w-10 items-center justify-center",
           radius.xl,
-          "bg-accent-subtle/50 text-accent/80",
+          status.accentBadge,
+          transitionPolish,
         )}
         aria-hidden
       >

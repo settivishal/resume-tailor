@@ -1,0 +1,73 @@
+/**
+ * Signature UI identity layer.
+ *
+ * Brand face: pumpkin-spice accent on platinum + silver neutrals.
+ * Consumed via semantic aliases in globals.css and lib/ui exports.
+ */
+
+:root,
+[data-theme="light"] {
+  /* Brand core */
+  --brand-primary: var(--palette-pumpkin-spice);
+  --brand-secondary: color-mix(in srgb, var(--palette-pumpkin-spice) 68%, var(--palette-platinum) 32%);
+  --brand-gradient: linear-gradient(
+    135deg,
+    var(--palette-pumpkin-spice) 0%,
+    color-mix(in srgb, var(--palette-pumpkin-spice) 72%, var(--palette-platinum) 28%) 52%,
+    color-mix(in srgb, var(--palette-pumpkin-spice) 55%, var(--palette-silver) 45%) 100%
+  );
+  --brand-gradient-soft: linear-gradient(
+    135deg,
+    hsl(var(--palette-pumpkin-spice-hsl) / 0.14) 0%,
+    hsl(var(--palette-platinum-hsl) / 0.35) 100%
+  );
+
+  /* Unified interactive glow */
+  --brand-glow: 0 8px 28px -10px hsl(var(--palette-pumpkin-spice-hsl) / 0.28),
+    0 4px 16px -8px hsl(var(--palette-pumpkin-spice-hsl) / 0.14);
+  --brand-glow-focus: 0 0 0 2px hsl(var(--palette-pumpkin-spice-hsl) / 0.42),
+    0 0 14px hsl(var(--palette-pumpkin-spice-hsl) / 0.22),
+    0 0 28px -6px hsl(var(--palette-pumpkin-spice-hsl) / 0.12);
+  --brand-glow-active: 0 0 52px -8px hsl(var(--palette-pumpkin-spice-hsl) / 0.32),
+    0 18px 44px -16px hsl(var(--palette-pumpkin-spice-hsl) / 0.16);
+
+  --hover-glow: var(--brand-glow);
+  --focus-glow: var(--brand-glow-focus);
+
+  /* Ambient canvas — whisper pumpkin on neutral base */
+  --ambient-brand-1: rgb(var(--palette-pumpkin-spice-rgb) / 0.05);
+  --ambient-brand-2: rgb(var(--palette-platinum-rgb) / 0.35);
+  --ambient-brand-3: rgb(var(--palette-silver-rgb) / 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --brand-glow: 0 8px 28px -10px hsl(var(--palette-pumpkin-spice-hsl) / 0.32),
+      0 4px 16px -8px hsl(var(--palette-pumpkin-spice-hsl) / 0.18);
+    --brand-glow-focus: 0 0 0 2px hsl(var(--palette-pumpkin-spice-hsl) / 0.48),
+      0 0 16px hsl(var(--palette-pumpkin-spice-hsl) / 0.26),
+      0 0 32px -6px hsl(var(--palette-pumpkin-spice-hsl) / 0.14);
+    --brand-glow-active: 0 0 56px -8px hsl(var(--palette-pumpkin-spice-hsl) / 0.36),
+      0 20px 48px -16px hsl(var(--palette-pumpkin-spice-hsl) / 0.2);
+    --hover-glow: var(--brand-glow);
+    --focus-glow: var(--brand-glow-focus);
+    --ambient-brand-1: rgb(var(--palette-pumpkin-spice-rgb) / 0.1);
+    --ambient-brand-2: rgb(var(--palette-silver-rgb) / 0.08);
+    --ambient-brand-3: rgb(var(--palette-platinum-rgb) / 0.04);
+  }
+}
+
+[data-theme="dark"] {
+  --brand-glow: 0 8px 28px -10px hsl(var(--palette-pumpkin-spice-hsl) / 0.32),
+    0 4px 16px -8px hsl(var(--palette-pumpkin-spice-hsl) / 0.18);
+  --brand-glow-focus: 0 0 0 2px hsl(var(--palette-pumpkin-spice-hsl) / 0.48),
+    0 0 16px hsl(var(--palette-pumpkin-spice-hsl) / 0.26),
+    0 0 32px -6px hsl(var(--palette-pumpkin-spice-hsl) / 0.14);
+  --brand-glow-active: 0 0 56px -8px hsl(var(--palette-pumpkin-spice-hsl) / 0.36),
+    0 20px 48px -16px hsl(var(--palette-pumpkin-spice-hsl) / 0.2);
+  --hover-glow: var(--brand-glow);
+  --focus-glow: var(--brand-glow-focus);
+  --ambient-brand-1: rgb(var(--palette-pumpkin-spice-rgb) / 0.1);
+  --ambient-brand-2: rgb(var(--palette-silver-rgb) / 0.08);
+  --ambient-brand-3: rgb(var(--palette-platinum-rgb) / 0.04);
+}

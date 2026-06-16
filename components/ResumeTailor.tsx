@@ -15,7 +15,7 @@ import { getErrorMessage, parseApiError } from "@/lib/errors";
 import { applyPatch, toTextPatch } from "@/lib/patches";
 import { toast } from "@/lib/toast";
 import { useDebounce } from "@/lib/use-debounce";
-import { cn, color, focusRing, glassChrome, glassModule, layer, radius, typography } from "@/lib/ui";
+import { cn, brand, button, color, focusRing, glassChrome, glassModule, layer, radius, transitionPolish, typography } from "@/lib/ui";
 import type { AnalyzeResponse, Patch } from "@/lib/types";
 
 type ModuleKey = "job" | "latex" | "suggestions" | "diff" | "preview";
@@ -425,7 +425,7 @@ export default function ResumeTailor() {
     <div className="relative flex h-screen flex-col">
       <header
         className={cn(
-          "sticky top-0 flex shrink-0 items-center justify-between gap-4 px-5 py-2",
+          "app-chrome sticky top-0 flex shrink-0 items-center justify-between gap-4 px-5 py-2",
           layer.fg,
           glassChrome,
         )}
@@ -434,23 +434,24 @@ export default function ResumeTailor() {
           <div
             className={cn(
               "flex h-7 w-7 items-center justify-center text-[11px] font-semibold text-white/95",
-              "bg-linear-to-br from-indigo-500/85 to-violet-600/85",
+              brand.mark,
+              brand.glowHover,
               radius.md,
             )}
             aria-hidden
           >
             RT
           </div>
-          <h1 className={cn(typography.h1, color.inkStrong)}>Resume Tailor AI</h1>
+          <h1 className={cn(typography.h1, brand.titleAccent)}>Resume Tailor AI</h1>
         </div>
         <button
           type="button"
           onClick={handleGenerate}
           disabled={!canGenerate}
           className={cn(
-            "flex items-center gap-2 px-3.5 py-1.5 text-sm font-medium transition-[background-color,opacity,transform] duration-200 ease-out hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-35",
+            "flex items-center gap-2 px-3.5 py-1.5 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-35",
             radius.lg,
-            color.primary,
+            button.primary,
             focusRing,
           )}
         >
@@ -629,10 +630,11 @@ function ModuleContainer({
           title={`Drag to move ${label}`}
           aria-label={`Drag to move ${label}`}
           className={cn(
-            "flex cursor-grab items-center justify-center p-1.5 transition-colors active:cursor-grabbing",
+            "flex cursor-grab items-center justify-center p-1.5 active:cursor-grabbing",
             radius.md,
-            color.inkFaint,
-            "hover:text-ink-soft",
+            color.inkMuted,
+            transitionPolish,
+            "hover:text-accent",
             focusRing,
           )}
         >
@@ -746,7 +748,7 @@ function VerticalResizer({
     >
       {/* Invisible until hovered — the card edges already separate modules, so
           the resize affordance only appears when you reach for it. */}
-      <div className="h-full w-1 rounded-full bg-transparent transition-colors duration-200 ease-out group-hover/resizer:bg-ink-faint/40 group-active/resizer:bg-ink-soft/60" />
+      <div className="h-full w-1 rounded-full bg-transparent transition-colors duration-200 ease-out group-hover/resizer:bg-[hsl(var(--palette-pumpkin-spice-hsl)/0.45)] group-active/resizer:bg-[hsl(var(--palette-pumpkin-spice-hsl)/0.65)]" />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { diffWords } from "diff";
 import EmptyState from "./EmptyState";
 import Panel from "./Panel";
-import { cn, color, typography } from "@/lib/ui";
+import { cn, color, diff, typography } from "@/lib/ui";
 import type { Patch } from "@/lib/types";
 
 interface DiffViewerProps {
@@ -36,7 +36,7 @@ function DiffSide({
         <span
           className={cn(
             "h-1 w-1 rounded-full opacity-70",
-            tone === "before" ? "bg-red-400/80" : "bg-emerald-400/80",
+            tone === "before" ? diff.removeDot : diff.addDot,
           )}
           aria-hidden
         />
@@ -65,11 +65,7 @@ function PatchDiffContent({ patch }: { patch: Patch }) {
     if (part.added) return null;
     if (part.removed) {
       return (
-        <mark
-          key={i}
-          data-diff-change=""
-          className="rounded-sm bg-red-200 text-red-950 dark:bg-red-900/60 dark:text-red-100"
-        >
+        <mark key={i} data-diff-change="" className={diff.removeMark}>
           {part.value}
         </mark>
       );
@@ -81,11 +77,7 @@ function PatchDiffContent({ patch }: { patch: Patch }) {
     if (part.removed) return null;
     if (part.added) {
       return (
-        <mark
-          key={i}
-          data-diff-change=""
-          className="rounded-sm bg-green-200 text-green-950 dark:bg-green-900/60 dark:text-green-100"
-        >
+        <mark key={i} data-diff-change="" className={diff.addMark}>
           {part.value}
         </mark>
       );

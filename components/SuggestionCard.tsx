@@ -1,12 +1,12 @@
 "use client";
 
-import { cn, color, focusRing, glassInset, radius, typography } from "@/lib/ui";
+import { cn, button, color, focusRing, glassInset, impact, radius, transitionPolish, typography } from "@/lib/ui";
 import type { Impact, Patch } from "@/lib/types";
 
 const impactStyles: Record<Impact, string> = {
-  high: "bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-300",
-  medium: "bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300",
-  low: "bg-surface-subtle text-ink-soft",
+  high: impact.high,
+  medium: impact.medium,
+  low: impact.low,
 };
 
 interface SuggestionCardProps {
@@ -39,14 +39,15 @@ export default function SuggestionCard({
         }
       }}
       className={cn(
-        "p-3.5 transition-[background-color,border-color] duration-200 ease-out",
+        "p-3.5",
+        transitionPolish,
         radius.lg,
         focusRing,
         disabled
           ? "cursor-not-allowed opacity-50"
           : "cursor-pointer",
         selected
-          ? "border border-accent/50 bg-accent-subtle/40"
+          ? "border border-accent/45 bg-accent-subtle/40 shadow-brand-glow"
           : glassInset,
       )}
     >
@@ -73,10 +74,10 @@ export default function SuggestionCard({
             onAccept();
           }}
           className={cn(
-            "px-2.5 py-1 text-xs font-medium text-white transition-[background-color,transform] active:scale-95",
+            "px-2.5 py-1 text-xs font-medium",
             radius.md,
             focusRing,
-            "bg-emerald-600 hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100",
+            button.primary,
           )}
         >
           Accept
@@ -89,12 +90,10 @@ export default function SuggestionCard({
             onReject();
           }}
           className={cn(
-            "border px-2.5 py-1 text-xs font-medium transition-colors duration-200 ease-out active:scale-[0.98]",
+            "px-2.5 py-1 text-xs font-medium",
             radius.md,
             focusRing,
-            glassInset,
-            color.inkSoft,
-            "disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100",
+            button.secondaryOutline,
           )}
         >
           Reject

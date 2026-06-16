@@ -45,8 +45,8 @@ export const typography = {
   h2: "text-base font-semibold tracking-tight",
   /** Small all-caps section label (panel headers, field labels). */
   overline: "text-xs font-semibold uppercase tracking-wide",
-  /** Panel title on frosted glass — macOS-style muted label. */
-  overlineGlass: "text-[11px] font-medium uppercase tracking-[0.06em] text-ink-muted",
+  /** Panel title on frosted glass — black on grey header strip (light theme). */
+  overlineGlass: "text-[11px] font-semibold uppercase tracking-[0.06em] text-panel-header",
   /** Default body copy. */
   body: "text-sm leading-relaxed",
   /** Tighter body copy for dense cards. */
@@ -79,11 +79,59 @@ export const color = {
   inkSoft: "text-ink-soft",
   inkMuted: "text-ink-muted",
   inkFaint: "text-ink-faint",
-  // Primary action
+  // Semantic actions
   primary: "bg-primary text-primary-foreground",
+  secondary: "bg-secondary text-secondary-foreground",
+  destructive: "bg-destructive text-destructive-foreground",
+  destructiveText: "text-destructive",
   // Accent (selection / highlight)
   accent: "text-accent",
   accentSubtle: "bg-accent-subtle",
+} as const;
+
+/** Signature brand identity — pumpkin-spice on platinum + silver. */
+export const brand = {
+  mark: "brand-mark",
+  glowHover: "brand-glow-hover",
+  titleAccent: "bg-linear-to-r from-[color:var(--brand-primary)] to-[color:var(--brand-secondary)] bg-clip-text text-transparent",
+} as const;
+
+/** Shared polish transition for interactive surfaces. */
+export const transitionPolish =
+  "transition-[background-color,border-color,box-shadow,color,opacity,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]";
+
+/** Button treatments — primary (pumpkin-spice), secondary (charcoal), destructive (dark pumpkin). */
+export const button = {
+  primary:
+    "bg-primary text-primary-foreground transition-[background-color,opacity,transform,box-shadow] duration-200 ease-out hover:opacity-90 hover:shadow-brand-glow active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100 disabled:shadow-none",
+  secondary:
+    "bg-secondary text-secondary-foreground transition-[background-color,opacity,transform,box-shadow] duration-200 ease-out hover:opacity-90 hover:shadow-brand-glow active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100 disabled:shadow-none",
+  destructive:
+    "bg-destructive text-destructive-foreground transition-[background-color,opacity,transform,box-shadow] duration-200 ease-out hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100",
+  secondaryOutline:
+    "border border-secondary/35 bg-transparent text-secondary transition-[background-color,border-color,color,box-shadow,transform] duration-200 ease-out hover:border-secondary/50 hover:bg-secondary/8 hover:shadow-brand-glow active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100 disabled:shadow-none",
+} as const;
+
+/** Status / feedback surfaces derived from the palette. */
+export const status = {
+  destructiveBanner: "border border-destructive/25 bg-destructive-subtle text-destructive",
+  destructiveLink: "font-medium text-destructive underline hover:no-underline",
+  accentBadge: "bg-status-accent-subtle text-accent",
+} as const;
+
+/** Diff highlighting — pumpkin-spice (removed / added variants). */
+export const diff = {
+  removeMark: "rounded-sm bg-diff-remove-subtle text-diff-remove",
+  addMark: "rounded-sm bg-diff-add-subtle text-diff-add",
+  removeDot: "bg-destructive/70",
+  addDot: "bg-primary/75",
+} as const;
+
+/** Suggestion impact pills. */
+export const impact = {
+  high: "bg-impact-high-subtle text-impact-high",
+  medium: "bg-impact-medium-subtle text-impact-medium",
+  low: "bg-surface-subtle text-ink-soft",
 } as const;
 
 /** Corner radius scale. */
@@ -172,6 +220,6 @@ export const layer = {
 /** Original frosted-glass treatment for app chrome (header / floating bars). */
 export const glassChrome = "glass";
 
-/** Standard focus ring for interactive elements (opt-in per component). */
+/** Standard focus ring — pumpkin-spice glow for accessible highlights. */
 export const focusRing =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-canvas";
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-canvas focus-visible:shadow-brand-glow-focus";

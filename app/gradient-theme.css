@@ -1,0 +1,134 @@
+/**
+ * STEP 4 — Gradient design system.
+ *
+ * Raw direction gradients live in `theme.css` (`--palette-gradient-*`).
+ * Soft, UI-safe semantic gradients for backgrounds and interactions.
+ */
+
+:root,
+[data-theme="light"] {
+  --gradient-bg-soft: linear-gradient(
+    135deg,
+    hsl(var(--palette-pumpkin-spice-hsl) / 0.04) 0%,
+    hsl(var(--palette-platinum-hsl) / 0.55) 45%,
+    hsl(var(--palette-silver-hsl) / 0.18) 100%
+  );
+
+  --gradient-glass-highlight: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.52) 0%,
+    transparent 100%
+  );
+
+  --gradient-hover-glow: linear-gradient(
+    145deg,
+    hsl(var(--palette-pumpkin-spice-hsl) / 0.08) 0%,
+    hsl(var(--palette-platinum-hsl) / 0.12) 52%,
+    transparent 100%
+  );
+
+  --gradient-active-radial: radial-gradient(
+    ellipse 115% 82% at 50% -6%,
+    hsl(var(--palette-pumpkin-spice-hsl) / 0.1) 0%,
+    hsl(var(--palette-platinum-hsl) / 0.08) 44%,
+    transparent 72%
+  );
+
+  --gradient-chrome-highlight: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.32) 0%,
+    transparent 100%
+  );
+
+  --gradient-action-hover: linear-gradient(
+    135deg,
+    hsl(var(--palette-pumpkin-spice-hsl) / 1) 0%,
+    color-mix(in srgb, var(--palette-pumpkin-spice) 82%, #000 18%) 100%
+  );
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --gradient-bg-soft: linear-gradient(
+      135deg,
+      hsl(var(--palette-pumpkin-spice-hsl) / 0.06) 0%,
+      hsl(var(--palette-silver-hsl) / 0.08) 40%,
+      hsl(var(--palette-platinum-hsl) / 0.04) 100%
+    );
+
+    --gradient-glass-highlight: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.08) 0%,
+      rgb(var(--palette-silver-rgb) / 0.04) 40%,
+      transparent 100%
+    );
+
+    --gradient-hover-glow: linear-gradient(
+      145deg,
+      hsl(var(--palette-pumpkin-spice-hsl) / 0.14) 0%,
+      hsl(var(--palette-silver-hsl) / 0.06) 55%,
+      transparent 100%
+    );
+
+    --gradient-active-radial: radial-gradient(
+      ellipse 115% 82% at 50% -6%,
+      hsl(var(--palette-pumpkin-spice-hsl) / 0.14) 0%,
+      hsl(var(--palette-silver-hsl) / 0.05) 44%,
+      transparent 72%
+    );
+
+    --gradient-chrome-highlight: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.06) 0%,
+      transparent 100%
+    );
+
+    --gradient-action-hover: linear-gradient(
+      135deg,
+      hsl(var(--palette-pumpkin-spice-hsl) / 1) 0%,
+      color-mix(in srgb, var(--palette-pumpkin-spice) 78%, #fff 22%) 100%
+    );
+  }
+}
+
+[data-theme="dark"] {
+  --gradient-bg-soft: linear-gradient(
+    135deg,
+    hsl(var(--palette-pumpkin-spice-hsl) / 0.06) 0%,
+    hsl(var(--palette-silver-hsl) / 0.08) 40%,
+    hsl(var(--palette-platinum-hsl) / 0.04) 100%
+  );
+
+  --gradient-glass-highlight: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.08) 0%,
+    rgb(var(--palette-silver-rgb) / 0.04) 40%,
+    transparent 100%
+  );
+
+  --gradient-hover-glow: linear-gradient(
+    145deg,
+    hsl(var(--palette-pumpkin-spice-hsl) / 0.14) 0%,
+    hsl(var(--palette-silver-hsl) / 0.06) 55%,
+    transparent 100%
+  );
+
+  --gradient-active-radial: radial-gradient(
+    ellipse 115% 82% at 50% -6%,
+    hsl(var(--palette-pumpkin-spice-hsl) / 0.14) 0%,
+    hsl(var(--palette-silver-hsl) / 0.05) 44%,
+    transparent 72%
+  );
+
+  --gradient-chrome-highlight: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.06) 0%,
+    transparent 100%
+  );
+
+  --gradient-action-hover: linear-gradient(
+    135deg,
+    hsl(var(--palette-pumpkin-spice-hsl) / 1) 0%,
+    color-mix(in srgb, var(--palette-pumpkin-spice) 78%, #fff 22%) 100%
+  );
+}
