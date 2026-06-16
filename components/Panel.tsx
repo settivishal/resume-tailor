@@ -1,6 +1,6 @@
 "use client";
 
-import { cn, color, glassHeader, glassPanel, glassPanelSurface, radius, typography } from "@/lib/ui";
+import { cn, glassHeader, glassPanel, glassPanelSurface, radius, typography } from "@/lib/ui";
 import { useModuleChrome } from "./ModuleChromeContext";
 
 interface PanelProps {
@@ -25,14 +25,14 @@ export default function Panel({ title, children, className = "", action }: Panel
     >
       <header
         className={cn(
-          "flex shrink-0 items-center gap-3 px-3 py-2.5",
+          "flex shrink-0 items-center gap-3 px-3.5 py-2",
           glassHeader,
         )}
       >
         {windowControls && (
           <div className="flex shrink-0 items-center">{windowControls}</div>
         )}
-        <h2 className={cn(typography.overline, color.inkMuted, "min-w-0 flex-1 truncate")}>
+        <h2 className={cn(typography.overlineGlass, "min-w-0 flex-1 truncate")}>
           {title}
         </h2>
         {action}

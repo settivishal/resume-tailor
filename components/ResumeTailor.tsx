@@ -425,17 +425,16 @@ export default function ResumeTailor() {
     <div className="relative flex h-screen flex-col">
       <header
         className={cn(
-          "sticky top-0 flex shrink-0 items-center justify-between gap-4 border-b px-5 py-3",
+          "sticky top-0 flex shrink-0 items-center justify-between gap-4 px-5 py-2.5",
           layer.fg,
           glassChrome,
-          color.border,
         )}
       >
         <div className="flex items-center gap-2.5">
           <div
             className={cn(
-              "flex h-9 w-9 items-center justify-center text-sm font-semibold text-white",
-              "bg-linear-to-br from-indigo-500 to-violet-600 shadow-sm ring-1 ring-inset ring-white/15",
+              "flex h-8 w-8 items-center justify-center text-xs font-semibold text-white",
+              "bg-linear-to-br from-indigo-500/90 to-violet-600/90",
               radius.lg,
             )}
             aria-hidden
@@ -444,7 +443,7 @@ export default function ResumeTailor() {
           </div>
           <div className="leading-tight">
             <h1 className={cn(typography.h1, color.inkStrong)}>Resume Tailor AI</h1>
-            <p className={cn(typography.caption, color.inkMuted)}>
+            <p className={cn(typography.caption, color.inkSoft)}>
               Tailor your LaTeX resume to a job description
             </p>
           </div>
@@ -454,7 +453,7 @@ export default function ResumeTailor() {
           onClick={handleGenerate}
           disabled={!canGenerate}
           className={cn(
-            "flex items-center gap-2 px-4 py-2 text-sm font-medium ring-1 ring-inset ring-white/10 transition-all hover:-translate-y-px hover:shadow-pop active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none disabled:ring-0 disabled:hover:translate-y-0",
+            "flex items-center gap-2 px-4 py-2 text-sm font-medium transition-[background-color,transform,box-shadow] duration-200 hover:-translate-y-px active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0",
             radius.lg,
             color.primary,
             elevation.card,
@@ -468,7 +467,7 @@ export default function ResumeTailor() {
         </button>
       </header>
 
-      <main className={cn("min-h-0 flex-1 p-5", layer.mid)}>
+      <main className={cn("min-h-0 flex-1 p-4", layer.mid)}>
         <div
           className="relative hidden h-full min-h-0 gap-4 lg:grid"
           style={{
@@ -636,10 +635,10 @@ function ModuleContainer({
           title={`Drag to move ${label}`}
           aria-label={`Drag to move ${label}`}
           className={cn(
-            "flex cursor-grab items-center justify-center bg-surface/70 p-1.5 backdrop-blur transition-colors active:cursor-grabbing",
+            "flex cursor-grab items-center justify-center p-1.5 transition-colors active:cursor-grabbing",
             radius.md,
             color.inkFaint,
-            "hover:bg-surface-subtle hover:text-ink-soft",
+            "hover:text-ink-soft",
             focusRing,
           )}
         >

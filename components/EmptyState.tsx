@@ -24,12 +24,12 @@ export default function EmptyState({
   action,
 }: EmptyStateProps) {
   return (
-    <div className="flex h-full min-h-[140px] flex-col items-center justify-center gap-3.5 p-8 text-center">
+    <div className="flex h-full min-h-[140px] flex-col items-center justify-center gap-3 p-7 text-center">
       <div
         className={cn(
-          "flex h-11 w-11 items-center justify-center ring-1 ring-inset",
+          "flex h-10 w-10 items-center justify-center",
           radius.xl,
-          "bg-accent-subtle text-accent ring-accent/20",
+          "bg-accent-subtle/50 text-accent/80",
         )}
         aria-hidden
       >
@@ -39,7 +39,7 @@ export default function EmptyState({
         <p className={cn(typography.body, "font-semibold", color.inkBody)}>
           {title}
         </p>
-        <p className={cn(typography.caption, "mx-auto max-w-xs leading-relaxed", color.inkMuted)}>
+        <p className={cn(typography.caption, "mx-auto max-w-xs leading-relaxed", color.inkSoft)}>
           {description}
         </p>
       </div>

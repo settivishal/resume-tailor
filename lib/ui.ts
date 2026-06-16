@@ -45,6 +45,8 @@ export const typography = {
   h2: "text-base font-semibold tracking-tight",
   /** Small all-caps section label (panel headers, field labels). */
   overline: "text-xs font-semibold uppercase tracking-wide",
+  /** Panel title on frosted glass — slightly stronger than default overline. */
+  overlineGlass: "text-xs font-semibold uppercase tracking-wide text-ink-soft",
   /** Default body copy. */
   body: "text-sm leading-relaxed",
   /** Tighter body copy for dense cards. */
@@ -136,6 +138,9 @@ export const glass = {
 
 /** Slightly denser header band for glass panels (no extra blur pass). */
 export const glassHeader = "glass-header";
+
+/** Nested translucent fill inside a glass module (no extra blur). */
+export const glassInset = "glass-inset";
 
 /** Default frosted-glass surface for dashboard module cards. */
 export const glassPanel = glass.md;

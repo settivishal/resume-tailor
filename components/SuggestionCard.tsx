@@ -1,6 +1,6 @@
 "use client";
 
-import { cn, color, elevation, focusRing, radius, typography } from "@/lib/ui";
+import { cn, color, elevation, focusRing, glassInset, radius, typography } from "@/lib/ui";
 import type { Impact, Patch } from "@/lib/types";
 
 const impactStyles: Record<Impact, string> = {
@@ -39,15 +39,15 @@ export default function SuggestionCard({
         }
       }}
       className={cn(
-        "border p-3.5 transition-all duration-150",
+        "p-3.5 transition-[background-color,border-color,box-shadow,transform] duration-200",
         radius.lg,
         focusRing,
         disabled
           ? "cursor-not-allowed opacity-50"
-          : "cursor-pointer hover:shadow-card",
+          : "cursor-pointer hover:-translate-y-px",
         selected
-          ? cn("border-accent bg-accent-subtle ring-1 ring-accent", elevation.card)
-          : cn(color.border, color.surface, "hover:border-line-strong"),
+          ? cn("border-accent/60 bg-accent-subtle/50 ring-1 ring-accent/30", elevation.card)
+          : cn(glassInset, "hover:border-[color:var(--glass-border-strong)]"),
       )}
     >
       <div className="flex items-start justify-between gap-2.5">

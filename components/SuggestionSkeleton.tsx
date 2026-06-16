@@ -1,8 +1,8 @@
-import { cn, color, radius } from "@/lib/ui";
+import { cn, glassInset, radius } from "@/lib/ui";
 
 export default function SuggestionSkeleton() {
   return (
-    <div className={cn("animate-pulse border p-3.5", radius.lg, color.border)}>
+    <div className={cn("animate-pulse p-3.5", radius.lg, glassInset)}>
       <div className="flex items-start justify-between gap-2">
         <div className="flex-1 space-y-2">
           <div className="h-3.5 w-full rounded bg-surface-subtle" />

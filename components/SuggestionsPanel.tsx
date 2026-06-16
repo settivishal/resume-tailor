@@ -5,7 +5,7 @@ import ErrorBanner from "./ErrorBanner";
 import Panel from "./Panel";
 import SuggestionCard from "./SuggestionCard";
 import SuggestionSkeleton from "./SuggestionSkeleton";
-import { cn, color, typography } from "@/lib/ui";
+import { cn, color, glassInset, typography } from "@/lib/ui";
 import type { Patch } from "@/lib/types";
 
 interface SuggestionsPanelProps {
@@ -27,7 +27,7 @@ interface SuggestionsPanelProps {
 
 function SummarySkeleton() {
   return (
-    <div className={cn("animate-pulse border-b px-4 py-2.5", color.border)}>
+    <div className={cn("animate-pulse border-b px-3.5 py-2", "border-[color:var(--glass-border)]")}>
       <div className="flex items-center justify-between">
         <div className="h-3 w-20 rounded bg-surface-subtle" />
         <div className="h-3 w-8 rounded bg-surface-subtle" />
@@ -59,7 +59,7 @@ export default function SuggestionsPanel({
 }: SuggestionsPanelProps) {
   const summary =
     matchScore !== null ? (
-      <div className={cn("border-b px-4 py-2.5", color.border)}>
+      <div className={cn("border-b px-3.5 py-2", "border-[color:var(--glass-border)]")}>
         <div className={cn("flex items-center justify-between", typography.caption)}>
           <span className={color.inkMuted}>Match score</span>
           <span className={cn("font-semibold", color.inkBody)}>{matchScore}%</span>
@@ -80,9 +80,8 @@ export default function SuggestionsPanel({
                 <span
                   key={keyword}
                   className={cn(
-                    "rounded border px-1.5 py-0.5",
-                    color.surfaceSubtle,
-                    color.border,
+                    "rounded px-1.5 py-0.5",
+                    glassInset,
                     typography.micro,
                     color.inkSoft,
                   )}
@@ -114,7 +113,7 @@ export default function SuggestionsPanel({
     >
       <div className="flex h-full min-h-0 flex-col">
         {loading ? <SummarySkeleton /> : summary}
-        <div className="min-h-0 flex-1 overflow-auto p-3">
+        <div className="min-h-0 flex-1 overflow-auto p-3.5">
           {loading && (
             <div className="flex flex-col gap-2.5">
               {Array.from({ length: 3 }).map((_, i) => (

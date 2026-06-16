@@ -35,7 +35,7 @@
   --ink: #18181b; /* strong / headings */
   --ink-body: #2b2b31; /* body content */
   --ink-soft: #52525b; /* secondary content */
-  --ink-muted: #71717a; /* labels */
+  --ink-muted: #64646e; /* labels — tuned for legibility on glass */
   --ink-faint: #a1a1aa; /* captions / placeholder */
 
   /* Brand / primary action (monochrome) */
@@ -74,6 +74,10 @@
   --glass-bg-hover: rgba(255, 255, 255, 0.68);
   --glass-highlight-strong: rgba(255, 255, 255, 0.82);
   --glass-glow: rgba(99, 102, 241, 0.12);
+  --glass-ambient: rgba(99, 102, 241, 0.08);
+  /* Motion — shared easing for glass surfaces (macOS-like deceleration). */
+  --glass-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --glass-duration: 280ms;
   /* Frosted-blur levels: small / medium / heavy. */
   --blur-sm: 8px;
   --blur-md: 16px;
@@ -112,7 +116,7 @@
     --ink: #fafafa;
     --ink-body: #ededf0;
     --ink-soft: #c2c2cb;
-    --ink-muted: #a1a1aa;
+    --ink-muted: #b0b0ba; /* labels — lifted for glass surfaces */
     --ink-faint: #6f6f78;
 
     --primary: #fafafa;
@@ -140,6 +144,7 @@
     --glass-bg-hover: rgba(42, 42, 48, 0.78);
     --glass-highlight-strong: rgba(255, 255, 255, 0.14);
     --glass-glow: rgba(129, 140, 248, 0.18);
+    --glass-ambient: rgba(129, 140, 248, 0.12);
     /* blur levels are unitless and shared across themes */
     --elevation-glass-sm:
       0 1px 2px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.35);
@@ -191,11 +196,14 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Frosted-glass treatment for the app chrome (header / floating bars). */
+/* Frosted-glass treatment for the app chrome (header / floating bars).
+   Uses the same sm-level fill + blur as other chrome — no extra blur pass. */
 @utility glass {
-  background-color: color-mix(in srgb, var(--surface) 72%, transparent);
-  backdrop-filter: saturate(180%) blur(12px);
-  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  background-color: var(--glass-bg-subtle);
+  backdrop-filter: saturate(180%) blur(var(--blur-sm));
+  -webkit-backdrop-filter: saturate(180%) blur(var(--blur-sm));
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 0 var(--glass-highlight);
 }
 
 /* Crisp, lit card edge: hairline border + a faint inner top highlight.
@@ -265,8 +273,14 @@
 /* Panel header band — slightly denser than the body so labels stay crisp
    over frosted content without a second blur pass (performance). */
 @utility glass-header {
-  background-color: color-mix(in srgb, var(--glass-bg-strong) 55%, transparent);
-  border-bottom: 1px solid var(--glass-border);
+  background-color: color-mix(in srgb, var(--glass-bg-strong) 48%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--glass-border) 80%, transparent);
+}
+
+/* Nested glass fill for cards / chips inside a module (no extra blur). */
+@utility glass-inset {
+  background-color: color-mix(in srgb, var(--glass-bg) 38%, transparent);
+  border: 1px solid color-mix(in srgb, var(--glass-border) 70%, transparent);
 }
 
 /* ==========================================================================
@@ -274,64 +288,75 @@
    Applied via `.glass-module` wrapper + `.glass-panel` surface inside Panel.
    ========================================================================== */
 .glass-panel {
+  position: relative;
+  isolation: isolate;
   transition:
-    background-color 220ms ease,
-    border-color 220ms ease,
-    box-shadow 220ms ease,
-    backdrop-filter 220ms ease,
-    -webkit-backdrop-filter 220ms ease;
+    background-color var(--glass-duration) var(--glass-ease),
+    border-color var(--glass-duration) var(--glass-ease),
+    box-shadow var(--glass-duration) var(--glass-ease);
 }
 
 .glass-module {
   transition:
-    opacity 220ms ease,
-    transform 220ms ease,
-    filter 220ms ease;
+    opacity var(--glass-duration) var(--glass-ease),
+    transform var(--glass-duration) var(--glass-ease),
+    filter var(--glass-duration) var(--glass-ease);
 }
 
-/* Hover — brighter glass, stronger border, soft lift + glow. */
-.glass-module:hover:not([data-dimmed]):not([data-dragging]) {
-  transform: scale(1.003);
+/* Hover — brighter glass, soft lift. No blur or scale stacking. */
+.glass-module:hover:not([data-dimmed]):not([data-dragging]):not([data-active]) {
+  transform: translateY(-0.5px);
 }
 
-.glass-module:hover:not([data-dimmed]):not([data-dragging]) .glass-panel {
+.glass-module:hover:not([data-dimmed]):not([data-dragging]):not([data-active]) .glass-panel {
   background-color: var(--glass-bg-hover);
   border-color: var(--glass-border-strong);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight-strong),
-    var(--elevation-glass-lg),
-    0 0 0 1px color-mix(in srgb, var(--glass-glow) 40%, transparent);
+    var(--elevation-glass-md);
 }
 
-/* Keyboard focus within module — same lift as hover, no scale jump. */
-.glass-module:focus-within:not([data-dimmed]):not([data-dragging]) .glass-panel {
+/* Keyboard focus within module — same brighten as hover, no movement. */
+.glass-module:focus-within:not([data-dimmed]):not([data-dragging]):not([data-active]) .glass-panel {
   background-color: var(--glass-bg-hover);
   border-color: var(--glass-border-strong);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight-strong),
-    var(--elevation-glass-lg);
+    var(--elevation-glass-md);
 }
 
-/* Active / drop-target / maximized — strongest glass contrast. */
+/* Active / drop-target / maximized — ambient top-light + stronger glass. */
+.glass-module[data-active]:not([data-dragging]) .glass-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 95% 65% at 50% -8%,
+    color-mix(in srgb, var(--glass-ambient) 90%, transparent),
+    transparent 68%
+  );
+}
+
 .glass-module[data-active]:not([data-dragging]) .glass-panel {
   background-color: var(--glass-bg-strong);
   border-color: var(--glass-border-strong);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight-strong),
     var(--elevation-glass-lg),
-    0 0 24px color-mix(in srgb, var(--glass-glow) 55%, transparent);
+    0 0 32px color-mix(in srgb, var(--glass-glow) 42%, transparent);
 }
 
-/* Drag source — elevated blur + soft shadow, slightly faded wrapper. */
+/* Drag source — stronger fill + fade; keep the same blur level (performance). */
 .glass-module[data-dragging] {
-  opacity: 0.88;
-  transform: scale(0.998);
+  opacity: 0.9;
+  transform: scale(0.999);
 }
 
 .glass-module[data-dragging] .glass-panel {
   background-color: var(--glass-bg-strong);
-  backdrop-filter: saturate(200%) blur(var(--blur-lg));
-  -webkit-backdrop-filter: saturate(200%) blur(var(--blur-lg));
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight-strong),
     var(--elevation-glass-lg);
@@ -339,8 +364,8 @@
 
 /* Non-active modules dim while one is focused (drag or maximize). */
 .glass-module[data-dimmed] {
-  opacity: 0.62;
-  filter: saturate(0.82) brightness(0.92);
+  opacity: 0.78;
+  filter: saturate(0.88) brightness(0.96);
   transform: none;
 }
 
@@ -364,7 +389,7 @@
   width: 12px;
   border-radius: 9999px;
   border: 0.5px solid rgba(0, 0, 0, 0.12);
-  transition: transform 120ms ease, filter 120ms ease;
+  transition: transform 160ms var(--glass-ease), filter 160ms var(--glass-ease);
 }
 
 .window-control:hover {
@@ -438,7 +463,7 @@ body::after {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.65;
+  opacity: 0.38;
   background: radial-gradient(var(--dot) 1px, transparent 1.5px) 0 0 / 22px 22px;
 }
 

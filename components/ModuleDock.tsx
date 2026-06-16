@@ -1,6 +1,6 @@
 "use client";
 
-import { cn, color, glass, radius, typography } from "@/lib/ui";
+import { cn, color, glass, glassInset, radius, typography } from "@/lib/ui";
 
 interface ModuleDockProps {
   modules: { key: string; label: string; abbrev: string }[];
@@ -19,9 +19,9 @@ export default function ModuleDock({ modules, onRestore }: ModuleDockProps) {
     >
       <div
         className={cn(
-          "pointer-events-auto flex items-center gap-2 px-3 py-2",
+          "pointer-events-auto flex items-center gap-1.5 px-2.5 py-1.5",
           radius.full,
-          glass.md,
+          glass.sm,
         )}
         role="toolbar"
         aria-label="Minimized modules"
@@ -34,10 +34,9 @@ export default function ModuleDock({ modules, onRestore }: ModuleDockProps) {
             title={`Restore ${mod.label}`}
             aria-label={`Restore ${mod.label}`}
             className={cn(
-              "flex items-center gap-2 border px-3 py-1.5 transition-all hover:scale-[1.03] active:scale-[0.98]",
+              "flex items-center gap-2 px-2.5 py-1 transition-[background-color,transform] duration-200 hover:scale-[1.02] active:scale-[0.98]",
               radius.full,
-              color.border,
-              "bg-surface-subtle/60 hover:bg-surface-subtle",
+              glassInset,
               typography.caption,
               color.inkSoft,
             )}
@@ -47,7 +46,7 @@ export default function ModuleDock({ modules, onRestore }: ModuleDockProps) {
                 "flex h-5 w-5 items-center justify-center font-semibold",
                 radius.full,
                 typography.micro,
-                "bg-accent-subtle text-accent",
+                "bg-accent-subtle/80 text-accent",
               )}
               aria-hidden
             >
