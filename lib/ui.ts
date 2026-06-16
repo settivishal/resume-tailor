@@ -140,6 +140,21 @@ export const glassHeader = "glass-header";
 /** Default frosted-glass surface for dashboard module cards. */
 export const glassPanel = glass.md;
 
+/**
+ * Depth layer z-index scale for the macOS-style glass environment:
+ *   bg      — ambient canvas (handled by body pseudo-elements)
+ *   mid     — dashboard modules / main content
+ *   fg      — app chrome (header)
+ *   overlay — maximized modules, drag targets
+ *   toast   — transient feedback (foreground interactions)
+ */
+export const layer = {
+  mid: "relative z-10",
+  fg: "relative z-20",
+  overlay: "z-40",
+  toast: "z-50",
+} as const;
+
 /** Original frosted-glass treatment for app chrome (header / floating bars). */
 export const glassChrome = "glass";
 

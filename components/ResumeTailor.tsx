@@ -12,7 +12,7 @@ import { getErrorMessage, parseApiError } from "@/lib/errors";
 import { applyPatch, toTextPatch } from "@/lib/patches";
 import { toast } from "@/lib/toast";
 import { useDebounce } from "@/lib/use-debounce";
-import { cn, color, elevation, focusRing, glassChrome, radius, typography } from "@/lib/ui";
+import { cn, color, elevation, focusRing, glassChrome, layer, radius, typography } from "@/lib/ui";
 import type { AnalyzeResponse, Patch } from "@/lib/types";
 
 type ModuleKey = "job" | "latex" | "suggestions" | "diff" | "preview";
@@ -312,10 +312,11 @@ export default function ResumeTailor() {
   }, [leftPx, rightPx]);
 
   return (
-    <div className={cn("flex h-screen flex-col", color.canvas)}>
+    <div className="relative flex h-screen flex-col">
       <header
         className={cn(
-          "sticky top-0 z-20 flex shrink-0 items-center justify-between gap-4 border-b px-5 py-3",
+          "sticky top-0 flex shrink-0 items-center justify-between gap-4 border-b px-5 py-3",
+          layer.fg,
           glassChrome,
           color.border,
         )}
@@ -357,7 +358,7 @@ export default function ResumeTailor() {
         </button>
       </header>
 
-      <main className="min-h-0 flex-1 p-5">
+      <main className={cn("min-h-0 flex-1 p-5", layer.mid)}>
         <div
           className="relative hidden h-full min-h-0 gap-4 lg:grid"
           style={{
@@ -488,7 +489,7 @@ function ModuleContainer({
         radius.xl,
         // Maximized: lift out of the grid to cover the whole dashboard.
         isMaximized
-          ? "absolute inset-0 z-40 animate-panel-zoom-in"
+          ? cn("absolute inset-0 animate-panel-zoom-in", layer.overlay)
           : "relative",
         // Gentle elevation on hover — no motion, no ring; just soft depth.
         !isDragActive && !anyMaximized && "hover:shadow-glass-lg",

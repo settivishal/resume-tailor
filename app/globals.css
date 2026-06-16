@@ -24,6 +24,12 @@
   --card-highlight: rgba(255, 255, 255, 0.7);
   /* Subtle dot-grid texture for the canvas (shows only in the gutters). */
   --dot: rgba(24, 24, 27, 0.04);
+  /* Ambient depth orbs — soft accent washes behind glass modules. */
+  --ambient-1: rgba(99, 102, 241, 0.13);
+  --ambient-2: rgba(167, 139, 250, 0.09);
+  --ambient-3: rgba(99, 102, 241, 0.06);
+  /* Edge vignette for layered depth (very subtle in light mode). */
+  --vignette: rgba(24, 24, 27, 0.035);
 
   /* Text (ink) ramp */
   --ink: #18181b; /* strong / headings */
@@ -94,6 +100,10 @@
     /* In dark UIs a top highlight reads as a thin lit edge (Linear/Vercel). */
     --card-highlight: rgba(255, 255, 255, 0.06);
     --dot: rgba(255, 255, 255, 0.035);
+    --ambient-1: rgba(99, 102, 241, 0.2);
+    --ambient-2: rgba(129, 140, 248, 0.13);
+    --ambient-3: rgba(79, 70, 229, 0.09);
+    --vignette: rgba(0, 0, 0, 0.32);
 
     --ink: #fafafa;
     --ink-body: #ededf0;
@@ -253,22 +263,40 @@
 }
 
 body {
-  /* Subtle layered depth so the canvas never looks like a flat fill:
-     a fine dot-grid texture over a soft top gradient wash. The dots only
-     read in the gutters between the translucent glass module cards. */
-  background:
-    radial-gradient(var(--dot) 1px, transparent 1.5px) 0 0 / 22px 22px,
-    radial-gradient(
-      120% 80% at 50% -10%,
-      var(--canvas-tint) 0%,
-      var(--canvas) 60%
-    ),
-    var(--canvas);
-  background-attachment: fixed;
+  position: relative;
+  min-height: 100%;
+  background-color: var(--canvas);
   color: var(--ink);
   font-family:
     var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Layer 0 — ambient background: soft gradient orbs + base wash + vignette.
+   Fixed so glass modules blur a rich field as you scroll (macOS-style depth). */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 70% at 8% -5%, var(--ambient-1), transparent 58%),
+    radial-gradient(ellipse 75% 55% at 96% 6%, var(--ambient-2), transparent 52%),
+    radial-gradient(ellipse 80% 50% at 50% 108%, var(--ambient-3), transparent 48%),
+    radial-gradient(ellipse 120% 100% at 50% 50%, transparent 50%, var(--vignette) 100%),
+    radial-gradient(120% 80% at 50% -15%, var(--canvas-tint) 0%, var(--canvas) 65%);
+}
+
+/* Layer 0 — fine dot texture (reads in gutters between glass cards). */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.65;
+  background: radial-gradient(var(--dot) 1px, transparent 1.5px) 0 0 / 22px 22px;
 }
 
 /* Subtle, modern scrollbars that match the neutral palette. */
