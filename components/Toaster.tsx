@@ -7,7 +7,7 @@ import {
   subscribeToasts,
   type ToastItem,
 } from "@/lib/toast";
-import { cn, color, glass, layer, radius, typography } from "@/lib/ui";
+import { cn, color, focusRing, glass, layer, radius, transitionPolish, typography } from "@/lib/ui";
 
 const toneDot: Record<ToastItem["tone"], string> = {
   default: "bg-ink-faint",
@@ -80,9 +80,11 @@ function ToastRow({ toast }: { toast: ToastItem }) {
         onClick={close}
         aria-label="Dismiss notification"
         className={cn(
-          "shrink-0 text-base leading-none transition-colors",
+          "shrink-0 text-base leading-none",
           color.inkFaint,
+          transitionPolish,
           "hover:text-ink-soft active:scale-90",
+          focusRing,
         )}
       >
         &times;

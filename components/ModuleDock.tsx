@@ -1,6 +1,6 @@
 "use client";
 
-import { cn, color, glass, glassInset, radius, typography } from "@/lib/ui";
+import { cn, color, focusRing, glass, glassInset, radius, status, transitionPolish, typography } from "@/lib/ui";
 
 interface ModuleDockProps {
   modules: { key: string; label: string; abbrev: string }[];
@@ -34,11 +34,14 @@ export default function ModuleDock({ modules, onRestore }: ModuleDockProps) {
             title={`Restore ${mod.label}`}
             aria-label={`Restore ${mod.label}`}
             className={cn(
-              "flex items-center gap-2 px-2.5 py-1 transition-colors duration-200 ease-out active:scale-[0.98]",
+              "flex items-center gap-2 px-2.5 py-1 active:scale-[0.98]",
               radius.full,
               glassInset,
               typography.caption,
               color.inkSoft,
+              transitionPolish,
+              "hover:text-ink-body hover:shadow-hover-glow",
+              focusRing,
             )}
           >
             <span
@@ -46,7 +49,7 @@ export default function ModuleDock({ modules, onRestore }: ModuleDockProps) {
                 "flex h-5 w-5 items-center justify-center font-semibold",
                 radius.full,
                 typography.micro,
-                "bg-accent-subtle/60 text-accent/90",
+                status.accentBadge,
               )}
               aria-hidden
             >

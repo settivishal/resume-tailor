@@ -1,6 +1,6 @@
 "use client";
 
-import { cn, button, color, focusRing, glassInset, impact, radius, typography } from "@/lib/ui";
+import { cn, button, color, focusRing, glassInset, impact, radius, transitionPolish, typography } from "@/lib/ui";
 import type { Impact, Patch } from "@/lib/types";
 
 const impactStyles: Record<Impact, string> = {
@@ -39,14 +39,15 @@ export default function SuggestionCard({
         }
       }}
       className={cn(
-        "p-3.5 transition-[background-color,border-color] duration-200 ease-out",
+        "p-3.5",
+        transitionPolish,
         radius.lg,
         focusRing,
         disabled
           ? "cursor-not-allowed opacity-50"
           : "cursor-pointer",
         selected
-          ? "border border-accent/50 bg-accent-subtle/40"
+          ? "border border-accent/45 bg-accent-subtle/40 shadow-hover-glow"
           : glassInset,
       )}
     >

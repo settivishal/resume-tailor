@@ -64,6 +64,19 @@
   --diff-add-fg: var(--palette-cerulean);
   --focus-glow: 0 0 0 2px hsl(var(--palette-cerulean-hsl) / 0.32),
     0 0 12px hsl(var(--palette-cerulean-hsl) / 0.18);
+  --hover-glow: 0 8px 28px -10px hsl(var(--palette-cerulean-hsl) / 0.2),
+    0 4px 14px -8px hsl(var(--palette-frosted-blue-hsl) / 0.14);
+
+  /* Window chrome controls (palette-tinted traffic lights) */
+  --chrome-control-rest: color-mix(
+    in srgb,
+    var(--palette-frosted-blue) 38%,
+    var(--palette-yale-blue) 62%
+  );
+  --chrome-control-border: hsl(var(--palette-icy-aqua-hsl) / 0.32);
+  --chrome-control-close: var(--palette-rosewood);
+  --chrome-control-minimize: var(--palette-cerulean);
+  --chrome-control-zoom: var(--palette-frosted-blue);
 
   /* Interactive states (derived, no new palette colors) */
   --accent-primary-hover: color-mix(in srgb, var(--palette-cerulean) 88%, var(--palette-yale-blue) 12%);
@@ -131,6 +144,17 @@
     --diff-add-fg: hsl(var(--palette-frosted-blue-hsl) / 0.95);
     --focus-glow: 0 0 0 2px hsl(var(--palette-cerulean-hsl) / 0.38),
       0 0 14px hsl(var(--palette-cerulean-hsl) / 0.22);
+    --hover-glow: 0 8px 28px -10px hsl(var(--palette-cerulean-hsl) / 0.24),
+      0 4px 14px -8px hsl(var(--palette-frosted-blue-hsl) / 0.16);
+    --chrome-control-rest: color-mix(
+      in srgb,
+      var(--palette-yale-blue) 55%,
+      var(--palette-cerulean) 45%
+    );
+    --chrome-control-border: hsl(var(--palette-icy-aqua-hsl) / 0.18);
+    --chrome-control-close: var(--palette-rosewood);
+    --chrome-control-minimize: var(--palette-cerulean);
+    --chrome-control-zoom: var(--palette-frosted-blue);
 
     --accent-primary-hover: color-mix(in srgb, var(--palette-frosted-blue) 92%, white 8%);
     --accent-primary-active: var(--palette-icy-aqua);
@@ -195,6 +219,17 @@
   --diff-add-fg: hsl(var(--palette-frosted-blue-hsl) / 0.95);
   --focus-glow: 0 0 0 2px hsl(var(--palette-cerulean-hsl) / 0.38),
     0 0 14px hsl(var(--palette-cerulean-hsl) / 0.22);
+  --hover-glow: 0 8px 28px -10px hsl(var(--palette-cerulean-hsl) / 0.24),
+    0 4px 14px -8px hsl(var(--palette-frosted-blue-hsl) / 0.16);
+  --chrome-control-rest: color-mix(
+    in srgb,
+    var(--palette-yale-blue) 55%,
+    var(--palette-cerulean) 45%
+  );
+  --chrome-control-border: hsl(var(--palette-icy-aqua-hsl) / 0.18);
+  --chrome-control-close: var(--palette-rosewood);
+  --chrome-control-minimize: var(--palette-cerulean);
+  --chrome-control-zoom: var(--palette-frosted-blue);
 
   --accent-primary-hover: color-mix(in srgb, var(--palette-frosted-blue) 92%, white 8%);
   --accent-primary-active: var(--palette-icy-aqua);

@@ -172,7 +172,7 @@
     --glass-glow: rgb(var(--palette-frosted-blue-rgb) / 0.1);
     --glass-ambient: rgb(var(--palette-cerulean-rgb) / 0.06);
     --glass-inset-bg: rgb(255 255 255 / 0.04);
-    --glass-inset-border: rgb(var(--palette-cerulean-rgb) / 0.14);
+    --glass-inset-border: hsl(var(--palette-icy-aqua-hsl) / 0.14);
 
     --elevation-glass-sm:
       0 1px 2px rgb(0 0 0 / 0.4),
@@ -227,7 +227,7 @@
   --glass-glow: rgb(var(--palette-frosted-blue-rgb) / 0.1);
   --glass-ambient: rgb(var(--palette-cerulean-rgb) / 0.06);
   --glass-inset-bg: rgb(255 255 255 / 0.04);
-  --glass-inset-border: rgb(var(--palette-cerulean-rgb) / 0.14);
+  --glass-inset-border: hsl(var(--palette-icy-aqua-hsl) / 0.14);
 }
 
 /* Expose tokens to Tailwind as semantic utilities: bg-*, text-*, border-*,
@@ -275,6 +275,7 @@
 
   --color-focus: var(--focus);
   --shadow-focus-glow: var(--focus-glow);
+  --shadow-hover-glow: var(--hover-glow);
 
   --shadow-card: var(--elevation-card);
   --shadow-pop: var(--elevation-pop);
@@ -299,12 +300,16 @@
   -webkit-backdrop-filter: saturate(130%) blur(var(--blur-sm));
   border-bottom: 1px solid var(--glass-border);
   box-shadow: inset 0 1px 0 0 var(--glass-highlight);
+  transition:
+    background-color var(--glass-duration) var(--glass-ease),
+    border-color var(--glass-duration) var(--glass-ease),
+    box-shadow var(--glass-duration) var(--glass-ease);
 }
 
 /* Crisp, lit card edge: hairline border + a faint inner top highlight.
    Reads as premium depth on both light and dark surfaces. */
 @utility card-edge {
-  border: 1px solid var(--line);
+  border: 1px solid var(--glass-border);
   box-shadow:
     inset 0 1px 0 0 var(--card-highlight),
     var(--elevation-card);
@@ -343,6 +348,10 @@
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight),
     var(--elevation-glass-sm);
+  transition:
+    background-color var(--glass-duration) var(--glass-ease),
+    border-color var(--glass-duration) var(--glass-ease),
+    box-shadow var(--glass-duration) var(--glass-ease);
 }
 
 @utility glass-md {
@@ -353,6 +362,10 @@
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight),
     var(--elevation-glass-md);
+  transition:
+    background-color var(--glass-duration) var(--glass-ease),
+    border-color var(--glass-duration) var(--glass-ease),
+    box-shadow var(--glass-duration) var(--glass-ease);
 }
 
 @utility glass-lg {
@@ -363,6 +376,10 @@
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight),
     var(--elevation-glass-lg);
+  transition:
+    background-color var(--glass-duration) var(--glass-ease),
+    border-color var(--glass-duration) var(--glass-ease),
+    box-shadow var(--glass-duration) var(--glass-ease);
 }
 
 /* Panel header band — slightly denser than the body so labels stay crisp
@@ -371,12 +388,20 @@
   background-color: color-mix(in srgb, var(--glass-bg-strong) 40%, transparent);
   background-image: var(--gradient-glass-highlight);
   border-bottom: 1px solid var(--glass-border);
+  transition:
+    background-color var(--glass-duration) var(--glass-ease),
+    border-color var(--glass-duration) var(--glass-ease);
 }
 
 /* Nested glass fill for cards / chips inside a module (no extra blur). */
 @utility glass-inset {
   background-color: var(--glass-inset-bg);
   border: 1px solid var(--glass-inset-border);
+  box-shadow: inset 0 1px 0 0 rgb(var(--palette-frosted-blue-rgb) / 0.08);
+  transition:
+    background-color var(--glass-duration) var(--glass-ease),
+    border-color var(--glass-duration) var(--glass-ease),
+    box-shadow var(--glass-duration) var(--glass-ease);
 }
 
 /* ==========================================================================
@@ -478,9 +503,13 @@
   background: var(--gradient-glass-highlight);
 }
 
-/* Drop target during drag — subtle border brightening, no ring offset. */
+/* Drop target during drag — cerulean border glow */
 .glass-module[data-drop-target]:not([data-dragging]) .glass-panel {
-  border-color: color-mix(in srgb, var(--accent) 35%, var(--glass-border-strong));
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--glass-border-strong));
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-highlight-strong),
+    var(--elevation-glass-md),
+    var(--hover-glow);
 }
 
 /* Drag source — gentle fade; same blur level (performance). */
@@ -527,35 +556,45 @@
   height: 12px;
   width: 12px;
   border-radius: 9999px;
-  border: 0.5px solid rgba(0, 0, 0, 0.08);
-  background-color: rgba(0, 0, 0, 0.1);
+  border: 0.5px solid var(--chrome-control-border);
+  background-color: var(--chrome-control-rest);
+  opacity: 0.62;
   transition:
     background-color 180ms var(--glass-ease),
     border-color 180ms var(--glass-ease),
-    transform 140ms var(--glass-ease);
+    opacity 180ms var(--glass-ease),
+    transform 140ms var(--glass-ease),
+    box-shadow 180ms var(--glass-ease);
+}
+
+.window-controls:hover .window-control {
+  opacity: 1;
 }
 
 .window-controls:hover .window-control--close {
-  background-color: #ff5f57;
-  border-color: rgba(0, 0, 0, 0.12);
+  background-color: var(--chrome-control-close);
+  border-color: hsl(var(--palette-rosewood-hsl) / 0.45);
 }
 
 .window-controls:hover .window-control--minimize {
-  background-color: #febc2e;
-  border-color: rgba(0, 0, 0, 0.12);
+  background-color: var(--chrome-control-minimize);
+  border-color: hsl(var(--palette-cerulean-hsl) / 0.45);
 }
 
 .window-controls:hover .window-control--zoom,
 .window-controls:hover .window-control--zoom-restore {
-  background-color: #28c840;
-  border-color: rgba(0, 0, 0, 0.12);
+  background-color: var(--chrome-control-zoom);
+  border-color: hsl(var(--palette-frosted-blue-hsl) / 0.5);
 }
 
 @media (prefers-color-scheme: dark) {
-  .window-control {
-    background-color: rgba(255, 255, 255, 0.12);
-    border-color: rgba(0, 0, 0, 0.25);
+  :root:not([data-theme="light"]) .window-control {
+    opacity: 0.72;
   }
+}
+
+[data-theme="dark"] .window-control {
+  opacity: 0.72;
 }
 
 .window-control:hover {
@@ -606,7 +645,7 @@ body::before {
     var(--canvas-gradient);
 }
 
-/* Primary action — subtle gradient sheen on hover */
+/* Primary action — gradient sheen on hover (glow via button utility) */
 header .bg-primary:hover:not(:disabled) {
   background-image: var(--gradient-action-hover);
 }
@@ -641,7 +680,7 @@ body::after {
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background-color: var(--ink-faint);
+  background-color: hsl(var(--palette-cerulean-hsl) / 0.45);
 }
 
 /* ==========================================================================

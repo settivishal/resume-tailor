@@ -15,7 +15,7 @@ import { getErrorMessage, parseApiError } from "@/lib/errors";
 import { applyPatch, toTextPatch } from "@/lib/patches";
 import { toast } from "@/lib/toast";
 import { useDebounce } from "@/lib/use-debounce";
-import { cn, button, color, focusRing, glassChrome, glassModule, layer, radius, typography } from "@/lib/ui";
+import { cn, button, color, focusRing, glassChrome, glassModule, layer, radius, transitionPolish, typography } from "@/lib/ui";
 import type { AnalyzeResponse, Patch } from "@/lib/types";
 
 type ModuleKey = "job" | "latex" | "suggestions" | "diff" | "preview";
@@ -629,10 +629,11 @@ function ModuleContainer({
           title={`Drag to move ${label}`}
           aria-label={`Drag to move ${label}`}
           className={cn(
-            "flex cursor-grab items-center justify-center p-1.5 transition-colors active:cursor-grabbing",
+            "flex cursor-grab items-center justify-center p-1.5 active:cursor-grabbing",
             radius.md,
-            color.inkFaint,
-            "hover:text-ink-soft",
+            color.inkMuted,
+            transitionPolish,
+            "hover:text-accent",
             focusRing,
           )}
         >
@@ -746,7 +747,7 @@ function VerticalResizer({
     >
       {/* Invisible until hovered — the card edges already separate modules, so
           the resize affordance only appears when you reach for it. */}
-      <div className="h-full w-1 rounded-full bg-transparent transition-colors duration-200 ease-out group-hover/resizer:bg-ink-faint/40 group-active/resizer:bg-ink-soft/60" />
+      <div className="h-full w-1 rounded-full bg-transparent transition-colors duration-200 ease-out group-hover/resizer:bg-[hsl(var(--palette-frosted-blue-hsl)/0.45)] group-active/resizer:bg-[hsl(var(--palette-cerulean-hsl)/0.55)]" />
     </div>
   );
 }
