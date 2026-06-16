@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import type { AnalyzeResponse } from "@/lib/types";
 
+const GEMINI_MODEL = "gemini-2.5-flash";
+
 const SYSTEM_PROMPT = `You are a resume tailoring assistant. Given a job description and a LaTeX resume, analyze fit and suggest minimal targeted edits.
 
 Return ONLY valid JSON with this shape:
@@ -29,10 +31,10 @@ Rules:
 - Do not wrap JSON in markdown fences.`;
 
 export async function POST(request: Request) {
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return NextResponse.json(
-      { error: "OPENAI_API_KEY is not configured" },
+      { error: "GEMINI_API_KEY is not configured" },
       { status: 500 },
     );
   }
@@ -46,40 +48,50 @@ export async function POST(request: Request) {
     );
   }
 
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "gpt-4o-mini",
-      temperature: 0.3,
-      response_format: { type: "json_object" },
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        {
-          role: "user",
-          content: `Job Description:\n${jobDescription}\n\nLaTeX Resume:\n${latexResume}`,
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey,
+      },
+      body: JSON.stringify({
+        systemInstruction: {
+          parts: [{ text: SYSTEM_PROMPT }],
         },
-      ],
-    }),
-  });
+        contents: [
+          {
+            parts: [
+              {
+                text: `Job Description:\n${jobDescription}\n\nLaTeX Resume:\n${latexResume}`,
+              },
+            ],
+          },
+        ],
+        generationConfig: {
+          temperature: 0.3,
+          responseMimeType: "application/json",
+        },
+      }),
+    },
+  );
 
   if (!response.ok) {
     const err = await response.text();
     return NextResponse.json(
-      { error: `OpenAI request failed: ${err}` },
+      { error: `Gemini request failed: ${err}` },
       { status: 502 },
     );
   }
 
   const data = await response.json();
-  const content = data.choices?.[0]?.message?.content;
+  const content = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
   if (!content) {
+    const blockReason = data.candidates?.[0]?.finishReason;
     return NextResponse.json(
-      { error: "No response from AI" },
+      { error: blockReason ? `No response from AI (${blockReason})` : "No response from AI" },
       { status: 502 },
     );
   }
