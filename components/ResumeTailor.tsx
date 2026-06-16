@@ -9,6 +9,7 @@ import SuggestionsPanel from "./SuggestionsPanel";
 import ModuleDock from "./ModuleDock";
 import { ModuleChromeProvider } from "./ModuleChromeContext";
 import Toaster from "./Toaster";
+import ThemeToggle from "./ThemeToggle";
 import WindowControls from "./WindowControls";
 import { SAMPLE_LATEX } from "@/lib/constants";
 import { getErrorMessage, parseApiError } from "@/lib/errors";
@@ -433,7 +434,7 @@ export default function ResumeTailor() {
         <div className="flex items-center gap-3">
           <div
             className={cn(
-              "flex h-7 w-7 items-center justify-center text-[11px] font-semibold text-white/95",
+              "flex h-7 w-7 items-center justify-center text-[11px] font-semibold text-primary-foreground",
               brand.mark,
               brand.glowHover,
               radius.md,
@@ -444,22 +445,25 @@ export default function ResumeTailor() {
           </div>
           <h1 className={cn(typography.h1, brand.titleAccent)}>Resume Tailor AI</h1>
         </div>
-        <button
-          type="button"
-          onClick={handleGenerate}
-          disabled={!canGenerate}
-          className={cn(
-            "flex items-center gap-2 px-3.5 py-1.5 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-35",
-            radius.lg,
-            button.primary,
-            focusRing,
-          )}
-        >
-          {loading && (
-            <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-current/30 border-t-current" />
-          )}
-          {loading ? "Analyzing…" : "Generate Suggestions"}
-        </button>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            type="button"
+            onClick={handleGenerate}
+            disabled={!canGenerate}
+            className={cn(
+              "flex items-center gap-2 px-3.5 py-1.5 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-35",
+              radius.lg,
+              button.primary,
+              focusRing,
+            )}
+          >
+            {loading && (
+              <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-current/30 border-t-current" />
+            )}
+            {loading ? "Analyzing…" : "Generate Suggestions"}
+          </button>
+        </div>
       </header>
 
       <main className={cn("min-h-0 flex-1 p-[var(--space-module-gap)]", layer.mid)}>
@@ -748,7 +752,7 @@ function VerticalResizer({
     >
       {/* Invisible until hovered — the card edges already separate modules, so
           the resize affordance only appears when you reach for it. */}
-      <div className="h-full w-1 rounded-full bg-transparent transition-colors duration-200 ease-out group-hover/resizer:bg-[hsl(var(--palette-pumpkin-spice-hsl)/0.45)] group-active/resizer:bg-[hsl(var(--palette-pumpkin-spice-hsl)/0.65)]" />
+      <div className="h-full w-1 rounded-full bg-transparent transition-colors duration-200 ease-out group-hover/resizer:bg-accent/45 group-active/resizer:bg-accent/65" />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./theme-system.css";
 @import "./theme.css";
 @import "./semantic-theme.css";
 @import "./gradient-theme.css";
@@ -16,18 +17,18 @@
   --canvas: var(--bg-primary);
   --canvas-tint: var(--bg-secondary);
 
-  /* Surfaces — neutral fills; palette shows through glass blur */
-  --surface: rgb(255 255 255 / 0.45);
-  --surface-subtle: rgb(255 255 255 / 0.28);
-  --surface-header: rgb(255 255 255 / 0.32);
+  /* Surfaces — map to semantic glass tokens (STEP 4) */
+  --surface: var(--surface-glass);
+  --surface-subtle: var(--surface-glass-subtle);
+  --surface-header: var(--surface-panel-header);
 
   /* Borders — silver at low opacity */
   --line: var(--border-subtle);
   --line-strong: var(--border-strong);
-  --card-highlight: rgb(255 255 255 / 0.68);
-  --dot: rgb(var(--palette-silver-rgb) / 0.08);
+  --card-highlight: color-mix(in srgb, var(--palette-platinum) 14%, rgb(255 255 255 / 0.68) 86%);
+  --dot: rgb(var(--palette-silver-rgb) / 0.1);
 
-  /* Ambient depth — pumpkin-spice whisper on platinum / silver */
+  /* Ambient depth — blushed-brick whisper on platinum / silver */
   --ambient-1: var(--ambient-brand-1);
   --ambient-2: var(--ambient-brand-2);
   --ambient-3: var(--ambient-brand-3);
@@ -52,13 +53,13 @@
   --accent-subtle: var(--accent-subtle);
   --focus: var(--border-focus);
 
-  /* Elevation — neutral card shadows with palette tint */
+  /* Elevation — soft diffused frost shadows */
   --elevation-card:
-    0 1px 2px rgb(0 0 0 / 0.05),
-    0 2px 6px rgb(var(--palette-silver-rgb) / 0.12);
+    0 1px 2px rgb(0 0 0 / 0.04),
+    0 2px 8px rgb(var(--palette-silver-rgb) / 0.14);
   --elevation-pop:
-    0 4px 12px rgb(0 0 0 / 0.08),
-    0 12px 28px rgb(var(--palette-silver-rgb) / 0.14);
+    0 4px 14px rgb(0 0 0 / 0.06),
+    0 14px 32px rgb(var(--palette-silver-rgb) / 0.16);
 
   /* ----------------------------------------------------------------------
      Glass UI — neutral translucent frost; palette via accents & canvas only
@@ -66,25 +67,31 @@
   --glass-bg-subtle: var(--surface-glass-subtle);
   --glass-bg: var(--surface-glass);
   --glass-bg-strong: var(--surface-glass-strong);
-  --glass-module-border: rgb(0 0 0 / 0.12);
-  --glass-module-border-strong: rgb(0 0 0 / 0.18);
+  --glass-module-border: var(--border-subtle);
+  --glass-module-border-strong: var(--border-strong);
   --glass-border: var(--glass-module-border);
   --glass-border-strong: var(--glass-module-border-strong);
   --elevation-module:
-    0 1px 2px rgb(0 0 0 / 0.04),
-    0 2px 6px rgb(0 0 0 / 0.06),
-    0 6px 18px rgb(0 0 0 / 0.05);
+    0 1px 2px rgb(0 0 0 / 0.03),
+    0 2px 8px rgb(0 0 0 / 0.05),
+    0 8px 22px rgb(var(--palette-silver-rgb) / 0.1);
   --elevation-module-hover:
-    0 2px 4px rgb(0 0 0 / 0.05),
-    0 4px 10px rgb(0 0 0 / 0.07),
-    0 10px 28px rgb(0 0 0 / 0.07);
+    0 2px 4px rgb(0 0 0 / 0.04),
+    0 6px 16px rgb(0 0 0 / 0.06),
+    0 14px 36px rgb(var(--palette-silver-rgb) / 0.14);
   --glass-highlight: var(--surface-glass-highlight);
-  --glass-bg-hover: rgb(255 255 255 / 0.74);
-  --glass-highlight-strong: rgb(255 255 255 / 0.92);
-  --glass-glow: rgb(var(--palette-pumpkin-spice-rgb) / 0.08);
-  --glass-ambient: rgb(var(--palette-platinum-rgb) / 0.35);
-  --glass-inset-bg: color-mix(in srgb, var(--palette-platinum) 55%, rgb(255 255 255 / 0.45) 45%);
-  --glass-inset-border: hsl(var(--palette-silver-hsl) / 0.42);
+  --glass-bg-hover: color-mix(in srgb, var(--palette-platinum) 18%, rgb(255 255 255 / 0.74) 82%);
+  --glass-highlight-strong: color-mix(in srgb, var(--palette-platinum) 8%, hsl(0 0% 99%) 92%);
+  --glass-glow: rgb(var(--palette-blushed-brick-rgb) / 0.06);
+  --glass-ambient: rgb(var(--palette-platinum-rgb) / 0.4);
+  --glass-inset-bg: var(--surface-glass-subtle);
+  --glass-inset-border: var(--border-subtle);
+  --glass-hover-glow-a: hsl(var(--palette-blushed-brick-hsl) / 0.1);
+  --glass-hover-glow-b: hsl(var(--palette-blushed-brick-hsl) / 0.05);
+  --glass-rim: none;
+  --glass-inset-depth: rgb(0 0 0 / 0.03);
+  --glass-dimmed-opacity: 0.86;
+  --glass-dimmed-filter: saturate(0.92) brightness(0.98);
 
   /* Motion & spacing (unchanged) */
   --glass-ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -93,21 +100,23 @@
   --space-panel-x: 14px;
   --space-panel-y: 8px;
   --space-content: 14px;
-  --blur-sm: 8px;
-  --blur-md: 16px;
-  --blur-lg: 28px;
+  --blur-sm: 6px;
+  --blur-md: 12px;
+  --blur-lg: 22px;
+  --glass-saturate: 1.12;
+  --glass-contrast: 1;
 
-  /* Glass shadows — neutral + pumpkin-spice accent tint */
+  /* Glass shadows — soft frost depth */
   --elevation-glass-sm:
-    0 1px 2px rgb(0 0 0 / 0.05),
-    0 4px 12px rgb(var(--palette-silver-rgb) / 0.1);
+    0 1px 2px rgb(0 0 0 / 0.04),
+    0 4px 14px rgb(var(--palette-silver-rgb) / 0.12);
   --elevation-glass-md:
-    0 2px 4px rgb(0 0 0 / 0.05),
-    0 8px 24px rgb(var(--palette-silver-rgb) / 0.12),
-    0 20px 48px rgb(0 0 0 / 0.04);
+    0 2px 4px rgb(0 0 0 / 0.04),
+    0 10px 28px rgb(var(--palette-silver-rgb) / 0.14),
+    0 22px 52px rgb(0 0 0 / 0.03);
   --elevation-glass-lg:
-    0 6px 20px rgb(var(--palette-pumpkin-spice-rgb) / 0.08),
-    0 16px 40px rgb(0 0 0 / 0.08);
+    0 4px 18px rgb(var(--palette-blushed-brick-rgb) / 0.06),
+    0 18px 44px rgb(0 0 0 / 0.07);
 
   --background: var(--canvas);
   --foreground: var(--ink);
@@ -118,19 +127,19 @@
     --canvas: var(--bg-primary);
     --canvas-tint: var(--bg-secondary);
 
-    --surface: rgb(255 255 255 / 0.05);
-    --surface-subtle: rgb(255 255 255 / 0.03);
-    --surface-header: rgb(255 255 255 / 0.07);
+    --surface: var(--surface-glass);
+    --surface-subtle: var(--surface-glass-subtle);
+    --surface-header: var(--surface-panel-header);
 
     --line: var(--border-subtle);
     --line-strong: var(--border-strong);
-    --card-highlight: rgb(var(--palette-silver-rgb) / 0.12);
-    --dot: rgb(var(--palette-silver-rgb) / 0.06);
+    --card-highlight: rgb(var(--palette-silver-rgb) / 0.16);
+    --dot: rgb(var(--palette-silver-rgb) / 0.08);
 
     --ambient-1: var(--ambient-brand-1);
     --ambient-2: var(--ambient-brand-2);
     --ambient-3: var(--ambient-brand-3);
-    --vignette: rgb(0 0 0 / 0.28);
+    --vignette: rgb(var(--palette-graphite-rgb) / 0.38);
 
     --ink: var(--text-primary);
     --ink-body: color-mix(in srgb, var(--text-primary) 92%, var(--text-secondary) 8%);
@@ -150,62 +159,77 @@
     --focus: var(--border-focus);
 
     --elevation-card:
-      0 1px 2px rgb(0 0 0 / 0.35),
-      0 2px 6px rgb(var(--palette-silver-rgb) / 0.2);
+      0 1px 3px rgb(var(--palette-graphite-rgb) / 0.5),
+      0 4px 12px rgb(var(--palette-silver-rgb) / 0.22);
     --elevation-pop:
-      0 8px 24px rgb(0 0 0 / 0.45),
-      0 16px 40px rgb(var(--palette-pumpkin-spice-rgb) / 0.12);
+      0 10px 28px rgb(var(--palette-graphite-rgb) / 0.45),
+      0 20px 48px rgb(var(--palette-blushed-brick-rgb) / 0.14);
 
-    --glass-bg-subtle: rgb(255 255 255 / 0.05);
-    --glass-bg: rgb(255 255 255 / 0.07);
-    --glass-bg-strong: rgb(255 255 255 / 0.1);
-    --glass-module-border: rgb(0 0 0 / 0.28);
-    --glass-module-border-strong: rgb(0 0 0 / 0.38);
+    --glass-bg-subtle: var(--surface-glass-subtle);
+    --glass-bg: var(--surface-glass);
+    --glass-bg-strong: var(--surface-glass-strong);
+    --glass-module-border: var(--border-subtle);
+    --glass-module-border-strong: var(--border-strong);
     --glass-border: var(--glass-module-border);
     --glass-border-strong: var(--glass-module-border-strong);
     --elevation-module:
-      0 1px 3px rgb(0 0 0 / 0.2),
-      0 4px 12px rgb(0 0 0 / 0.18),
-      0 8px 24px rgb(0 0 0 / 0.14);
+      0 0 0 0.5px hsl(var(--palette-silver-hsl) / 0.14),
+      0 2px 6px rgb(var(--palette-graphite-rgb) / 0.42),
+      0 8px 24px rgb(0 0 0 / 0.22),
+      0 0 28px -8px rgb(var(--palette-silver-rgb) / 0.08);
     --elevation-module-hover:
-      0 2px 6px rgb(0 0 0 / 0.22),
-      0 6px 16px rgb(0 0 0 / 0.2),
-      0 12px 32px rgb(0 0 0 / 0.18);
-    --glass-highlight: rgb(255 255 255 / 0.1);
-    --glass-bg-hover: rgb(255 255 255 / 0.09);
-    --glass-highlight-strong: rgb(255 255 255 / 0.14);
-    --glass-glow: rgb(var(--palette-pumpkin-spice-rgb) / 0.12);
-    --glass-ambient: rgb(var(--palette-silver-rgb) / 0.06);
-    --glass-inset-bg: rgb(255 255 255 / 0.04);
-    --glass-inset-border: hsl(var(--palette-silver-hsl) / 0.22);
+      0 0 0 0.5px hsl(var(--palette-silver-hsl) / 0.22),
+      0 4px 12px rgb(var(--palette-graphite-rgb) / 0.48),
+      0 14px 36px rgb(0 0 0 / 0.26),
+      0 0 40px -10px hsl(var(--palette-blushed-brick-hsl) / 0.12);
+    --glass-highlight: var(--surface-glass-highlight);
+    --glass-bg-hover: color-mix(in srgb, rgb(255 255 255 / 0.11) 70%, var(--palette-silver) 30%);
+    --glass-highlight-strong: rgb(255 255 255 / 0.22);
+    --glass-glow: rgb(var(--palette-blushed-brick-rgb) / 0.16);
+    --glass-ambient: rgb(var(--palette-silver-rgb) / 0.08);
+    --glass-inset-bg: var(--surface-glass-subtle);
+    --glass-inset-border: var(--border-subtle);
+    --glass-hover-glow-a: hsl(var(--palette-blushed-brick-hsl) / 0.18);
+    --glass-hover-glow-b: hsl(var(--palette-silver-hsl) / 0.1);
+    --glass-rim: 0 0 0 0.5px hsl(var(--palette-silver-hsl) / 0.12);
+    --glass-inset-depth: rgb(255 255 255 / 0.025);
+    --glass-dimmed-opacity: 0.82;
+    --glass-dimmed-filter: saturate(0.88) brightness(0.94);
+
+    --blur-sm: 10px;
+    --blur-md: 20px;
+    --blur-lg: 34px;
+    --glass-saturate: 1.32;
+    --glass-contrast: 1.06;
 
     --elevation-glass-sm:
-      0 1px 2px rgb(0 0 0 / 0.4),
-      0 4px 12px rgb(var(--palette-silver-rgb) / 0.22);
+      0 1px 3px rgb(var(--palette-graphite-rgb) / 0.45),
+      0 6px 16px rgb(var(--palette-silver-rgb) / 0.24);
     --elevation-glass-md:
-      0 2px 6px rgb(0 0 0 / 0.32),
-      0 12px 32px rgb(var(--palette-pumpkin-spice-rgb) / 0.1),
-      0 24px 56px rgb(0 0 0 / 0.14);
+      0 2px 8px rgb(var(--palette-graphite-rgb) / 0.38),
+      0 14px 36px rgb(var(--palette-blushed-brick-rgb) / 0.12),
+      0 28px 60px rgb(var(--palette-graphite-rgb) / 0.32);
     --elevation-glass-lg:
-      0 10px 32px rgb(0 0 0 / 0.5),
-      0 28px 64px rgb(var(--palette-pumpkin-spice-rgb) / 0.14);
+      0 8px 28px rgb(var(--palette-graphite-rgb) / 0.5),
+      0 24px 64px rgb(var(--palette-blushed-brick-rgb) / 0.16),
+      0 0 48px -12px hsl(var(--palette-silver-hsl) / 0.1);
   }
 }
 
 [data-theme="dark"] {
   --canvas: var(--bg-primary);
   --canvas-tint: var(--bg-secondary);
-  --surface: rgb(255 255 255 / 0.05);
-  --surface-subtle: rgb(255 255 255 / 0.03);
-  --surface-header: rgb(255 255 255 / 0.07);
+  --surface: var(--surface-glass);
+  --surface-subtle: var(--surface-glass-subtle);
+  --surface-header: var(--surface-panel-header);
   --line: var(--border-subtle);
   --line-strong: var(--border-strong);
-  --card-highlight: rgb(var(--palette-silver-rgb) / 0.12);
-  --dot: rgb(var(--palette-silver-rgb) / 0.06);
+  --card-highlight: rgb(var(--palette-silver-rgb) / 0.16);
+  --dot: rgb(var(--palette-silver-rgb) / 0.08);
   --ambient-1: var(--ambient-brand-1);
   --ambient-2: var(--ambient-brand-2);
   --ambient-3: var(--ambient-brand-3);
-  --vignette: rgb(0 0 0 / 0.28);
+  --vignette: rgb(var(--palette-graphite-rgb) / 0.38);
   --ink: var(--text-primary);
   --ink-body: color-mix(in srgb, var(--text-primary) 92%, var(--text-secondary) 8%);
   --ink-soft: var(--text-secondary);
@@ -221,28 +245,58 @@
   --accent-foreground: var(--text-on-accent);
   --accent-subtle: var(--accent-subtle);
   --focus: var(--border-focus);
-  --glass-bg-subtle: rgb(255 255 255 / 0.05);
-  --glass-bg: rgb(255 255 255 / 0.07);
-  --glass-bg-strong: rgb(255 255 255 / 0.1);
-  --glass-module-border: rgb(0 0 0 / 0.28);
-  --glass-module-border-strong: rgb(0 0 0 / 0.38);
+  --elevation-card:
+    0 1px 3px rgb(var(--palette-graphite-rgb) / 0.5),
+    0 4px 12px rgb(var(--palette-silver-rgb) / 0.22);
+  --elevation-pop:
+    0 10px 28px rgb(var(--palette-graphite-rgb) / 0.45),
+    0 20px 48px rgb(var(--palette-blushed-brick-rgb) / 0.14);
+  --glass-bg-subtle: var(--surface-glass-subtle);
+  --glass-bg: var(--surface-glass);
+  --glass-bg-strong: var(--surface-glass-strong);
+  --glass-module-border: var(--border-subtle);
+  --glass-module-border-strong: var(--border-strong);
   --glass-border: var(--glass-module-border);
   --glass-border-strong: var(--glass-module-border-strong);
   --elevation-module:
-    0 1px 3px rgb(0 0 0 / 0.2),
-    0 4px 12px rgb(0 0 0 / 0.18),
-    0 8px 24px rgb(0 0 0 / 0.14);
+    0 0 0 0.5px hsl(var(--palette-silver-hsl) / 0.14),
+    0 2px 6px rgb(var(--palette-graphite-rgb) / 0.42),
+    0 8px 24px rgb(0 0 0 / 0.22),
+    0 0 28px -8px rgb(var(--palette-silver-rgb) / 0.08);
   --elevation-module-hover:
-    0 2px 6px rgb(0 0 0 / 0.22),
-    0 6px 16px rgb(0 0 0 / 0.2),
-    0 12px 32px rgb(0 0 0 / 0.18);
-  --glass-highlight: rgb(255 255 255 / 0.1);
-  --glass-bg-hover: rgb(255 255 255 / 0.09);
-  --glass-highlight-strong: rgb(255 255 255 / 0.14);
-  --glass-glow: rgb(var(--palette-pumpkin-spice-rgb) / 0.12);
-  --glass-ambient: rgb(var(--palette-silver-rgb) / 0.06);
-  --glass-inset-bg: rgb(255 255 255 / 0.04);
-  --glass-inset-border: hsl(var(--palette-silver-hsl) / 0.22);
+    0 0 0 0.5px hsl(var(--palette-silver-hsl) / 0.22),
+    0 4px 12px rgb(var(--palette-graphite-rgb) / 0.48),
+    0 14px 36px rgb(0 0 0 / 0.26),
+    0 0 40px -10px hsl(var(--palette-blushed-brick-hsl) / 0.12);
+  --glass-highlight: var(--surface-glass-highlight);
+  --glass-bg-hover: color-mix(in srgb, rgb(255 255 255 / 0.11) 70%, var(--palette-silver) 30%);
+  --glass-highlight-strong: rgb(255 255 255 / 0.22);
+  --glass-glow: rgb(var(--palette-blushed-brick-rgb) / 0.16);
+  --glass-ambient: rgb(var(--palette-silver-rgb) / 0.08);
+  --glass-inset-bg: var(--surface-glass-subtle);
+  --glass-inset-border: var(--border-subtle);
+  --glass-hover-glow-a: hsl(var(--palette-blushed-brick-hsl) / 0.18);
+  --glass-hover-glow-b: hsl(var(--palette-silver-hsl) / 0.1);
+  --glass-rim: 0 0 0 0.5px hsl(var(--palette-silver-hsl) / 0.12);
+  --glass-inset-depth: rgb(255 255 255 / 0.025);
+  --glass-dimmed-opacity: 0.82;
+  --glass-dimmed-filter: saturate(0.88) brightness(0.94);
+  --blur-sm: 10px;
+  --blur-md: 20px;
+  --blur-lg: 34px;
+  --glass-saturate: 1.32;
+  --glass-contrast: 1.06;
+  --elevation-glass-sm:
+    0 1px 3px rgb(var(--palette-graphite-rgb) / 0.45),
+    0 6px 16px rgb(var(--palette-silver-rgb) / 0.24);
+  --elevation-glass-md:
+    0 2px 8px rgb(var(--palette-graphite-rgb) / 0.38),
+    0 14px 36px rgb(var(--palette-blushed-brick-rgb) / 0.12),
+    0 28px 60px rgb(var(--palette-graphite-rgb) / 0.32);
+  --elevation-glass-lg:
+    0 8px 28px rgb(var(--palette-graphite-rgb) / 0.5),
+    0 24px 64px rgb(var(--palette-blushed-brick-rgb) / 0.16),
+    0 0 48px -12px hsl(var(--palette-silver-hsl) / 0.1);
 }
 
 /* Expose tokens to Tailwind as semantic utilities: bg-*, text-*, border-*,
@@ -250,6 +304,9 @@
    prefers-color-scheme overrides apply at runtime. */
 @theme inline {
   --color-canvas: var(--canvas);
+  --color-surface-glass: var(--surface-glass);
+  --color-border-subtle: var(--border-subtle);
+  --color-text-primary: var(--text-primary);
   --color-surface: var(--surface);
   --color-surface-subtle: var(--surface-subtle);
   --color-surface-header: var(--surface-header);
@@ -315,8 +372,8 @@
 @utility glass {
   background-color: var(--glass-bg-subtle);
   background-image: var(--gradient-chrome-highlight);
-  backdrop-filter: blur(var(--blur-sm));
-  -webkit-backdrop-filter: blur(var(--blur-sm));
+  backdrop-filter: blur(var(--blur-sm)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--blur-sm)) saturate(var(--glass-saturate));
   border-bottom: 1px solid var(--glass-border);
   box-shadow: inset 0 1px 0 0 var(--glass-highlight);
   transition:
@@ -345,24 +402,24 @@
    Consumed by dashboard modules (`Panel`) and composable elsewhere.
    ========================================================================== */
 @utility frost-sm {
-  backdrop-filter: blur(var(--blur-sm));
-  -webkit-backdrop-filter: blur(var(--blur-sm));
+  backdrop-filter: blur(var(--blur-sm)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--blur-sm)) saturate(var(--glass-saturate));
 }
 
 @utility frost-md {
-  backdrop-filter: blur(var(--blur-md));
-  -webkit-backdrop-filter: blur(var(--blur-md));
+  backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate));
 }
 
 @utility frost-lg {
-  backdrop-filter: blur(var(--blur-lg));
-  -webkit-backdrop-filter: blur(var(--blur-lg));
+  backdrop-filter: blur(var(--blur-lg)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(var(--glass-saturate));
 }
 
 @utility glass-sm {
   background-color: var(--glass-bg-subtle);
-  backdrop-filter: blur(var(--blur-sm));
-  -webkit-backdrop-filter: blur(var(--blur-sm));
+  backdrop-filter: blur(var(--blur-sm)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--blur-sm)) saturate(var(--glass-saturate));
   border: 1px solid var(--glass-border);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight),
@@ -375,8 +432,8 @@
 
 @utility glass-md {
   background-color: var(--glass-bg);
-  backdrop-filter: blur(var(--blur-md));
-  -webkit-backdrop-filter: blur(var(--blur-md));
+  backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--blur-md)) saturate(var(--glass-saturate));
   border: none;
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight),
@@ -389,8 +446,8 @@
 
 @utility glass-lg {
   background-color: var(--glass-bg-strong);
-  backdrop-filter: blur(var(--blur-lg));
-  -webkit-backdrop-filter: blur(var(--blur-lg));
+  backdrop-filter: blur(var(--blur-lg)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(var(--glass-saturate));
   border: 1px solid var(--glass-border-strong);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight),
@@ -401,15 +458,15 @@
     box-shadow var(--glass-duration) var(--glass-ease);
 }
 
-/* Panel header band — sapphire-tinted strip; label stays neutral ink */
+/* Panel header band — theme-aware glass strip; label uses --text-panel-header */
 @utility glass-header {
   background-color: var(--surface-panel-header);
   background-image: linear-gradient(
     180deg,
-    rgb(255 255 255 / 0.28) 0%,
+    var(--glass-highlight) 0%,
     transparent 100%
   );
-  border-bottom: 1px solid hsl(var(--palette-silver-hsl) / 0.55);
+  border-bottom: 1px solid var(--border-subtle);
   transition:
     background-color var(--glass-duration) var(--glass-ease),
     border-color var(--glass-duration) var(--glass-ease);
@@ -419,7 +476,9 @@
 @utility glass-inset {
   background-color: var(--glass-inset-bg);
   border: 1px solid var(--glass-inset-border);
-  box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.55);
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-highlight),
+    inset 0 -1px 0 0 var(--glass-inset-depth);
   transition:
     background-color var(--glass-duration) var(--glass-ease),
     border-color var(--glass-duration) var(--glass-ease),
@@ -475,20 +534,21 @@
 }
 
 .glass-module:not([data-minimized]):not([data-dragging]) {
-  box-shadow: var(--elevation-module);
+  box-shadow: var(--elevation-module), var(--glass-rim);
 }
 
 .glass-module:not([data-minimized]):not([data-dragging]) .glass-panel {
   box-shadow: inset 0 1px 0 0 var(--glass-highlight);
 }
 
-/* Hover — lift shadow + subtle pumpkin-spice glow */
+/* Hover — lift shadow + subtle accent glow */
 .glass-module:hover:not([data-dimmed]):not([data-dragging]):not([data-active]):not([data-minimized]) {
   border-color: var(--glass-module-border-strong);
   box-shadow:
     var(--elevation-module-hover),
-    0 10px 36px -12px hsl(var(--palette-pumpkin-spice-hsl) / 0.12),
-    0 4px 18px -8px hsl(var(--palette-pumpkin-spice-hsl) / 0.06);
+    var(--glass-rim),
+    0 12px 40px -14px var(--glass-hover-glow-a),
+    0 4px 20px -8px var(--glass-hover-glow-b);
 }
 
 .glass-module:hover:not([data-dimmed]):not([data-dragging]):not([data-active]) .glass-panel {
@@ -504,8 +564,9 @@
   border-color: var(--glass-module-border-strong);
   box-shadow:
     var(--elevation-module-hover),
-    0 10px 36px -12px hsl(var(--palette-pumpkin-spice-hsl) / 0.1),
-    0 4px 18px -8px hsl(var(--palette-pumpkin-spice-hsl) / 0.05);
+    var(--glass-rim),
+    0 12px 40px -14px var(--glass-hover-glow-a),
+    0 4px 20px -8px var(--glass-hover-glow-b);
 }
 
 .glass-module:focus-within:not([data-dimmed]):not([data-dragging]):not([data-active]) .glass-panel {
@@ -516,7 +577,7 @@
   background: var(--gradient-hover-glow), var(--gradient-glass-highlight);
 }
 
-/* Active / maximized — pumpkin-spice radial accent */
+/* Active / maximized — accent radial glow */
 .glass-module[data-active]:not([data-dragging]) .glass-panel::before {
   content: "";
   position: absolute;
@@ -532,7 +593,8 @@
   box-shadow:
     var(--elevation-module-hover),
     var(--elevation-glass-lg),
-    var(--brand-glow-active);
+    var(--brand-glow-active),
+    var(--glass-rim);
 }
 
 .glass-module[data-active]:not([data-dragging]) .glass-panel {
@@ -544,7 +606,7 @@
   background: var(--gradient-glass-highlight);
 }
 
-/* Drop target during drag — pumpkin-spice border glow */
+/* Drop target during drag — accent border glow */
 .glass-module[data-drop-target]:not([data-dragging]):not([data-minimized]) {
   border-color: color-mix(in srgb, var(--accent) 35%, var(--glass-module-border-strong));
   box-shadow:
@@ -573,8 +635,8 @@
 
 /* Non-active modules recede while one is focused. */
 .glass-module[data-dimmed] {
-  opacity: 0.84;
-  filter: saturate(0.9) brightness(0.97);
+  opacity: var(--glass-dimmed-opacity);
+  filter: var(--glass-dimmed-filter);
   transform: none;
 }
 
@@ -734,12 +796,12 @@ body::before {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    hsl(var(--palette-pumpkin-spice-hsl) / 0.4) 22%,
-    hsl(var(--palette-pumpkin-spice-hsl) / 0.55) 50%,
-    hsl(var(--palette-pumpkin-spice-hsl) / 0.4) 78%,
+    color-mix(in srgb, var(--accent) 40%, transparent) 22%,
+    color-mix(in srgb, var(--accent) 55%, transparent) 50%,
+    color-mix(in srgb, var(--accent) 40%, transparent) 78%,
     transparent 100%
   );
-  box-shadow: 0 1px 12px hsl(var(--palette-pumpkin-spice-hsl) / 0.14);
+  box-shadow: 0 1px 12px color-mix(in srgb, var(--accent) 14%, transparent);
 }
 
 @utility brand-mark {
@@ -790,7 +852,7 @@ body::after {
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background-color: hsl(var(--palette-pumpkin-spice-hsl) / 0.45);
+  background-color: color-mix(in srgb, var(--accent) 45%, var(--line-strong));
 }
 
 /* ==========================================================================
