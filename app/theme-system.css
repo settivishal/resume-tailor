@@ -20,3 +20,20 @@ html[data-theme="light"],
 html[data-theme="dark"] {
   color-scheme: dark;
 }
+
+/**
+ * STEP 2 — Light theme palette contract (canonical aliases).
+ *
+ *   --background        → --bg-primary       (platinum canvas)
+ *   --surface           → --surface-glass      (platinum glass frost)
+ *   --text-primary      → semantic-theme.css
+ *   --text-muted        → semantic-theme.css
+ *   --border            → --border-subtle      (silver transparency)
+ *   --accent-primary    → blushed-brick
+ *   --accent-secondary  → charcoal (silver mix)
+ */
+:root,
+[data-theme="light"] {
+  --background: var(--bg-primary);
+  --border: var(--border-subtle);
+}

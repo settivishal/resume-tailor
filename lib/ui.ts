@@ -89,7 +89,7 @@ export const color = {
   accentSubtle: "bg-accent-subtle",
 } as const;
 
-/** Signature brand identity — pumpkin-spice on platinum + silver. */
+/** Signature brand identity — blushed-brick (light) / pumpkin-spice (dark) on neutrals. */
 export const brand = {
   mark: "brand-mark",
   glowHover: "brand-glow-hover",

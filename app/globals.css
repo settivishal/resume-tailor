@@ -17,18 +17,18 @@
   --canvas: var(--bg-primary);
   --canvas-tint: var(--bg-secondary);
 
-  /* Surfaces — neutral fills; palette shows through glass blur */
-  --surface: rgb(255 255 255 / 0.45);
-  --surface-subtle: rgb(255 255 255 / 0.28);
-  --surface-header: rgb(255 255 255 / 0.32);
+  /* Surfaces — neutral platinum frost; palette shows through glass blur */
+  --surface: color-mix(in srgb, rgb(255 255 255 / 0.45) 68%, var(--palette-platinum) 32%);
+  --surface-subtle: color-mix(in srgb, rgb(255 255 255 / 0.28) 65%, var(--palette-platinum) 35%);
+  --surface-header: color-mix(in srgb, rgb(255 255 255 / 0.32) 62%, var(--palette-platinum) 38%);
 
   /* Borders — silver at low opacity */
   --line: var(--border-subtle);
   --line-strong: var(--border-strong);
-  --card-highlight: rgb(255 255 255 / 0.68);
+  --card-highlight: color-mix(in srgb, var(--palette-platinum) 18%, rgb(255 255 255 / 0.62) 82%);
   --dot: rgb(var(--palette-silver-rgb) / 0.08);
 
-  /* Ambient depth — pumpkin-spice whisper on platinum / silver */
+  /* Ambient depth — blushed-brick whisper on platinum / silver */
   --ambient-1: var(--ambient-brand-1);
   --ambient-2: var(--ambient-brand-2);
   --ambient-3: var(--ambient-brand-3);
@@ -80,12 +80,14 @@
     0 4px 10px rgb(0 0 0 / 0.07),
     0 10px 28px rgb(0 0 0 / 0.07);
   --glass-highlight: var(--surface-glass-highlight);
-  --glass-bg-hover: rgb(255 255 255 / 0.74);
-  --glass-highlight-strong: rgb(255 255 255 / 0.92);
-  --glass-glow: rgb(var(--palette-pumpkin-spice-rgb) / 0.08);
+  --glass-bg-hover: color-mix(in srgb, var(--palette-platinum) 22%, rgb(255 255 255 / 0.68) 78%);
+  --glass-highlight-strong: color-mix(in srgb, var(--palette-platinum) 12%, hsl(0 0% 98%) 88%);
+  --glass-glow: rgb(var(--palette-blushed-brick-rgb) / 0.08);
   --glass-ambient: rgb(var(--palette-platinum-rgb) / 0.35);
   --glass-inset-bg: color-mix(in srgb, var(--palette-platinum) 55%, rgb(255 255 255 / 0.45) 45%);
   --glass-inset-border: hsl(var(--palette-silver-hsl) / 0.42);
+  --glass-hover-glow-a: hsl(var(--palette-blushed-brick-hsl) / 0.12);
+  --glass-hover-glow-b: hsl(var(--palette-blushed-brick-hsl) / 0.06);
 
   /* Motion & spacing (unchanged) */
   --glass-ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -98,7 +100,7 @@
   --blur-md: 16px;
   --blur-lg: 28px;
 
-  /* Glass shadows — neutral + pumpkin-spice accent tint */
+  /* Glass shadows — neutral frost + blushed-brick accent tint */
   --elevation-glass-sm:
     0 1px 2px rgb(0 0 0 / 0.05),
     0 4px 12px rgb(var(--palette-silver-rgb) / 0.1);
@@ -107,7 +109,7 @@
     0 8px 24px rgb(var(--palette-silver-rgb) / 0.12),
     0 20px 48px rgb(0 0 0 / 0.04);
   --elevation-glass-lg:
-    0 6px 20px rgb(var(--palette-pumpkin-spice-rgb) / 0.08),
+    0 6px 20px rgb(var(--palette-blushed-brick-rgb) / 0.08),
     0 16px 40px rgb(0 0 0 / 0.08);
 
   --background: var(--canvas);
@@ -179,6 +181,8 @@
     --glass-ambient: rgb(var(--palette-silver-rgb) / 0.06);
     --glass-inset-bg: rgb(255 255 255 / 0.04);
     --glass-inset-border: hsl(var(--palette-silver-hsl) / 0.22);
+    --glass-hover-glow-a: hsl(var(--palette-pumpkin-spice-hsl) / 0.12);
+    --glass-hover-glow-b: hsl(var(--palette-pumpkin-spice-hsl) / 0.06);
 
     --elevation-glass-sm:
       0 1px 2px rgb(0 0 0 / 0.4),
@@ -244,6 +248,8 @@
   --glass-ambient: rgb(var(--palette-silver-rgb) / 0.06);
   --glass-inset-bg: rgb(255 255 255 / 0.04);
   --glass-inset-border: hsl(var(--palette-silver-hsl) / 0.22);
+  --glass-hover-glow-a: hsl(var(--palette-pumpkin-spice-hsl) / 0.1);
+  --glass-hover-glow-b: hsl(var(--palette-pumpkin-spice-hsl) / 0.05);
 }
 
 /* Expose tokens to Tailwind as semantic utilities: bg-*, text-*, border-*,
@@ -483,13 +489,13 @@
   box-shadow: inset 0 1px 0 0 var(--glass-highlight);
 }
 
-/* Hover — lift shadow + subtle pumpkin-spice glow */
+/* Hover — lift shadow + subtle accent glow */
 .glass-module:hover:not([data-dimmed]):not([data-dragging]):not([data-active]):not([data-minimized]) {
   border-color: var(--glass-module-border-strong);
   box-shadow:
     var(--elevation-module-hover),
-    0 10px 36px -12px hsl(var(--palette-pumpkin-spice-hsl) / 0.12),
-    0 4px 18px -8px hsl(var(--palette-pumpkin-spice-hsl) / 0.06);
+    0 10px 36px -12px var(--glass-hover-glow-a),
+    0 4px 18px -8px var(--glass-hover-glow-b);
 }
 
 .glass-module:hover:not([data-dimmed]):not([data-dragging]):not([data-active]) .glass-panel {
@@ -505,8 +511,8 @@
   border-color: var(--glass-module-border-strong);
   box-shadow:
     var(--elevation-module-hover),
-    0 10px 36px -12px hsl(var(--palette-pumpkin-spice-hsl) / 0.1),
-    0 4px 18px -8px hsl(var(--palette-pumpkin-spice-hsl) / 0.05);
+    0 10px 36px -12px var(--glass-hover-glow-a),
+    0 4px 18px -8px var(--glass-hover-glow-b);
 }
 
 .glass-module:focus-within:not([data-dimmed]):not([data-dragging]):not([data-active]) .glass-panel {
@@ -735,12 +741,12 @@ body::before {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    hsl(var(--palette-pumpkin-spice-hsl) / 0.4) 22%,
-    hsl(var(--palette-pumpkin-spice-hsl) / 0.55) 50%,
-    hsl(var(--palette-pumpkin-spice-hsl) / 0.4) 78%,
+    color-mix(in srgb, var(--accent) 40%, transparent) 22%,
+    color-mix(in srgb, var(--accent) 55%, transparent) 50%,
+    color-mix(in srgb, var(--accent) 40%, transparent) 78%,
     transparent 100%
   );
-  box-shadow: 0 1px 12px hsl(var(--palette-pumpkin-spice-hsl) / 0.14);
+  box-shadow: 0 1px 12px color-mix(in srgb, var(--accent) 14%, transparent);
 }
 
 @utility brand-mark {
@@ -791,7 +797,7 @@ body::after {
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background-color: hsl(var(--palette-pumpkin-spice-hsl) / 0.45);
+  background-color: color-mix(in srgb, var(--accent) 45%, var(--line-strong));
 }
 
 /* ==========================================================================
