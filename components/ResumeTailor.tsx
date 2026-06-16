@@ -315,16 +315,16 @@ export default function ResumeTailor() {
     <div className={cn("flex h-screen flex-col", color.canvas)}>
       <header
         className={cn(
-          "sticky top-0 z-20 flex shrink-0 items-center justify-between gap-4 border-b px-6 py-3.5",
+          "sticky top-0 z-20 flex shrink-0 items-center justify-between gap-4 border-b px-5 py-3",
           glass,
           color.border,
         )}
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <div
             className={cn(
               "flex h-9 w-9 items-center justify-center text-sm font-semibold text-white",
-              "bg-linear-to-br from-indigo-500 to-violet-600 shadow-[0_2px_8px_rgba(99,102,241,0.45)] ring-1 ring-inset ring-white/20",
+              "bg-linear-to-br from-indigo-500 to-violet-600 shadow-sm ring-1 ring-inset ring-white/15",
               radius.lg,
             )}
             aria-hidden
@@ -357,24 +357,15 @@ export default function ResumeTailor() {
         </button>
       </header>
 
-      <main className="min-h-0 flex-1 p-4">
-        <p className={cn("mb-3 px-0.5", typography.caption, color.inkFaint)}>
-          Drag a panel by its handle to rearrange. Drag the dividers to resize columns.
-        </p>
-
+      <main className="min-h-0 flex-1 p-5">
         <div
-          className="relative hidden h-[calc(100%-1.75rem)] min-h-0 gap-4 lg:grid"
+          className="relative hidden h-full min-h-0 gap-4 lg:grid"
           style={{
             gridTemplateColumns: desktopGridTemplateColumns,
             gridTemplateRows: "minmax(180px, 1fr) minmax(180px, 1fr) minmax(180px, 1fr)",
             gridTemplateAreas: `"slotA slotB slotE" "slotA slotC slotE" "slotA slotD slotE"`,
           }}
         >
-          <VerticalResizer
-            title="Resize left column"
-            style={{ gridArea: "slotA / slotA / slotD / slotA" }}
-            className="pointer-events-none"
-          />
           <VerticalResizer
             title="Resize between left and center"
             onMouseDown={(e) => {
@@ -499,10 +490,8 @@ function ModuleContainer({
         isMaximized
           ? "absolute inset-0 z-40 animate-panel-zoom-in"
           : "relative",
-        // Subtle hover highlight (only at rest — no drag / no maximize).
-        !isDragActive &&
-          !anyMaximized &&
-          "hover:-translate-y-px hover:shadow-pop hover:ring-2 hover:ring-accent/30 hover:ring-offset-2 hover:ring-offset-canvas",
+        // Gentle elevation on hover — no motion, no ring; just soft depth.
+        !isDragActive && !anyMaximized && "hover:shadow-pop",
         // Drop target gets a clear accent ring.
         isDropTarget && "ring-2 ring-accent ring-offset-2 ring-offset-canvas",
         // Source module fades to a ghost while it is being dragged.
@@ -511,7 +500,7 @@ function ModuleContainer({
     >
       <div
         className={cn(
-          "absolute right-2 top-2 z-30 flex items-center gap-1 transition-opacity",
+          "absolute right-1.5 top-1.5 z-30 flex items-center gap-0.5 transition-opacity duration-150",
           isMaximized
             ? "opacity-100"
             : "opacity-0 group-hover/module:opacity-100 focus-within:opacity-100",
@@ -523,12 +512,10 @@ function ModuleContainer({
           title={isMaximized ? "Restore layout" : `Maximize ${label}`}
           aria-label={isMaximized ? "Restore layout" : `Maximize ${label}`}
           className={cn(
-            "flex items-center justify-center border p-1.5 shadow-card backdrop-blur transition-colors active:scale-90",
+            "flex items-center justify-center bg-surface/70 p-1.5 backdrop-blur transition-colors active:scale-90",
             radius.md,
-            color.border,
-            color.surface,
-            color.inkMuted,
-            "hover:text-ink-soft",
+            color.inkFaint,
+            "hover:bg-surface-subtle hover:text-ink-soft",
             focusRing,
           )}
         >
@@ -551,24 +538,21 @@ function ModuleContainer({
             title={`Drag to move ${label}`}
             aria-label={`Drag to move ${label}`}
             className={cn(
-              "flex cursor-grab items-center gap-1 border px-1.5 py-1 shadow-card backdrop-blur transition-colors active:cursor-grabbing",
+              "flex cursor-grab items-center justify-center bg-surface/70 p-1.5 backdrop-blur transition-colors active:cursor-grabbing",
               radius.md,
-              color.border,
-              color.surface,
-              color.inkMuted,
-              "hover:text-ink-soft",
+              color.inkFaint,
+              "hover:bg-surface-subtle hover:text-ink-soft",
               focusRing,
             )}
           >
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden>
-              <circle cx="2.5" cy="2" r="1" />
-              <circle cx="7.5" cy="2" r="1" />
-              <circle cx="2.5" cy="5" r="1" />
-              <circle cx="7.5" cy="5" r="1" />
-              <circle cx="2.5" cy="8" r="1" />
-              <circle cx="7.5" cy="8" r="1" />
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden>
+              <circle cx="3.5" cy="2.5" r="1" />
+              <circle cx="8.5" cy="2.5" r="1" />
+              <circle cx="3.5" cy="6" r="1" />
+              <circle cx="8.5" cy="6" r="1" />
+              <circle cx="3.5" cy="9.5" r="1" />
+              <circle cx="8.5" cy="9.5" r="1" />
             </svg>
-            <span className={typography.micro}>Drag</span>
           </button>
         )}
       </div>
@@ -658,9 +642,9 @@ function VerticalResizer({
       style={style}
       className={cn("group/resizer z-10 flex h-full w-4 items-center justify-center", className)}
     >
-      {/* Faint hairline = a clear, always-visible boundary between modules.
-          On hover it becomes a taller accent grip to signal it is resizable. */}
-      <div className="h-full w-px rounded-full bg-line transition-all duration-150 group-hover/resizer:w-1.5 group-hover/resizer:bg-accent group-active/resizer:bg-accent" />
+      {/* Invisible until hovered — the card edges already separate modules, so
+          the resize affordance only appears when you reach for it. */}
+      <div className="h-full w-1 rounded-full bg-transparent transition-colors duration-150 group-hover/resizer:bg-accent/70 group-active/resizer:bg-accent" />
     </div>
   );
 }
