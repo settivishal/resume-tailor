@@ -64,9 +64,9 @@
       0 20px 48px -16px hsl(var(--palette-blushed-brick-hsl) / 0.2);
     --hover-glow: var(--brand-glow);
     --focus-glow: var(--brand-glow-focus);
-    --ambient-brand-1: rgb(var(--palette-blushed-brick-rgb) / 0.1);
-    --ambient-brand-2: rgb(var(--palette-silver-rgb) / 0.08);
-    --ambient-brand-3: rgb(var(--palette-platinum-rgb) / 0.04);
+    --ambient-brand-1: rgb(var(--palette-blushed-brick-rgb) / 0.12);
+    --ambient-brand-2: rgb(var(--palette-silver-rgb) / 0.1);
+    --ambient-brand-3: rgb(var(--palette-platinum-rgb) / 0.06);
   }
 }
 
@@ -93,7 +93,7 @@
     0 20px 48px -16px hsl(var(--palette-blushed-brick-hsl) / 0.2);
   --hover-glow: var(--brand-glow);
   --focus-glow: var(--brand-glow-focus);
-  --ambient-brand-1: rgb(var(--palette-blushed-brick-rgb) / 0.1);
-  --ambient-brand-2: rgb(var(--palette-silver-rgb) / 0.08);
-  --ambient-brand-3: rgb(var(--palette-platinum-rgb) / 0.04);
+  --ambient-brand-1: rgb(var(--palette-blushed-brick-rgb) / 0.12);
+  --ambient-brand-2: rgb(var(--palette-silver-rgb) / 0.1);
+  --ambient-brand-3: rgb(var(--palette-platinum-rgb) / 0.06);
 }

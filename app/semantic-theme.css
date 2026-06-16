@@ -16,25 +16,25 @@
   --bg-primary: var(--palette-platinum);
   --bg-secondary: color-mix(in srgb, var(--palette-platinum) 72%, var(--palette-silver) 28%);
 
-  /* Glass surfaces — neutral platinum frost */
-  --surface-glass: color-mix(in srgb, rgb(255 255 255 / 0.72) 65%, var(--palette-platinum) 35%);
-  --surface-glass-strong: color-mix(in srgb, rgb(255 255 255 / 0.86) 60%, var(--palette-platinum) 40%);
-  --surface-glass-subtle: color-mix(in srgb, rgb(255 255 255 / 0.58) 68%, var(--palette-platinum) 32%);
-  --surface-glass-highlight: color-mix(in srgb, var(--palette-platinum) 14%, hsl(0 0% 98%) 86%);
+  /* Glass surfaces — soft platinum frost (macOS light vibrancy) */
+  --surface-glass: color-mix(in srgb, rgb(255 255 255 / 0.76) 62%, var(--palette-platinum) 38%);
+  --surface-glass-strong: color-mix(in srgb, rgb(255 255 255 / 0.88) 58%, var(--palette-platinum) 42%);
+  --surface-glass-subtle: color-mix(in srgb, rgb(255 255 255 / 0.62) 65%, var(--palette-platinum) 35%);
+  --surface-glass-highlight: color-mix(in srgb, var(--palette-platinum) 10%, hsl(0 0% 99%) 90%);
 
   /* Typography — charcoal structure; silver muted ramp */
-  --text-primary: color-mix(in srgb, var(--palette-silver) 28%, #1f1f1f 72%);
-  --text-secondary: color-mix(in srgb, var(--palette-silver) 55%, #333333 45%);
-  --text-muted: var(--palette-silver);
-  --text-faint: hsl(var(--palette-silver-hsl) / 0.72);
+  --text-primary: color-mix(in srgb, var(--palette-silver) 22%, #1a1a1a 78%);
+  --text-secondary: color-mix(in srgb, var(--palette-silver) 48%, #2e2e2e 52%);
+  --text-muted: color-mix(in srgb, var(--palette-silver) 78%, #444444 22%);
+  --text-faint: hsl(var(--palette-silver-hsl) / 0.78);
   --text-on-accent: #ffffff;
   --text-destructive: color-mix(in srgb, var(--palette-blushed-brick) 88%, #000 12%);
-  --surface-panel-header: color-mix(in srgb, var(--palette-silver) 38%, var(--palette-platinum) 62%);
-  --text-panel-header: #000000;
+  --surface-panel-header: color-mix(in srgb, var(--palette-silver) 42%, var(--palette-platinum) 58%);
+  --text-panel-header: color-mix(in srgb, var(--palette-silver) 18%, #0d0d0d 82%);
 
-  /* Borders — silver structure */
-  --border-subtle: hsl(var(--palette-silver-hsl) / 0.45);
-  --border-strong: hsl(var(--palette-silver-hsl) / 0.72);
+  /* Borders — silver structure, visible but soft */
+  --border-subtle: hsl(var(--palette-silver-hsl) / 0.52);
+  --border-strong: hsl(var(--palette-silver-hsl) / 0.76);
   --border-focus: var(--palette-blushed-brick);
 
   /* Accents — blushed-brick primary, charcoal secondary */
@@ -83,22 +83,23 @@
     --bg-primary: color-mix(in srgb, var(--palette-charcoal) 88%, var(--palette-silver) 12%);
     --bg-secondary: color-mix(in srgb, var(--palette-graphite) 82%, var(--palette-silver) 18%);
 
-    --surface-glass: color-mix(in srgb, rgb(255 255 255 / 0.07) 88%, var(--palette-silver) 12%);
-    --surface-glass-strong: color-mix(in srgb, rgb(255 255 255 / 0.1) 85%, var(--palette-silver) 15%);
-    --surface-glass-subtle: rgb(255 255 255 / 0.04);
-    --surface-glass-highlight: rgb(255 255 255 / 0.14);
+    /* Glass — deep translucent panels with luminous edge (macOS dark vibrancy) */
+    --surface-glass: color-mix(in srgb, rgb(255 255 255 / 0.09) 82%, var(--palette-silver) 18%);
+    --surface-glass-strong: color-mix(in srgb, rgb(255 255 255 / 0.13) 78%, var(--palette-silver) 22%);
+    --surface-glass-subtle: rgb(255 255 255 / 0.055);
+    --surface-glass-highlight: rgb(255 255 255 / 0.2);
 
     --text-primary: var(--palette-platinum);
-    --text-secondary: hsl(var(--palette-silver-hsl) / 0.92);
-    --text-muted: hsl(var(--palette-silver-hsl) / 0.72);
-    --text-faint: hsl(var(--palette-silver-hsl) / 0.52);
+    --text-secondary: hsl(var(--palette-silver-hsl) / 0.94);
+    --text-muted: hsl(var(--palette-silver-hsl) / 0.78);
+    --text-faint: hsl(var(--palette-silver-hsl) / 0.58);
     --text-on-accent: #ffffff;
     --text-destructive: color-mix(in srgb, var(--palette-blushed-brick) 92%, #fff 8%);
-    --surface-panel-header: color-mix(in srgb, var(--palette-silver) 32%, var(--palette-charcoal) 68%);
-    --text-panel-header: var(--palette-platinum);
+    --surface-panel-header: color-mix(in srgb, var(--palette-silver) 28%, var(--palette-charcoal) 72%);
+    --text-panel-header: color-mix(in srgb, var(--palette-platinum) 92%, var(--palette-silver) 8%);
 
-    --border-subtle: hsl(var(--palette-silver-hsl) / 0.22);
-    --border-strong: hsl(var(--palette-silver-hsl) / 0.36);
+    --border-subtle: hsl(var(--palette-silver-hsl) / 0.3);
+    --border-strong: hsl(var(--palette-silver-hsl) / 0.46);
     --border-focus: var(--palette-blushed-brick);
 
     --accent-primary: var(--palette-blushed-brick);
@@ -140,22 +141,22 @@
   --bg-primary: color-mix(in srgb, var(--palette-charcoal) 88%, var(--palette-silver) 12%);
   --bg-secondary: color-mix(in srgb, var(--palette-graphite) 82%, var(--palette-silver) 18%);
 
-  --surface-glass: color-mix(in srgb, rgb(255 255 255 / 0.07) 88%, var(--palette-silver) 12%);
-  --surface-glass-strong: color-mix(in srgb, rgb(255 255 255 / 0.1) 85%, var(--palette-silver) 15%);
-  --surface-glass-subtle: rgb(255 255 255 / 0.04);
-  --surface-glass-highlight: rgb(255 255 255 / 0.14);
+  --surface-glass: color-mix(in srgb, rgb(255 255 255 / 0.09) 82%, var(--palette-silver) 18%);
+  --surface-glass-strong: color-mix(in srgb, rgb(255 255 255 / 0.13) 78%, var(--palette-silver) 22%);
+  --surface-glass-subtle: rgb(255 255 255 / 0.055);
+  --surface-glass-highlight: rgb(255 255 255 / 0.2);
 
   --text-primary: var(--palette-platinum);
-  --text-secondary: hsl(var(--palette-silver-hsl) / 0.92);
-  --text-muted: hsl(var(--palette-silver-hsl) / 0.72);
-  --text-faint: hsl(var(--palette-silver-hsl) / 0.52);
+  --text-secondary: hsl(var(--palette-silver-hsl) / 0.94);
+  --text-muted: hsl(var(--palette-silver-hsl) / 0.78);
+  --text-faint: hsl(var(--palette-silver-hsl) / 0.58);
   --text-on-accent: #ffffff;
   --text-destructive: color-mix(in srgb, var(--palette-blushed-brick) 92%, #fff 8%);
-  --surface-panel-header: color-mix(in srgb, var(--palette-silver) 32%, var(--palette-charcoal) 68%);
-  --text-panel-header: var(--palette-platinum);
+  --surface-panel-header: color-mix(in srgb, var(--palette-silver) 28%, var(--palette-charcoal) 72%);
+  --text-panel-header: color-mix(in srgb, var(--palette-platinum) 92%, var(--palette-silver) 8%);
 
-  --border-subtle: hsl(var(--palette-silver-hsl) / 0.22);
-  --border-strong: hsl(var(--palette-silver-hsl) / 0.36);
+  --border-subtle: hsl(var(--palette-silver-hsl) / 0.3);
+  --border-strong: hsl(var(--palette-silver-hsl) / 0.46);
   --border-focus: var(--palette-blushed-brick);
 
   --accent-primary: var(--palette-blushed-brick);
