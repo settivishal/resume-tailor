@@ -365,6 +365,7 @@ export default function ResumeTailor() {
               module={module}
               area={SLOT_AREAS[slots.indexOf(module)]}
               isDragActive={draggingModule !== null}
+              isDragging={draggingModule === module}
               onDragStart={() => setDraggingModule(module)}
               onDragEnd={() => setDraggingModule(null)}
               onDropModule={swapModules}
@@ -374,11 +375,11 @@ export default function ResumeTailor() {
           ))}
         </div>
 
-        <div className="grid h-full min-h-0 grid-cols-1 gap-4 lg:hidden">
+        <div className="grid min-h-0 grid-cols-1 gap-4 md:grid-cols-2 lg:hidden">
           {DEFAULT_SLOTS.map((module) => (
             <div
               key={module}
-              className="min-h-[220px]"
+              className="min-h-[240px]"
               style={{ order: slots.indexOf(module) }}
             >
               {renderModule(module)}
@@ -395,6 +396,7 @@ function ModuleContainer({
   area,
   label,
   isDragActive,
+  isDragging,
   onDragStart,
   onDragEnd,
   onDropModule,
@@ -404,6 +406,7 @@ function ModuleContainer({
   area: string;
   label: string;
   isDragActive: boolean;
+  isDragging: boolean;
   onDragStart: () => void;
   onDragEnd: () => void;
   onDropModule: (from: ModuleKey, to: ModuleKey) => void;
@@ -414,8 +417,17 @@ function ModuleContainer({
   const handleDragStart = (event: DragEvent<HTMLButtonElement>) => {
     event.dataTransfer.setData("text/module", module);
     event.dataTransfer.effectAllowed = "move";
+    setDragImage(event, label);
     onDragStart();
   };
+
+  const handleDragEnd = () => {
+    setDragOver(false);
+    onDragEnd();
+  };
+
+  // A drop onto the module currently being dragged is a no-op; don't light up.
+  const isDropTarget = dragOver && !isDragging;
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -428,20 +440,26 @@ function ModuleContainer({
     <div
       style={{ gridArea: area }}
       className={cn(
-        "group/module relative min-h-0",
+        "group/module relative min-h-0 transition-[opacity,transform,box-shadow] duration-150",
         radius.xl,
-        dragOver && "ring-2 ring-accent ring-offset-2 ring-offset-canvas",
+        // Subtle hover highlight (only when no drag is in progress).
+        !isDragActive &&
+          "hover:-translate-y-px hover:shadow-pop hover:ring-2 hover:ring-accent/30 hover:ring-offset-2 hover:ring-offset-canvas",
+        // Drop target gets a clear accent ring.
+        isDropTarget && "ring-2 ring-accent ring-offset-2 ring-offset-canvas",
+        // Source module fades to a ghost while it is being dragged.
+        isDragging && "scale-[0.99] opacity-40",
       )}
     >
       <button
         type="button"
         draggable
         onDragStart={handleDragStart}
-        onDragEnd={onDragEnd}
+        onDragEnd={handleDragEnd}
         title={`Drag to move ${label}`}
         aria-label={`Drag to move ${label}`}
         className={cn(
-          "absolute right-2 top-2 z-30 flex cursor-grab items-center gap-1 border px-1.5 py-1 opacity-0 backdrop-blur transition-opacity active:cursor-grabbing group-hover/module:opacity-100 focus-visible:opacity-100",
+          "absolute right-2 top-2 z-30 flex cursor-grab items-center gap-1 border px-1.5 py-1 opacity-0 shadow-card backdrop-blur transition-opacity active:cursor-grabbing group-hover/module:opacity-100 focus-visible:opacity-100",
           radius.md,
           color.border,
           color.surface,
@@ -475,16 +493,18 @@ function ModuleContainer({
           className={cn(
             "absolute inset-0 z-20 flex items-center justify-center transition-colors",
             radius.xl,
-            dragOver && "bg-accent-subtle/60",
+            isDropTarget && "bg-accent-subtle/60",
+            isDragging && "border-2 border-dashed border-accent/50",
           )}
         >
-          {dragOver && (
+          {isDropTarget && (
             <span
               className={cn(
-                "border px-2.5 py-1 font-medium backdrop-blur",
+                "border px-2.5 py-1 font-medium shadow-pop backdrop-blur",
                 radius.full,
                 typography.caption,
                 "border-accent text-accent",
+                color.surface,
               )}
             >
               Drop to swap
@@ -496,6 +516,34 @@ function ModuleContainer({
       <div className="h-full min-h-0">{children}</div>
     </div>
   );
+}
+
+/**
+ * Build a clean "ghost" drag preview (a labeled pill) instead of the browser's
+ * default snapshot of the tiny drag handle. Detached node is removed on the
+ * next tick once the browser has captured the image.
+ */
+function setDragImage(event: DragEvent<HTMLButtonElement>, label: string) {
+  if (typeof document === "undefined") return;
+  const ghost = document.createElement("div");
+  ghost.textContent = label;
+  Object.assign(ghost.style, {
+    position: "fixed",
+    top: "-1000px",
+    left: "-1000px",
+    padding: "8px 14px",
+    borderRadius: "10px",
+    font: "600 13px/1 var(--font-geist-sans), system-ui, sans-serif",
+    color: "var(--ink)",
+    background: "var(--surface)",
+    border: "1px solid var(--line-strong)",
+    boxShadow: "var(--elevation-pop)",
+    pointerEvents: "none",
+    whiteSpace: "nowrap",
+  } as Partial<CSSStyleDeclaration>);
+  document.body.appendChild(ghost);
+  event.dataTransfer.setDragImage(ghost, 16, 16);
+  window.setTimeout(() => ghost.remove(), 0);
 }
 
 function VerticalResizer({
@@ -514,9 +562,11 @@ function VerticalResizer({
       title={title}
       onMouseDown={onMouseDown}
       style={style}
-      className={cn("group/resizer z-10 flex h-full w-4 items-stretch justify-center", className)}
+      className={cn("group/resizer z-10 flex h-full w-4 items-center justify-center", className)}
     >
-      <div className="h-full w-px rounded-full bg-line-strong transition-all group-hover/resizer:w-1 group-hover/resizer:bg-accent" />
+      {/* Faint hairline = a clear, always-visible boundary between modules.
+          On hover it becomes a taller accent grip to signal it is resizable. */}
+      <div className="h-full w-px rounded-full bg-line transition-all duration-150 group-hover/resizer:w-1.5 group-hover/resizer:bg-accent group-active/resizer:bg-accent" />
     </div>
   );
 }
