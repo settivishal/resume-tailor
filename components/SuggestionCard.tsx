@@ -10,17 +10,36 @@ const impactStyles: Record<Impact, string> = {
 
 interface SuggestionCardProps {
   patch: Patch;
+  selected: boolean;
+  onSelect: () => void;
   onAccept: () => void;
   onReject: () => void;
 }
 
 export default function SuggestionCard({
   patch,
+  selected,
+  onSelect,
   onAccept,
   onReject,
 }: SuggestionCardProps) {
   return (
-    <div className="rounded-lg border border-zinc-200 p-3 dark:border-zinc-700">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onSelect}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onSelect();
+        }
+      }}
+      className={`cursor-pointer rounded-lg border p-3 transition-colors ${
+        selected
+          ? "border-blue-400 bg-blue-50/50 ring-1 ring-blue-400 dark:border-blue-600 dark:bg-blue-950/20 dark:ring-blue-600"
+          : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-700 dark:hover:border-zinc-600"
+      }`}
+    >
       <div className="flex items-start justify-between gap-2">
         <p className="text-sm leading-snug text-zinc-800 dark:text-zinc-100">
           {patch.reason}
@@ -35,14 +54,20 @@ export default function SuggestionCard({
       <div className="mt-3 flex gap-2">
         <button
           type="button"
-          onClick={onAccept}
+          onClick={(e) => {
+            e.stopPropagation();
+            onAccept();
+          }}
           className="rounded-md bg-green-600 px-2.5 py-1 text-xs font-medium text-white hover:bg-green-700"
         >
           Accept
         </button>
         <button
           type="button"
-          onClick={onReject}
+          onClick={(e) => {
+            e.stopPropagation();
+            onReject();
+          }}
           className="rounded-md bg-zinc-200 px-2.5 py-1 text-xs font-medium text-zinc-800 hover:bg-zinc-300 dark:bg-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-600"
         >
           Reject

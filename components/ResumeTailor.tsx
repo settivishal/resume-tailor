@@ -19,6 +19,7 @@ export default function ResumeTailor() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [patchError, setPatchError] = useState<string | null>(null);
+  const [selectedPatchId, setSelectedPatchId] = useState<string | null>(null);
 
   const canGenerate =
     !loading &&
@@ -32,6 +33,7 @@ export default function ResumeTailor() {
     setMatchScore(null);
     setMissingKeywords([]);
     setPatchError(null);
+    setSelectedPatchId(null);
 
     try {
       const res = await fetch("/api/analyze", {
@@ -49,6 +51,7 @@ export default function ResumeTailor() {
       setPatches(result.patches);
       setMatchScore(result.matchScore);
       setMissingKeywords(result.missingKeywords ?? []);
+      setSelectedPatchId(result.patches[0]?.id ?? null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -68,13 +71,28 @@ export default function ResumeTailor() {
 
     setPatchError(null);
     setLatexResume(result.text);
-    setPatches((prev) => prev.filter((p) => p.id !== id));
+    setPatches((prev) => {
+      const next = prev.filter((p) => p.id !== id);
+      setSelectedPatchId((current) =>
+        current === id ? (next[0]?.id ?? null) : current,
+      );
+      return next;
+    });
   };
 
   const handleReject = (id: string) => {
     setPatchError(null);
-    setPatches((prev) => prev.filter((p) => p.id !== id));
+    setPatches((prev) => {
+      const next = prev.filter((p) => p.id !== id);
+      setSelectedPatchId((current) =>
+        current === id ? (next[0]?.id ?? null) : current,
+      );
+      return next;
+    });
   };
+
+  const selectedPatch =
+    patches.find((p) => p.id === selectedPatchId) ?? null;
 
   return (
     <div className="flex h-screen flex-col bg-zinc-100 dark:bg-zinc-950">
@@ -114,10 +132,12 @@ export default function ResumeTailor() {
               loading={loading}
               error={error}
               patchError={patchError}
+              selectedPatchId={selectedPatchId}
+              onSelect={setSelectedPatchId}
               onAccept={handleAccept}
               onReject={handleReject}
             />
-            <DiffViewer />
+            <DiffViewer patch={selectedPatch} />
           </div>
 
           <PdfPreviewPanel />
