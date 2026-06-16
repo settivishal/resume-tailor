@@ -10,6 +10,7 @@ import { SAMPLE_LATEX } from "@/lib/constants";
 import { getErrorMessage, parseApiError } from "@/lib/errors";
 import { applyPatch, toTextPatch } from "@/lib/patches";
 import { useDebounce } from "@/lib/use-debounce";
+import { cn, color, elevation, focusRing, glass, radius, typography } from "@/lib/ui";
 import type { AnalyzeResponse, Patch } from "@/lib/types";
 
 type ModuleKey = "job" | "latex" | "suggestions" | "diff" | "preview";
@@ -42,6 +43,7 @@ export default function ResumeTailor() {
   const [patchError, setPatchError] = useState<string | null>(null);
   const [selectedPatchId, setSelectedPatchId] = useState<string | null>(null);
   const [slots, setSlots] = useState<ModuleKey[]>(DEFAULT_SLOTS);
+  const [draggingModule, setDraggingModule] = useState<ModuleKey | null>(null);
   const [leftPx, setLeftPx] = useState(DEFAULT_LEFT_PX);
   const [rightPx, setRightPx] = useState(DEFAULT_RIGHT_PX);
   const resizingRef = useRef<null | { kind: "left" | "right"; startX: number; start: number }>(
@@ -268,36 +270,59 @@ export default function ResumeTailor() {
   }, [leftPx, rightPx]);
 
   return (
-    <div className="flex h-screen flex-col bg-zinc-100 dark:bg-zinc-950">
-      <header className="flex shrink-0 items-center justify-between border-b border-zinc-200 bg-white px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900">
-        <div>
-          <h1 className="text-lg font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-            Resume Tailor AI
-          </h1>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
-            Tailor your LaTeX resume to a job description
-          </p>
+    <div className={cn("flex h-screen flex-col", color.canvas)}>
+      <header
+        className={cn(
+          "sticky top-0 z-20 flex shrink-0 items-center justify-between gap-4 border-b px-6 py-3.5",
+          glass,
+          color.border,
+        )}
+      >
+        <div className="flex items-center gap-3">
+          <div
+            className={cn(
+              "flex h-9 w-9 items-center justify-center text-sm font-semibold",
+              radius.lg,
+              color.primary,
+              elevation.card,
+            )}
+            aria-hidden
+          >
+            RT
+          </div>
+          <div className="leading-tight">
+            <h1 className={cn(typography.h1, color.inkStrong)}>Resume Tailor AI</h1>
+            <p className={cn(typography.caption, color.inkMuted)}>
+              Tailor your LaTeX resume to a job description
+            </p>
+          </div>
         </div>
         <button
           type="button"
           onClick={handleGenerate}
           disabled={!canGenerate}
-          className="flex items-center gap-2 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+          className={cn(
+            "flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:opacity-40",
+            radius.lg,
+            color.primary,
+            elevation.card,
+            focusRing,
+          )}
         >
           {loading && (
-            <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/30 border-t-white dark:border-zinc-900/30 dark:border-t-zinc-900" />
+            <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-current/30 border-t-current" />
           )}
           {loading ? "Analyzing…" : "Generate Suggestions"}
         </button>
       </header>
 
-      <main className="min-h-0 flex-1 p-3">
-        <p className="mb-2 text-xs text-zinc-500 dark:text-zinc-400">
-          Drag panels by handle to rearrange. Drag dividers to resize columns.
+      <main className="min-h-0 flex-1 p-4">
+        <p className={cn("mb-3 px-0.5", typography.caption, color.inkFaint)}>
+          Drag a panel by its handle to rearrange. Drag the dividers to resize columns.
         </p>
 
         <div
-          className="hidden h-full min-h-0 gap-3 lg:grid"
+          className="hidden h-[calc(100%-1.75rem)] min-h-0 gap-4 lg:grid"
           style={{
             gridTemplateColumns: desktopGridTemplateColumns,
             gridTemplateRows: "minmax(180px, 1fr) minmax(180px, 1fr) minmax(180px, 1fr)",
@@ -331,12 +356,18 @@ export default function ResumeTailor() {
             // place it visually between col 2 and 3
             style={{ gridColumn: 3, gridRow: "1 / span 3", justifySelf: "start", marginLeft: -8 }}
           />
-          {slots.map((module, index) => (
+          {/* Rendered in a FIXED DOM order; only the CSS grid-area changes on
+              reorder, so stateful children (Monaco, PDF iframe) are never moved
+              or remounted in the DOM. */}
+          {DEFAULT_SLOTS.map((module) => (
             <ModuleContainer
-              key={`${SLOT_AREAS[index]}-${module}`}
+              key={module}
               label={moduleLabels[module]}
               module={module}
-              area={SLOT_AREAS[index]}
+              area={SLOT_AREAS[slots.indexOf(module)]}
+              isDragActive={draggingModule !== null}
+              onDragStart={() => setDraggingModule(module)}
+              onDragEnd={() => setDraggingModule(null)}
               onDropModule={swapModules}
             >
               {renderModule(module)}
@@ -344,9 +375,13 @@ export default function ResumeTailor() {
           ))}
         </div>
 
-        <div className="grid h-full min-h-0 grid-cols-1 gap-3 lg:hidden">
-          {slots.map((module) => (
-            <div key={module} className="min-h-[220px]">
+        <div className="grid h-full min-h-0 grid-cols-1 gap-4 lg:hidden">
+          {DEFAULT_SLOTS.map((module) => (
+            <div
+              key={module}
+              className="min-h-[220px]"
+              style={{ order: slots.indexOf(module) }}
+            >
               {renderModule(module)}
             </div>
           ))}
@@ -360,23 +395,30 @@ function ModuleContainer({
   module,
   area,
   label,
+  isDragActive,
+  onDragStart,
+  onDragEnd,
   onDropModule,
   children,
 }: {
   module: ModuleKey;
   area: string;
   label: string;
+  isDragActive: boolean;
+  onDragStart: () => void;
+  onDragEnd: () => void;
   onDropModule: (from: ModuleKey, to: ModuleKey) => void;
   children: React.ReactNode;
 }) {
   const [dragOver, setDragOver] = useState(false);
 
-  const onDragStart = (event: DragEvent<HTMLButtonElement>) => {
+  const handleDragStart = (event: DragEvent<HTMLButtonElement>) => {
     event.dataTransfer.setData("text/module", module);
     event.dataTransfer.effectAllowed = "move";
+    onDragStart();
   };
 
-  const onDrop = (event: DragEvent<HTMLDivElement>) => {
+  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setDragOver(false);
     const dragged = event.dataTransfer.getData("text/module") as ModuleKey;
@@ -386,26 +428,73 @@ function ModuleContainer({
   return (
     <div
       style={{ gridArea: area }}
-      onDragOver={(event) => {
-        event.preventDefault();
-        setDragOver(true);
-      }}
-      onDragLeave={() => setDragOver(false)}
-      onDrop={onDrop}
-      className={`min-h-0 ${dragOver ? "rounded-lg ring-2 ring-blue-400/60" : ""}`}
+      className={cn(
+        "group/module relative min-h-0",
+        radius.xl,
+        dragOver && "ring-2 ring-accent ring-offset-2 ring-offset-canvas",
+      )}
     >
-      <div className="mb-1 flex items-center justify-end">
-        <button
-          type="button"
-          draggable
-          onDragStart={onDragStart}
-          className="cursor-grab rounded-md border border-zinc-300 px-2 py-0.5 text-[10px] text-zinc-500 hover:bg-zinc-200 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
-          title={`Drag to move ${label}`}
+      <button
+        type="button"
+        draggable
+        onDragStart={handleDragStart}
+        onDragEnd={onDragEnd}
+        title={`Drag to move ${label}`}
+        aria-label={`Drag to move ${label}`}
+        className={cn(
+          "absolute right-2 top-2 z-30 flex cursor-grab items-center gap-1 border px-1.5 py-1 opacity-0 backdrop-blur transition-opacity active:cursor-grabbing group-hover/module:opacity-100 focus-visible:opacity-100",
+          radius.md,
+          color.border,
+          color.surface,
+          color.inkMuted,
+          "hover:text-ink-soft",
+          focusRing,
+        )}
+      >
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden>
+          <circle cx="2.5" cy="2" r="1" />
+          <circle cx="7.5" cy="2" r="1" />
+          <circle cx="2.5" cy="5" r="1" />
+          <circle cx="7.5" cy="5" r="1" />
+          <circle cx="2.5" cy="8" r="1" />
+          <circle cx="7.5" cy="8" r="1" />
+        </svg>
+        <span className={typography.micro}>Drag</span>
+      </button>
+
+      {/* While any module is being dragged, this overlay sits above the panel
+          content (Monaco / PDF iframe / textarea) so drops always register. */}
+      {isDragActive && (
+        <div
+          onDragOver={(event) => {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = "move";
+            setDragOver(true);
+          }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={handleDrop}
+          className={cn(
+            "absolute inset-0 z-20 flex items-center justify-center transition-colors",
+            radius.xl,
+            dragOver && "bg-accent-subtle/60",
+          )}
         >
-          Drag {label}
-        </button>
-      </div>
-      <div className="h-[calc(100%-1.5rem)] min-h-0">{children}</div>
+          {dragOver && (
+            <span
+              className={cn(
+                "border px-2.5 py-1 font-medium backdrop-blur",
+                radius.full,
+                typography.caption,
+                "border-accent text-accent",
+              )}
+            >
+              Drop to swap
+            </span>
+          )}
+        </div>
+      )}
+
+      <div className="h-full min-h-0">{children}</div>
     </div>
   );
 }
@@ -426,9 +515,9 @@ function VerticalResizer({
       title={title}
       onMouseDown={onMouseDown}
       style={style}
-      className={`z-10 h-full w-4 ${className}`}
+      className={cn("group/resizer z-10 flex h-full w-4 items-stretch justify-center", className)}
     >
-      <div className="mx-auto h-full w-0.5 rounded bg-zinc-200 dark:bg-zinc-800" />
+      <div className="h-full w-px rounded-full bg-line-strong transition-all group-hover/resizer:w-1 group-hover/resizer:bg-accent" />
     </div>
   );
 }

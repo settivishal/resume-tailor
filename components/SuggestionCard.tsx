@@ -1,10 +1,11 @@
 "use client";
 
+import { cn, color, elevation, focusRing, radius, typography } from "@/lib/ui";
 import type { Impact, Patch } from "@/lib/types";
 
 const impactStyles: Record<Impact, string> = {
-  high: "bg-red-100 text-red-800 dark:bg-red-950/50 dark:text-red-300",
-  medium: "bg-amber-100 text-amber-800 dark:bg-amber-950/50 dark:text-amber-300",
+  high: "bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-300",
+  medium: "bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300",
   low: "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300",
 };
 
@@ -37,22 +38,27 @@ export default function SuggestionCard({
           onSelect();
         }
       }}
-      className={`rounded-lg border p-3 transition-colors ${
+      className={cn(
+        "border p-3.5 transition-all duration-150",
+        radius.lg,
+        focusRing,
         disabled
           ? "cursor-not-allowed opacity-50"
-          : "cursor-pointer"
-      } ${
+          : "cursor-pointer hover:shadow-card",
         selected
-          ? "border-blue-400 bg-blue-50/50 ring-1 ring-blue-400 dark:border-blue-600 dark:bg-blue-950/20 dark:ring-blue-600"
-          : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-700 dark:hover:border-zinc-600"
-      }`}
+          ? cn("border-accent bg-accent-subtle ring-1 ring-accent", elevation.card)
+          : cn(color.border, color.surface, "hover:border-line-strong"),
+      )}
     >
-      <div className="flex items-start justify-between gap-2">
-        <p className="text-sm leading-snug text-zinc-800 dark:text-zinc-100">
-          {patch.reason}
-        </p>
+      <div className="flex items-start justify-between gap-2.5">
+        <p className={cn(typography.bodySnug, color.inkBody)}>{patch.reason}</p>
         <span
-          className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${impactStyles[patch.impact]}`}
+          className={cn(
+            "shrink-0 px-2 py-0.5 font-semibold uppercase tracking-wide",
+            radius.full,
+            typography.micro,
+            impactStyles[patch.impact],
+          )}
         >
           {patch.impact}
         </span>
@@ -66,7 +72,12 @@ export default function SuggestionCard({
             e.stopPropagation();
             onAccept();
           }}
-          className="rounded-md bg-green-600 px-2.5 py-1 text-xs font-medium text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
+          className={cn(
+            "px-2.5 py-1 text-xs font-medium text-white transition-colors",
+            radius.md,
+            focusRing,
+            "bg-emerald-600 hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50",
+          )}
         >
           Accept
         </button>
@@ -77,7 +88,14 @@ export default function SuggestionCard({
             e.stopPropagation();
             onReject();
           }}
-          className="rounded-md bg-zinc-200 px-2.5 py-1 text-xs font-medium text-zinc-800 hover:bg-zinc-300 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-600"
+          className={cn(
+            "border px-2.5 py-1 text-xs font-medium transition-colors",
+            radius.md,
+            focusRing,
+            color.borderStrong,
+            color.inkSoft,
+            "hover:bg-surface-subtle disabled:cursor-not-allowed disabled:opacity-50",
+          )}
         >
           Reject
         </button>

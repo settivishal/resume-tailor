@@ -2,11 +2,18 @@
 
 import dynamic from "next/dynamic";
 import Panel from "./Panel";
+import { cn, color, typography } from "@/lib/ui";
 
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-full items-center justify-center text-sm text-zinc-400">
+    <div
+      className={cn(
+        "flex h-full items-center justify-center",
+        typography.body,
+        color.inkFaint,
+      )}
+    >
       Loading editor…
     </div>
   ),

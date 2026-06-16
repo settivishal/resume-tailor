@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import EmptyState from "./EmptyState";
 import Panel from "./Panel";
+import { cn, color, radius, typography } from "@/lib/ui";
 
 interface PdfPreviewPanelProps {
   latex: string;
@@ -79,16 +80,24 @@ export default function PdfPreviewPanel({ latex }: PdfPreviewPanelProps) {
       className="h-full"
       action={
         loading ? (
-          <span className="text-[10px] text-zinc-400">Compiling…</span>
+          <span className={cn(typography.micro, color.inkFaint)}>Compiling…</span>
         ) : mocked ? (
-          <span className="text-[10px] text-amber-600 dark:text-amber-400">
+          <span
+            className={cn(
+              "border border-amber-200 bg-amber-50 px-2 py-0.5 text-amber-700 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-300",
+              radius.full,
+              typography.micro,
+            )}
+          >
             Mock preview
           </span>
         ) : undefined
       }
     >
       {error && (
-        <p className="p-3 text-xs text-red-600 dark:text-red-400">{error}</p>
+        <p className={cn("p-3", typography.caption, "text-red-600 dark:text-red-400")}>
+          {error}
+        </p>
       )}
       {!error && !pdfUrl && !loading && !latex.trim() && (
         <EmptyState

@@ -1,26 +1,155 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ==========================================================================
+   Design tokens — the single source of truth for color, elevation & glass.
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+   Palette is tuned for a clean, premium SaaS feel (Notion / Linear / Vercel):
+   soft neutral canvas, white cards that float on subtle shadows, an indigo
+   accent for selection/focus, and never harsh pure-white or pure-black.
+   Components consume the semantic utilities (bg-surface, text-ink,
+   border-line, shadow-card, accent, .glass) — never raw `zinc-*`.
+   ========================================================================== */
+:root {
+  /* Background / surface */
+  --canvas: #f5f5f7; /* soft neutral app background */
+  --surface: #ffffff; /* card / panel surface */
+  --surface-subtle: #f4f4f6; /* nested fills, chips, skeletons */
+
+  /* Borders / dividers (hairline, low-contrast) */
+  --line: #e9e9ee;
+  --line-strong: #dcdce2;
+
+  /* Text (ink) ramp */
+  --ink: #18181b; /* strong / headings */
+  --ink-body: #2b2b31; /* body content */
+  --ink-soft: #52525b; /* secondary content */
+  --ink-muted: #71717a; /* labels */
+  --ink-faint: #a1a1aa; /* captions / placeholder */
+
+  /* Brand / primary action (monochrome) */
+  --primary: #18181b;
+  --primary-foreground: #ffffff;
+
+  /* Accent — selection, focus, highlights */
+  --accent: #6366f1; /* indigo-500 */
+  --accent-foreground: #ffffff;
+  --accent-subtle: #eef2ff; /* indigo-50 */
+
+  /* Focus ring */
+  --focus: #6366f1;
+
+  /* Elevation */
+  --elevation-card:
+    0 1px 2px rgba(16, 24, 40, 0.04), 0 2px 6px rgba(16, 24, 40, 0.06);
+  --elevation-pop:
+    0 4px 12px rgba(16, 24, 40, 0.08), 0 12px 28px rgba(16, 24, 40, 0.1);
+
+  /* Back-compat aliases (consumed by <body> + earlier code paths) */
+  --background: var(--canvas);
+  --foreground: var(--ink);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --canvas: #0a0a0c; /* near-black, never pure #000 */
+    --surface: #161618;
+    --surface-subtle: #202024;
+
+    --line: #27272b;
+    --line-strong: #36363c;
+
+    --ink: #fafafa;
+    --ink-body: #ededf0;
+    --ink-soft: #c2c2cb;
+    --ink-muted: #a1a1aa;
+    --ink-faint: #6f6f78;
+
+    --primary: #fafafa;
+    --primary-foreground: #18181b;
+
+    --accent: #818cf8; /* indigo-400 */
+    --accent-foreground: #14142b;
+    --accent-subtle: #1e1b3a;
+
+    --focus: #818cf8;
+
+    --elevation-card:
+      0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
+    --elevation-pop:
+      0 8px 24px rgba(0, 0, 0, 0.5), 0 16px 40px rgba(0, 0, 0, 0.45);
   }
 }
 
+/* Expose tokens to Tailwind as semantic utilities: bg-*, text-*, border-*,
+   shadow-*. `inline` keeps utilities bound to the live CSS vars so the
+   prefers-color-scheme overrides apply at runtime. */
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-subtle: var(--surface-subtle);
+
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-ink: var(--ink);
+  --color-ink-body: var(--ink-body);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-subtle: var(--accent-subtle);
+
+  --color-focus: var(--focus);
+
+  --shadow-card: var(--elevation-card);
+  --shadow-pop: var(--elevation-pop);
+
+  /* Back-compat */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Frosted-glass treatment for the app chrome (header / floating bars). */
+@utility glass {
+  background-color: color-mix(in srgb, var(--surface) 72%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--canvas);
+  color: var(--ink);
+  /* NOTE: Geist is loaded in layout.tsx but the original app rendered in
+     Arial. Kept as-is to avoid an unrelated font shift; revisit separately. */
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Subtle, modern scrollbars that match the neutral palette. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--line-strong);
+  border: 3px solid transparent;
+  background-clip: content-box;
+  border-radius: 9999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--ink-faint);
 }
