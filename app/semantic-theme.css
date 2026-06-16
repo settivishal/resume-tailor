@@ -2,7 +2,7 @@
  * STEP 2 — Semantic theme mapping.
  *
  * Maps raw `--palette-*` tokens to UI-facing `--*` variables.
- * Components will consume these in a later step — not wired yet.
+ * Components will consume these via Tailwind utilities in STEP 3 (`globals.css`).
  *
  * Dark mode: overrides live in the same file using
  * `prefers-color-scheme` + optional `[data-theme]` for manual toggling.
@@ -15,15 +15,15 @@
 [data-theme="light"] {
   color-scheme: light;
 
-  /* Backgrounds */
-  --bg-primary: var(--palette-icy-aqua);
-  --bg-secondary: color-mix(in srgb, var(--palette-icy-aqua) 65%, var(--palette-frosted-blue) 35%);
+  /* Backgrounds — icy-aqua base; each palette hue gets a distinct layer role */
+  --bg-primary: color-mix(in srgb, var(--palette-icy-aqua) 52%, #ffffff 48%);
+  --bg-secondary: color-mix(in srgb, var(--palette-frosted-blue) 28%, var(--palette-icy-aqua) 72%);
 
-  /* Glass surfaces — frosted-blue + icy-aqua layering */
-  --surface-glass: hsl(var(--palette-frosted-blue-hsl) / 0.42);
-  --surface-glass-strong: hsl(var(--palette-frosted-blue-hsl) / 0.58);
-  --surface-glass-subtle: hsl(var(--palette-icy-aqua-hsl) / 0.55);
-  --surface-glass-highlight: hsl(var(--palette-icy-aqua-hsl) / 0.72);
+  /* Glass surfaces — frosted-blue tint over neutral white frost */
+  --surface-glass: color-mix(in srgb, rgb(255 255 255 / 0.58) 70%, var(--palette-frosted-blue) 30%);
+  --surface-glass-strong: color-mix(in srgb, rgb(255 255 255 / 0.72) 68%, var(--palette-frosted-blue) 32%);
+  --surface-glass-subtle: color-mix(in srgb, rgb(255 255 255 / 0.42) 72%, var(--palette-icy-aqua) 28%);
+  --surface-glass-highlight: rgb(255 255 255 / 0.82);
 
   /* Typography */
   --text-primary: var(--palette-yale-blue);
@@ -50,6 +50,15 @@
   --accent-primary-hover: color-mix(in srgb, var(--palette-cerulean) 88%, var(--palette-yale-blue) 12%);
   --accent-primary-active: var(--palette-yale-blue);
   --accent-destructive-hover: color-mix(in srgb, var(--palette-rosewood) 90%, #000 10%);
+
+  /* Ambient canvas gradient (body::before base wash) */
+  --canvas-gradient: linear-gradient(
+    168deg,
+    var(--palette-icy-aqua) 0%,
+    color-mix(in srgb, var(--palette-frosted-blue) 55%, var(--palette-icy-aqua) 45%) 38%,
+    color-mix(in srgb, var(--palette-cerulean) 18%, var(--palette-frosted-blue) 82%) 68%,
+    var(--canvas) 100%
+  );
 }
 
 /* -------------------------------------------------------------------------
@@ -59,18 +68,19 @@
   :root:not([data-theme="light"]) {
     color-scheme: dark;
 
-    --bg-primary: hsl(var(--palette-yale-blue-hsl) / 1);
-    --bg-secondary: color-mix(in srgb, var(--palette-yale-blue) 82%, var(--palette-cerulean) 18%);
+    --bg-primary: color-mix(in srgb, var(--palette-yale-blue) 88%, #0a0e12 12%);
+    --bg-secondary: color-mix(in srgb, var(--palette-yale-blue) 72%, var(--palette-cerulean) 28%);
 
-    --surface-glass: hsl(var(--palette-cerulean-hsl) / 0.22);
-    --surface-glass-strong: hsl(var(--palette-cerulean-hsl) / 0.32);
-    --surface-glass-subtle: hsl(var(--palette-yale-blue-hsl) / 0.45);
-    --surface-glass-highlight: hsl(var(--palette-frosted-blue-hsl) / 0.12);
+    --surface-glass: color-mix(in srgb, rgb(255 255 255 / 0.07) 85%, var(--palette-cerulean) 15%);
+    --surface-glass-strong: color-mix(in srgb, rgb(255 255 255 / 0.1) 82%, var(--palette-cerulean) 18%);
+    --surface-glass-subtle: rgb(255 255 255 / 0.04);
+    --surface-glass-highlight: rgb(255 255 255 / 0.14);
 
-    --text-primary: hsl(var(--palette-icy-aqua-hsl) / 0.95);
-    --text-secondary: hsl(var(--palette-frosted-blue-hsl) / 0.88);
-    --text-muted: hsl(var(--palette-frosted-blue-hsl) / 0.65);
-    --text-faint: hsl(var(--palette-cerulean-hsl) / 0.55);
+    /* Neutral text — cerulean/frosted-blue for secondary only */
+    --text-primary: hsl(210 18% 94%);
+    --text-secondary: hsl(var(--palette-frosted-blue-hsl) / 0.78);
+    --text-muted: hsl(var(--palette-cerulean-hsl) / 0.62);
+    --text-faint: hsl(var(--palette-cerulean-hsl) / 0.45);
     --text-on-accent: #ffffff;
     --text-destructive: hsl(var(--palette-rosewood-hsl) / 0.92);
 
@@ -78,8 +88,8 @@
     --border-strong: hsl(var(--palette-cerulean-hsl) / 0.42);
     --border-focus: var(--palette-frosted-blue);
 
-    --accent-primary: var(--palette-frosted-blue);
-    --accent-secondary: var(--palette-cerulean);
+    --accent-primary: var(--palette-cerulean);
+    --accent-secondary: var(--palette-frosted-blue);
     --accent-highlight: var(--palette-rosewood);
     --accent-destructive: var(--palette-rosewood);
     --accent-subtle: hsl(var(--palette-cerulean-hsl) / 0.2);
@@ -88,6 +98,14 @@
     --accent-primary-hover: color-mix(in srgb, var(--palette-frosted-blue) 92%, white 8%);
     --accent-primary-active: var(--palette-icy-aqua);
     --accent-destructive-hover: color-mix(in srgb, var(--palette-rosewood) 88%, white 12%);
+
+    --canvas-gradient: linear-gradient(
+      168deg,
+      color-mix(in srgb, var(--palette-yale-blue) 92%, #000 8%) 0%,
+      color-mix(in srgb, var(--palette-cerulean) 35%, var(--palette-yale-blue) 65%) 45%,
+      color-mix(in srgb, var(--palette-cerulean) 15%, var(--palette-yale-blue) 85%) 72%,
+      var(--canvas) 100%
+    );
   }
 }
 
@@ -97,18 +115,18 @@
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --bg-primary: hsl(var(--palette-yale-blue-hsl) / 1);
-  --bg-secondary: color-mix(in srgb, var(--palette-yale-blue) 82%, var(--palette-cerulean) 18%);
+  --bg-primary: color-mix(in srgb, var(--palette-yale-blue) 88%, #0a0e12 12%);
+  --bg-secondary: color-mix(in srgb, var(--palette-yale-blue) 72%, var(--palette-cerulean) 28%);
 
-  --surface-glass: hsl(var(--palette-cerulean-hsl) / 0.22);
-  --surface-glass-strong: hsl(var(--palette-cerulean-hsl) / 0.32);
-  --surface-glass-subtle: hsl(var(--palette-yale-blue-hsl) / 0.45);
-  --surface-glass-highlight: hsl(var(--palette-frosted-blue-hsl) / 0.12);
+  --surface-glass: color-mix(in srgb, rgb(255 255 255 / 0.07) 85%, var(--palette-cerulean) 15%);
+  --surface-glass-strong: color-mix(in srgb, rgb(255 255 255 / 0.1) 82%, var(--palette-cerulean) 18%);
+  --surface-glass-subtle: rgb(255 255 255 / 0.04);
+  --surface-glass-highlight: rgb(255 255 255 / 0.14);
 
-  --text-primary: hsl(var(--palette-icy-aqua-hsl) / 0.95);
-  --text-secondary: hsl(var(--palette-frosted-blue-hsl) / 0.88);
-  --text-muted: hsl(var(--palette-frosted-blue-hsl) / 0.65);
-  --text-faint: hsl(var(--palette-cerulean-hsl) / 0.55);
+  --text-primary: hsl(210 18% 94%);
+  --text-secondary: hsl(var(--palette-frosted-blue-hsl) / 0.78);
+  --text-muted: hsl(var(--palette-cerulean-hsl) / 0.62);
+  --text-faint: hsl(var(--palette-cerulean-hsl) / 0.45);
   --text-on-accent: #ffffff;
   --text-destructive: hsl(var(--palette-rosewood-hsl) / 0.92);
 
@@ -116,8 +134,8 @@
   --border-strong: hsl(var(--palette-cerulean-hsl) / 0.42);
   --border-focus: var(--palette-frosted-blue);
 
-  --accent-primary: var(--palette-frosted-blue);
-  --accent-secondary: var(--palette-cerulean);
+  --accent-primary: var(--palette-cerulean);
+  --accent-secondary: var(--palette-frosted-blue);
   --accent-highlight: var(--palette-rosewood);
   --accent-destructive: var(--palette-rosewood);
   --accent-subtle: hsl(var(--palette-cerulean-hsl) / 0.2);
@@ -126,4 +144,12 @@
   --accent-primary-hover: color-mix(in srgb, var(--palette-frosted-blue) 92%, white 8%);
   --accent-primary-active: var(--palette-icy-aqua);
   --accent-destructive-hover: color-mix(in srgb, var(--palette-rosewood) 88%, white 12%);
+
+  --canvas-gradient: linear-gradient(
+    168deg,
+    color-mix(in srgb, var(--palette-yale-blue) 92%, #000 8%) 0%,
+    color-mix(in srgb, var(--palette-cerulean) 35%, var(--palette-yale-blue) 65%) 45%,
+    color-mix(in srgb, var(--palette-cerulean) 15%, var(--palette-yale-blue) 85%) 72%,
+    var(--canvas) 100%
+  );
 }

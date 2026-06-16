@@ -1,169 +1,221 @@
 @import "tailwindcss";
 @import "./theme.css";
 @import "./semantic-theme.css";
+@import "./gradient-theme.css";
 
 /* ==========================================================================
-   Design tokens — the single source of truth for color, elevation & glass.
+   Design tokens — glass UI + gradient integration (STEP 3–4).
 
-   Palette is tuned for a clean, premium SaaS feel (Notion / Linear / Vercel):
-   soft neutral canvas, white cards that float on subtle shadows, an indigo
-   accent for selection/focus, and never harsh pure-white or pure-black.
-   Components consume the semantic utilities (bg-surface, text-ink,
-   border-line, shadow-card, accent, .glass) — never raw `zinc-*`.
+   Component-facing variables below map to the semantic theme layer
+   (`semantic-theme.css`) and raw palette (`theme.css`). Components
+   consume these via Tailwind utilities — never raw palette names.
    ========================================================================== */
 :root {
-  /* Background / surface */
-  --canvas: #f4f4f7; /* soft neutral app background */
-  --canvas-tint: #ececf2; /* subtle gradient companion for depth */
-  --surface: #ffffff; /* card / panel surface */
-  --surface-subtle: #f5f5f8; /* nested fills, chips, skeletons */
-  --surface-header: #fafafb; /* card header band */
+  /* Background — icy-aqua base + palette gradient wash (see body::before) */
+  --canvas: var(--bg-primary);
+  --canvas-tint: var(--bg-secondary);
 
-  /* Borders / dividers (hairline, low-contrast) */
-  --line: #e7e7ee;
-  --line-strong: #d8d8e0;
-  /* A faint top highlight that gives cards a crisp, lit edge. */
-  --card-highlight: rgba(255, 255, 255, 0.7);
-  /* Subtle dot-grid texture for the canvas (shows only in the gutters). */
-  --dot: rgba(24, 24, 27, 0.04);
-  /* Ambient depth orbs — soft accent washes behind glass modules. */
-  --ambient-1: rgba(99, 102, 241, 0.09);
-  --ambient-2: rgba(167, 139, 250, 0.06);
-  --ambient-3: rgba(99, 102, 241, 0.04);
-  /* Edge vignette for layered depth (very subtle in light mode). */
-  --vignette: rgba(24, 24, 27, 0.035);
+  /* Surfaces — neutral fills; palette shows through glass blur */
+  --surface: rgb(255 255 255 / 0.45);
+  --surface-subtle: rgb(255 255 255 / 0.28);
+  --surface-header: rgb(255 255 255 / 0.32);
 
-  /* Text (ink) ramp */
-  --ink: #18181b; /* strong / headings */
-  --ink-body: #2b2b31; /* body content */
-  --ink-soft: #52525b; /* secondary content */
-  --ink-muted: #64646e; /* labels — tuned for legibility on glass */
-  --ink-faint: #a1a1aa; /* captions / placeholder */
+  /* Borders — icy-aqua at low opacity */
+  --line: rgb(var(--palette-icy-aqua-rgb) / 0.44);
+  --line-strong: rgb(var(--palette-icy-aqua-rgb) / 0.58);
+  --card-highlight: rgb(var(--palette-icy-aqua-rgb) / 0.62);
+  --dot: rgb(var(--palette-yale-blue-rgb) / 0.05);
 
-  /* Brand / primary action (monochrome) */
-  --primary: #18181b;
-  --primary-foreground: #ffffff;
+  /* Ambient depth — full palette wash (rosewood whisper + cool tones) */
+  --ambient-1: rgb(var(--palette-rosewood-rgb) / 0.05);
+  --ambient-2: rgb(var(--palette-frosted-blue-rgb) / 0.14);
+  --ambient-3: rgb(var(--palette-cerulean-rgb) / 0.08);
+  --vignette: rgb(var(--palette-yale-blue-rgb) / 0.04);
 
-  /* Accent — selection, focus, highlights */
-  --accent: #6366f1; /* indigo-500 */
-  --accent-foreground: #ffffff;
-  --accent-subtle: #eef2ff; /* indigo-50 */
+  /* Text — semantic theme (yale-blue / cerulean ramp) */
+  --ink: var(--text-primary);
+  --ink-body: color-mix(in srgb, var(--text-primary) 90%, var(--text-secondary) 10%);
+  --ink-soft: var(--text-secondary);
+  --ink-muted: var(--text-muted);
+  --ink-faint: var(--text-faint);
 
-  /* Focus ring */
-  --focus: #6366f1;
+  /* Actions & accents */
+  --primary: var(--accent-primary);
+  --primary-foreground: var(--text-on-accent);
+  --accent: var(--accent-primary);
+  --accent-foreground: var(--text-on-accent);
+  --accent-subtle: var(--accent-subtle);
+  --focus: var(--border-focus);
 
-  /* Elevation */
+  /* Elevation — neutral card shadows with palette tint */
   --elevation-card:
-    0 1px 2px rgba(16, 24, 40, 0.04), 0 2px 6px rgba(16, 24, 40, 0.06);
+    0 1px 2px rgb(var(--palette-yale-blue-rgb) / 0.05),
+    0 2px 6px rgb(var(--palette-cerulean-rgb) / 0.06);
   --elevation-pop:
-    0 4px 12px rgba(16, 24, 40, 0.08), 0 12px 28px rgba(16, 24, 40, 0.1);
+    0 4px 12px rgb(var(--palette-yale-blue-rgb) / 0.08),
+    0 12px 28px rgb(var(--palette-cerulean-rgb) / 0.1);
 
   /* ----------------------------------------------------------------------
-     Glass UI foundation (macOS-inspired).
-     Translucent fills + frosted blur + soft white borders + lit highlight,
-     layered into three depth levels (sm → lg). Consumed via the
-     `frost-*` / `glass-*` utilities and the `lib/ui` exports.
+     Glass UI — neutral translucent frost + subtle palette tint
      ---------------------------------------------------------------------- */
-  /* Translucent surface fills (rgba) — three depth levels. */
-  --glass-bg-subtle: rgba(255, 255, 255, 0.45);
-  --glass-bg: rgba(255, 255, 255, 0.6);
-  --glass-bg-strong: rgba(255, 255, 255, 0.74);
-  /* Soft, low-opacity borders + inner top highlight. */
-  --glass-border: rgba(255, 255, 255, 0.55);
-  --glass-border-strong: rgba(255, 255, 255, 0.75);
-  --glass-highlight: rgba(255, 255, 255, 0.6);
-  /* Interaction — hover / active brighten the frosted surface. */
-  --glass-bg-hover: rgba(255, 255, 255, 0.68);
-  --glass-highlight-strong: rgba(255, 255, 255, 0.82);
-  --glass-glow: rgba(99, 102, 241, 0.12);
-  --glass-ambient: rgba(99, 102, 241, 0.08);
-  /* Motion — shared easing for glass surfaces (macOS-like deceleration). */
+  --glass-bg-subtle: color-mix(
+    in srgb,
+    rgb(255 255 255 / 0.48) 62%,
+    var(--palette-frosted-blue) 38%
+  );
+  --glass-bg: color-mix(
+    in srgb,
+    rgb(255 255 255 / 0.58) 58%,
+    var(--palette-frosted-blue) 42%
+  );
+  --glass-bg-strong: color-mix(
+    in srgb,
+    rgb(255 255 255 / 0.68) 55%,
+    var(--palette-icy-aqua) 45%
+  );
+  --glass-border: rgb(var(--palette-frosted-blue-rgb) / 0.32);
+  --glass-border-strong: rgb(var(--palette-frosted-blue-rgb) / 0.48);
+  --glass-highlight: rgb(255 255 255 / 0.72);
+  --glass-bg-hover: color-mix(
+    in srgb,
+    rgb(255 255 255 / 0.62) 80%,
+    rgb(var(--palette-frosted-blue-rgb) / 0.16) 20%
+  );
+  --glass-highlight-strong: rgb(255 255 255 / 0.82);
+  --glass-glow: rgb(var(--palette-cerulean-rgb) / 0.08);
+  --glass-ambient: rgb(var(--palette-frosted-blue-rgb) / 0.06);
+  --glass-inset-bg: color-mix(in srgb, var(--palette-icy-aqua) 18%, rgb(255 255 255 / 0.35) 82%);
+  --glass-inset-border: rgb(var(--palette-frosted-blue-rgb) / 0.28);
+
+  /* Motion & spacing (unchanged) */
   --glass-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --glass-duration: 320ms;
-  /* Spacing rhythm — 4px base grid for module chrome. */
   --space-module-gap: 16px;
   --space-panel-x: 14px;
   --space-panel-y: 8px;
   --space-content: 14px;
-  /* Frosted-blur levels: small / medium / heavy. */
   --blur-sm: 8px;
   --blur-md: 16px;
   --blur-lg: 28px;
-  /* Soft, diffused glass shadows (elevation levels). */
-  --elevation-glass-sm:
-    0 1px 2px rgba(16, 24, 40, 0.04), 0 4px 12px rgba(16, 24, 40, 0.06);
-  --elevation-glass-md:
-    0 2px 4px rgba(16, 24, 40, 0.03),
-    0 8px 24px rgba(16, 24, 40, 0.07),
-    0 20px 48px rgba(16, 24, 40, 0.04);
-  --elevation-glass-lg:
-    0 8px 28px rgba(16, 24, 40, 0.12), 0 24px 56px rgba(16, 24, 40, 0.16);
 
-  /* Back-compat aliases (consumed by <body> + earlier code paths) */
+  /* Glass shadows — yale-blue / cerulean tint, very low opacity */
+  --elevation-glass-sm:
+    0 1px 2px rgb(var(--palette-yale-blue-rgb) / 0.05),
+    0 4px 12px rgb(var(--palette-cerulean-rgb) / 0.06);
+  --elevation-glass-md:
+    0 2px 4px rgb(var(--palette-yale-blue-rgb) / 0.05),
+    0 8px 24px rgb(var(--palette-cerulean-rgb) / 0.07),
+    0 20px 48px rgb(var(--palette-yale-blue-rgb) / 0.04);
+  --elevation-glass-lg:
+    0 6px 20px rgb(var(--palette-cerulean-rgb) / 0.09),
+    0 16px 40px rgb(var(--palette-yale-blue-rgb) / 0.08);
+
   --background: var(--canvas);
   --foreground: var(--ink);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --canvas: #09090b; /* near-black, never pure #000 */
-    --canvas-tint: #121216; /* lifts the top of the canvas for depth */
-    --surface: #18181b;
-    --surface-subtle: #212126;
-    --surface-header: #1c1c20; /* card header band */
+  :root:not([data-theme="light"]) {
+    --canvas: var(--bg-primary);
+    --canvas-tint: var(--bg-secondary);
 
-    --line: #2a2a30;
-    --line-strong: #3a3a42;
-    /* In dark UIs a top highlight reads as a thin lit edge (Linear/Vercel). */
-    --card-highlight: rgba(255, 255, 255, 0.06);
-    --dot: rgba(255, 255, 255, 0.035);
-    --ambient-1: rgba(99, 102, 241, 0.14);
-    --ambient-2: rgba(129, 140, 248, 0.09);
-    --ambient-3: rgba(79, 70, 229, 0.06);
-    --vignette: rgba(0, 0, 0, 0.32);
+    --surface: rgb(255 255 255 / 0.05);
+    --surface-subtle: rgb(255 255 255 / 0.03);
+    --surface-header: rgb(255 255 255 / 0.07);
 
-    --ink: #fafafa;
-    --ink-body: #ededf0;
-    --ink-soft: #c2c2cb;
-    --ink-muted: #b0b0ba; /* labels — lifted for glass surfaces */
-    --ink-faint: #6f6f78;
+    --line: rgb(var(--palette-cerulean-rgb) / 0.22);
+    --line-strong: rgb(var(--palette-cerulean-rgb) / 0.34);
+    --card-highlight: rgb(var(--palette-frosted-blue-rgb) / 0.1);
+    --dot: rgb(var(--palette-frosted-blue-rgb) / 0.04);
 
-    --primary: #fafafa;
-    --primary-foreground: #18181b;
+    --ambient-1: rgb(var(--palette-rosewood-rgb) / 0.08);
+    --ambient-2: rgb(var(--palette-cerulean-rgb) / 0.12);
+    --ambient-3: rgb(var(--palette-yale-blue-rgb) / 0.2);
+    --vignette: rgb(0 0 0 / 0.28);
 
-    --accent: #818cf8; /* indigo-400 */
-    --accent-foreground: #14142b;
-    --accent-subtle: #1e1b3a;
+    --ink: var(--text-primary);
+    --ink-body: color-mix(in srgb, var(--text-primary) 92%, var(--text-secondary) 8%);
+    --ink-soft: var(--text-secondary);
+    --ink-muted: var(--text-muted);
+    --ink-faint: var(--text-faint);
 
-    --focus: #818cf8;
+    --primary: var(--accent-primary);
+    --primary-foreground: var(--text-on-accent);
+    --accent: var(--accent-primary);
+    --accent-foreground: var(--text-on-accent);
+    --accent-subtle: var(--accent-subtle);
+    --focus: var(--border-focus);
 
     --elevation-card:
-      0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
+      0 1px 2px rgb(0 0 0 / 0.35),
+      0 2px 6px rgb(var(--palette-yale-blue-rgb) / 0.2);
     --elevation-pop:
-      0 8px 24px rgba(0, 0, 0, 0.5), 0 16px 40px rgba(0, 0, 0, 0.45);
+      0 8px 24px rgb(0 0 0 / 0.45),
+      0 16px 40px rgb(var(--palette-cerulean-rgb) / 0.15);
 
-    /* Glass UI — dark: deeper translucent fills, hairline white borders,
-       and heavier diffused shadows so depth still reads on near-black. */
-    --glass-bg-subtle: rgba(30, 30, 35, 0.4);
-    --glass-bg: rgba(32, 32, 37, 0.58);
-    --glass-bg-strong: rgba(38, 38, 44, 0.72);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --glass-border-strong: rgba(255, 255, 255, 0.16);
-    --glass-highlight: rgba(255, 255, 255, 0.08);
-    --glass-bg-hover: rgba(42, 42, 48, 0.78);
-    --glass-highlight-strong: rgba(255, 255, 255, 0.14);
-    --glass-glow: rgba(129, 140, 248, 0.18);
-    --glass-ambient: rgba(129, 140, 248, 0.12);
-    /* blur levels are unitless and shared across themes */
+    --glass-bg-subtle: rgb(255 255 255 / 0.05);
+    --glass-bg: rgb(255 255 255 / 0.07);
+    --glass-bg-strong: rgb(255 255 255 / 0.1);
+    --glass-border: rgb(var(--palette-cerulean-rgb) / 0.16);
+    --glass-border-strong: rgb(var(--palette-frosted-blue-rgb) / 0.14);
+    --glass-highlight: rgb(255 255 255 / 0.1);
+    --glass-bg-hover: rgb(255 255 255 / 0.09);
+    --glass-highlight-strong: rgb(255 255 255 / 0.14);
+    --glass-glow: rgb(var(--palette-frosted-blue-rgb) / 0.1);
+    --glass-ambient: rgb(var(--palette-cerulean-rgb) / 0.06);
+    --glass-inset-bg: rgb(255 255 255 / 0.04);
+    --glass-inset-border: rgb(var(--palette-cerulean-rgb) / 0.14);
+
     --elevation-glass-sm:
-      0 1px 2px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.35);
+      0 1px 2px rgb(0 0 0 / 0.4),
+      0 4px 12px rgb(var(--palette-yale-blue-rgb) / 0.25);
     --elevation-glass-md:
-      0 2px 6px rgba(0, 0, 0, 0.35),
-      0 12px 32px rgba(0, 0, 0, 0.42),
-      0 24px 56px rgba(0, 0, 0, 0.28);
+      0 2px 6px rgb(0 0 0 / 0.32),
+      0 12px 32px rgb(var(--palette-cerulean-rgb) / 0.18),
+      0 24px 56px rgb(var(--palette-yale-blue-rgb) / 0.14);
     --elevation-glass-lg:
-      0 10px 32px rgba(0, 0, 0, 0.58), 0 28px 64px rgba(0, 0, 0, 0.5);
+      0 10px 32px rgb(0 0 0 / 0.5),
+      0 28px 64px rgb(var(--palette-cerulean-rgb) / 0.2);
   }
+}
+
+[data-theme="dark"] {
+  --canvas: var(--bg-primary);
+  --canvas-tint: var(--bg-secondary);
+  --surface: rgb(255 255 255 / 0.05);
+  --surface-subtle: rgb(255 255 255 / 0.03);
+  --surface-header: rgb(255 255 255 / 0.07);
+  --line: rgb(var(--palette-cerulean-rgb) / 0.22);
+  --line-strong: rgb(var(--palette-cerulean-rgb) / 0.34);
+  --card-highlight: rgb(var(--palette-frosted-blue-rgb) / 0.1);
+  --dot: rgb(var(--palette-frosted-blue-rgb) / 0.04);
+  --ambient-1: rgb(var(--palette-rosewood-rgb) / 0.08);
+  --ambient-2: rgb(var(--palette-cerulean-rgb) / 0.12);
+  --ambient-3: rgb(var(--palette-yale-blue-rgb) / 0.2);
+  --vignette: rgb(0 0 0 / 0.28);
+  --ink: var(--text-primary);
+  --ink-body: color-mix(in srgb, var(--text-primary) 92%, var(--text-secondary) 8%);
+  --ink-soft: var(--text-secondary);
+  --ink-muted: var(--text-muted);
+  --ink-faint: var(--text-faint);
+  --primary: var(--accent-primary);
+  --primary-foreground: var(--text-on-accent);
+  --accent: var(--accent-primary);
+  --accent-foreground: var(--text-on-accent);
+  --accent-subtle: var(--accent-subtle);
+  --focus: var(--border-focus);
+  --glass-bg-subtle: rgb(255 255 255 / 0.05);
+  --glass-bg: rgb(255 255 255 / 0.07);
+  --glass-bg-strong: rgb(255 255 255 / 0.1);
+  --glass-border: rgb(var(--palette-cerulean-rgb) / 0.16);
+  --glass-border-strong: rgb(var(--palette-frosted-blue-rgb) / 0.14);
+  --glass-highlight: rgb(255 255 255 / 0.1);
+  --glass-bg-hover: rgb(255 255 255 / 0.09);
+  --glass-highlight-strong: rgb(255 255 255 / 0.14);
+  --glass-glow: rgb(var(--palette-frosted-blue-rgb) / 0.1);
+  --glass-ambient: rgb(var(--palette-cerulean-rgb) / 0.06);
+  --glass-inset-bg: rgb(255 255 255 / 0.04);
+  --glass-inset-border: rgb(var(--palette-cerulean-rgb) / 0.14);
 }
 
 /* Expose tokens to Tailwind as semantic utilities: bg-*, text-*, border-*,
@@ -211,8 +263,9 @@
    Uses the same sm-level fill + blur as other chrome — no extra blur pass. */
 @utility glass {
   background-color: var(--glass-bg-subtle);
-  backdrop-filter: saturate(180%) blur(var(--blur-sm));
-  -webkit-backdrop-filter: saturate(180%) blur(var(--blur-sm));
+  background-image: var(--gradient-chrome-highlight);
+  backdrop-filter: saturate(130%) blur(var(--blur-sm));
+  -webkit-backdrop-filter: saturate(130%) blur(var(--blur-sm));
   border-bottom: 1px solid var(--glass-border);
   box-shadow: inset 0 1px 0 0 var(--glass-highlight);
 }
@@ -237,24 +290,24 @@
    Consumed by dashboard modules (`Panel`) and composable elsewhere.
    ========================================================================== */
 @utility frost-sm {
-  backdrop-filter: saturate(180%) blur(var(--blur-sm));
-  -webkit-backdrop-filter: saturate(180%) blur(var(--blur-sm));
+  backdrop-filter: saturate(130%) blur(var(--blur-sm));
+  -webkit-backdrop-filter: saturate(130%) blur(var(--blur-sm));
 }
 
 @utility frost-md {
-  backdrop-filter: saturate(180%) blur(var(--blur-md));
-  -webkit-backdrop-filter: saturate(180%) blur(var(--blur-md));
+  backdrop-filter: saturate(130%) blur(var(--blur-md));
+  -webkit-backdrop-filter: saturate(130%) blur(var(--blur-md));
 }
 
 @utility frost-lg {
-  backdrop-filter: saturate(180%) blur(var(--blur-lg));
-  -webkit-backdrop-filter: saturate(180%) blur(var(--blur-lg));
+  backdrop-filter: saturate(130%) blur(var(--blur-lg));
+  -webkit-backdrop-filter: saturate(130%) blur(var(--blur-lg));
 }
 
 @utility glass-sm {
   background-color: var(--glass-bg-subtle);
-  backdrop-filter: saturate(180%) blur(var(--blur-sm));
-  -webkit-backdrop-filter: saturate(180%) blur(var(--blur-sm));
+  backdrop-filter: saturate(130%) blur(var(--blur-sm));
+  -webkit-backdrop-filter: saturate(130%) blur(var(--blur-sm));
   border: 1px solid var(--glass-border);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight),
@@ -263,8 +316,8 @@
 
 @utility glass-md {
   background-color: var(--glass-bg);
-  backdrop-filter: saturate(180%) blur(var(--blur-md));
-  -webkit-backdrop-filter: saturate(180%) blur(var(--blur-md));
+  backdrop-filter: saturate(130%) blur(var(--blur-md));
+  -webkit-backdrop-filter: saturate(130%) blur(var(--blur-md));
   border: 1px solid var(--glass-border);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight),
@@ -273,8 +326,8 @@
 
 @utility glass-lg {
   background-color: var(--glass-bg-strong);
-  backdrop-filter: saturate(180%) blur(var(--blur-lg));
-  -webkit-backdrop-filter: saturate(180%) blur(var(--blur-lg));
+  backdrop-filter: saturate(130%) blur(var(--blur-lg));
+  -webkit-backdrop-filter: saturate(130%) blur(var(--blur-lg));
   border: 1px solid var(--glass-border-strong);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight),
@@ -285,13 +338,14 @@
    over frosted content without a second blur pass (performance). */
 @utility glass-header {
   background-color: color-mix(in srgb, var(--glass-bg-strong) 40%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--glass-border) 55%, transparent);
+  background-image: var(--gradient-glass-highlight);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 /* Nested glass fill for cards / chips inside a module (no extra blur). */
 @utility glass-inset {
-  background-color: color-mix(in srgb, var(--glass-bg) 32%, transparent);
-  border: 1px solid color-mix(in srgb, var(--glass-border) 50%, transparent);
+  background-color: var(--glass-inset-bg);
+  border: 1px solid var(--glass-inset-border);
 }
 
 /* ==========================================================================
@@ -305,6 +359,23 @@
     background-color var(--glass-duration) var(--glass-ease),
     border-color var(--glass-duration) var(--glass-ease),
     box-shadow var(--glass-duration) var(--glass-ease);
+}
+
+/* Soft palette gradient highlight on all glass panels */
+.glass-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background: var(--gradient-glass-highlight);
+  transition: background var(--glass-duration) var(--glass-ease);
+}
+
+.glass-panel > * {
+  position: relative;
+  z-index: 2;
 }
 
 .glass-module {
@@ -321,38 +392,45 @@
     var(--elevation-glass-md);
 }
 
-/* Hover — barely perceptible brighten; macOS windows don't bounce. */
+/* Hover — subtle cerulean → frosted-blue gradient glow */
 .glass-module:hover:not([data-dimmed]):not([data-dragging]):not([data-active]) .glass-panel {
   background-color: var(--glass-bg-hover);
   border-color: color-mix(in srgb, var(--glass-border-strong) 85%, transparent);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight-strong),
     var(--elevation-glass-md),
-    0 0 0 0.5px color-mix(in srgb, var(--glass-glow) 25%, transparent);
+    0 10px 36px -12px hsl(var(--palette-cerulean-hsl) / 0.14),
+    0 4px 18px -8px hsl(var(--palette-frosted-blue-hsl) / 0.1);
 }
 
-/* Keyboard focus within module — brighten only, no movement. */
+.glass-module:hover:not([data-dimmed]):not([data-dragging]):not([data-active]) .glass-panel::after {
+  background: var(--gradient-hover-glow), var(--gradient-glass-highlight);
+}
+
+/* Keyboard focus within module — same soft glow as hover */
 .glass-module:focus-within:not([data-dimmed]):not([data-dragging]):not([data-active]) .glass-panel {
   background-color: var(--glass-bg-hover);
   border-color: color-mix(in srgb, var(--glass-border-strong) 85%, transparent);
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight-strong),
-    var(--elevation-glass-md);
+    var(--elevation-glass-md),
+    0 10px 36px -12px hsl(var(--palette-cerulean-hsl) / 0.12),
+    0 4px 18px -8px hsl(var(--palette-frosted-blue-hsl) / 0.08);
 }
 
-/* Active / maximized — ambient top-light + lifted glass. */
+.glass-module:focus-within:not([data-dimmed]):not([data-dragging]):not([data-active]) .glass-panel::after {
+  background: var(--gradient-hover-glow), var(--gradient-glass-highlight);
+}
+
+/* Active / maximized — frosted-blue / icy-aqua radial overlay */
 .glass-module[data-active]:not([data-dragging]) .glass-panel::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  z-index: 0;
-  background: radial-gradient(
-    ellipse 100% 70% at 50% -10%,
-    color-mix(in srgb, var(--glass-ambient) 75%, transparent),
-    transparent 72%
-  );
+  z-index: 1;
+  background: var(--gradient-active-radial);
 }
 
 .glass-module[data-active]:not([data-dragging]) .glass-panel {
@@ -361,7 +439,12 @@
   box-shadow:
     inset 0 1px 0 0 var(--glass-highlight-strong),
     var(--elevation-glass-lg),
-    0 0 40px color-mix(in srgb, var(--glass-glow) 32%, transparent);
+    0 0 48px -8px hsl(var(--palette-frosted-blue-hsl) / 0.18),
+    0 16px 40px -16px hsl(var(--palette-cerulean-hsl) / 0.12);
+}
+
+.glass-module[data-active]:not([data-dragging]) .glass-panel::after {
+  background: var(--gradient-glass-highlight);
 }
 
 /* Drop target during drag — subtle border brightening, no ring offset. */
@@ -475,7 +558,7 @@ body {
     Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* Layer 0 — ambient background: soft gradient orbs + base wash + vignette.
+/* Layer 0 — ambient background: soft gradient-bottom-right wash + orbs + vignette.
    Fixed so glass modules blur a rich field as you scroll (macOS-style depth). */
 body::before {
   content: "";
@@ -484,11 +567,17 @@ body::before {
   z-index: -2;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 90% 70% at 8% -5%, var(--ambient-1), transparent 58%),
-    radial-gradient(ellipse 75% 55% at 96% 6%, var(--ambient-2), transparent 52%),
+    radial-gradient(ellipse 70% 50% at 4% 0%, var(--ambient-1), transparent 55%),
+    radial-gradient(ellipse 85% 60% at 92% 8%, var(--ambient-2), transparent 52%),
     radial-gradient(ellipse 80% 50% at 50% 108%, var(--ambient-3), transparent 48%),
     radial-gradient(ellipse 120% 100% at 50% 50%, transparent 50%, var(--vignette) 100%),
-    radial-gradient(120% 80% at 50% -15%, var(--canvas-tint) 0%, var(--canvas) 65%);
+    var(--gradient-bg-soft),
+    var(--canvas-gradient);
+}
+
+/* Primary action — subtle gradient sheen on hover */
+header .bg-primary:hover:not(:disabled) {
+  background-image: var(--gradient-action-hover);
 }
 
 /* Layer 0 — fine dot texture (nearly invisible; glass modules carry the depth). */

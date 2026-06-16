@@ -434,7 +434,7 @@ export default function ResumeTailor() {
           <div
             className={cn(
               "flex h-7 w-7 items-center justify-center text-[11px] font-semibold text-white/95",
-              "bg-linear-to-br from-indigo-500/85 to-violet-600/85",
+              "bg-linear-to-br from-[color:var(--palette-cerulean)] to-[color:var(--palette-rosewood)]",
               radius.md,
             )}
             aria-hidden
