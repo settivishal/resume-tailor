@@ -12,6 +12,8 @@ interface SuggestionsPanelProps {
   loading: boolean;
   error: string | null;
   patchError: string | null;
+  selectedPatchId: string | null;
+  onSelect: (id: string) => void;
   onAccept: (id: string) => void;
   onReject: (id: string) => void;
 }
@@ -23,6 +25,8 @@ export default function SuggestionsPanel({
   loading,
   error,
   patchError,
+  selectedPatchId,
+  onSelect,
   onAccept,
   onReject,
 }: SuggestionsPanelProps) {
@@ -94,6 +98,8 @@ export default function SuggestionsPanel({
               <SuggestionCard
                 key={patch.id}
                 patch={patch}
+                selected={patch.id === selectedPatchId}
+                onSelect={() => onSelect(patch.id)}
                 onAccept={() => onAccept(patch.id)}
                 onReject={() => onReject(patch.id)}
               />
