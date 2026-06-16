@@ -1,4 +1,4 @@
-import { cn, color, elevation, radius, typography } from "@/lib/ui";
+import { cardEdge, cn, color, radius, typography } from "@/lib/ui";
 
 interface PanelProps {
   title: string;
@@ -11,17 +11,17 @@ export default function Panel({ title, children, className = "", action }: Panel
   return (
     <section
       className={cn(
-        "flex min-h-0 flex-col overflow-hidden border",
+        "flex min-h-0 flex-col overflow-hidden",
         radius.xl,
         color.surface,
-        color.border,
-        elevation.card,
+        cardEdge,
         className,
       )}
     >
       <header
         className={cn(
           "flex shrink-0 items-center justify-between gap-2 border-b px-4 py-2.5",
+          color.surfaceHeader,
           color.border,
         )}
       >

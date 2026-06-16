@@ -281,10 +281,9 @@ export default function ResumeTailor() {
         <div className="flex items-center gap-3">
           <div
             className={cn(
-              "flex h-9 w-9 items-center justify-center text-sm font-semibold",
+              "flex h-9 w-9 items-center justify-center text-sm font-semibold text-white",
+              "bg-linear-to-br from-indigo-500 to-violet-600 shadow-[0_2px_8px_rgba(99,102,241,0.45)] ring-1 ring-inset ring-white/20",
               radius.lg,
-              color.primary,
-              elevation.card,
             )}
             aria-hidden
           >
@@ -302,7 +301,7 @@ export default function ResumeTailor() {
           onClick={handleGenerate}
           disabled={!canGenerate}
           className={cn(
-            "flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:opacity-40",
+            "flex items-center gap-2 px-4 py-2 text-sm font-medium ring-1 ring-inset ring-white/10 transition-all hover:-translate-y-px hover:shadow-pop active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none disabled:ring-0 disabled:hover:translate-y-0",
             radius.lg,
             color.primary,
             elevation.card,

@@ -66,6 +66,7 @@ export const color = {
   canvas: "bg-canvas",
   surface: "bg-surface",
   surfaceSubtle: "bg-surface-subtle",
+  surfaceHeader: "bg-surface-header",
   // Borders
   border: "border-line",
   borderStrong: "border-line-strong",
@@ -98,6 +99,13 @@ export const elevation = {
   card: "shadow-card",
   pop: "shadow-pop",
 } as const;
+
+/**
+ * Premium card edge: hairline border + faint inner top-highlight + soft
+ * shadow in a single token. Reads as crisp, lit depth on light *and* dark
+ * surfaces (where flat box-shadows are nearly invisible).
+ */
+export const cardEdge = "card-edge";
 
 /** Frosted-glass treatment for app chrome. */
 export const glass = "glass";

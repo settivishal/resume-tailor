@@ -11,13 +11,17 @@
    ========================================================================== */
 :root {
   /* Background / surface */
-  --canvas: #f5f5f7; /* soft neutral app background */
+  --canvas: #f4f4f7; /* soft neutral app background */
+  --canvas-tint: #ececf2; /* subtle gradient companion for depth */
   --surface: #ffffff; /* card / panel surface */
-  --surface-subtle: #f4f4f6; /* nested fills, chips, skeletons */
+  --surface-subtle: #f5f5f8; /* nested fills, chips, skeletons */
+  --surface-header: #fafafb; /* card header band */
 
   /* Borders / dividers (hairline, low-contrast) */
-  --line: #e9e9ee;
-  --line-strong: #dcdce2;
+  --line: #e7e7ee;
+  --line-strong: #d8d8e0;
+  /* A faint top highlight that gives cards a crisp, lit edge. */
+  --card-highlight: rgba(255, 255, 255, 0.7);
 
   /* Text (ink) ramp */
   --ink: #18181b; /* strong / headings */
@@ -51,12 +55,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --canvas: #0a0a0c; /* near-black, never pure #000 */
-    --surface: #161618;
-    --surface-subtle: #202024;
+    --canvas: #09090b; /* near-black, never pure #000 */
+    --canvas-tint: #121216; /* lifts the top of the canvas for depth */
+    --surface: #18181b;
+    --surface-subtle: #212126;
+    --surface-header: #1c1c20; /* card header band */
 
-    --line: #27272b;
-    --line-strong: #36363c;
+    --line: #2a2a30;
+    --line-strong: #3a3a42;
+    /* In dark UIs a top highlight reads as a thin lit edge (Linear/Vercel). */
+    --card-highlight: rgba(255, 255, 255, 0.06);
 
     --ink: #fafafa;
     --ink-body: #ededf0;
@@ -87,6 +95,7 @@
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
   --color-surface-subtle: var(--surface-subtle);
+  --color-surface-header: var(--surface-header);
 
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
@@ -124,12 +133,29 @@
   -webkit-backdrop-filter: saturate(180%) blur(12px);
 }
 
+/* Crisp, lit card edge: hairline border + a faint inner top highlight.
+   Reads as premium depth on both light and dark surfaces. */
+@utility card-edge {
+  border: 1px solid var(--line);
+  box-shadow:
+    inset 0 1px 0 0 var(--card-highlight),
+    var(--elevation-card);
+}
+
 body {
-  background: var(--canvas);
+  /* Subtle layered depth so the canvas never looks like a flat fill. */
+  background:
+    radial-gradient(
+      120% 80% at 50% -10%,
+      var(--canvas-tint) 0%,
+      var(--canvas) 60%
+    ),
+    var(--canvas);
+  background-attachment: fixed;
   color: var(--ink);
-  /* NOTE: Geist is loaded in layout.tsx but the original app rendered in
-     Arial. Kept as-is to avoid an unrelated font shift; revisit separately. */
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:
+    var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
 }
 
 /* Subtle, modern scrollbars that match the neutral palette. */
