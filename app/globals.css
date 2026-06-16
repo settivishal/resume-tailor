@@ -532,7 +532,31 @@
   filter: none;
 }
 
-/* macOS traffic-light window controls — neutral until hover. */
+/* macOS traffic-light window controls — neutral gray at rest, system colors on hover. */
+:root,
+[data-theme="light"] {
+  --chrome-control-rest: #dddedf;
+  --chrome-control-border: rgb(0 0 0 / 0.12);
+  --chrome-control-close: #ff5f57;
+  --chrome-control-close-border: #e2463f;
+  --chrome-control-minimize: #febc2e;
+  --chrome-control-minimize-border: #dea123;
+  --chrome-control-zoom: #28c840;
+  --chrome-control-zoom-border: #1aab29;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --chrome-control-rest: #5d5d5d;
+    --chrome-control-border: rgb(0 0 0 / 0.35);
+  }
+}
+
+[data-theme="dark"] {
+  --chrome-control-rest: #5d5d5d;
+  --chrome-control-border: rgb(0 0 0 / 0.35);
+}
+
 .window-controls {
   display: flex;
   align-items: center;
@@ -560,18 +584,18 @@
 
 .window-controls:hover .window-control--close {
   background-color: var(--chrome-control-close);
-  border-color: hsl(var(--palette-silver-hsl) / 0.55);
+  border-color: var(--chrome-control-close-border);
 }
 
 .window-controls:hover .window-control--minimize {
   background-color: var(--chrome-control-minimize);
-  border-color: hsl(var(--palette-pumpkin-spice-hsl) / 0.45);
+  border-color: var(--chrome-control-minimize-border);
 }
 
 .window-controls:hover .window-control--zoom,
 .window-controls:hover .window-control--zoom-restore {
   background-color: var(--chrome-control-zoom);
-  border-color: hsl(var(--palette-platinum-hsl) / 0.65);
+  border-color: var(--chrome-control-zoom-border);
 }
 
 @media (prefers-color-scheme: dark) {

@@ -38,13 +38,6 @@
   --ambient-brand-1: rgb(var(--palette-pumpkin-spice-rgb) / 0.05);
   --ambient-brand-2: rgb(var(--palette-platinum-rgb) / 0.35);
   --ambient-brand-3: rgb(var(--palette-silver-rgb) / 0.12);
-
-  /* Window chrome */
-  --chrome-control-rest: var(--palette-silver);
-  --chrome-control-border: hsl(var(--palette-silver-hsl) / 0.55);
-  --chrome-control-close: color-mix(in srgb, var(--palette-silver) 50%, #444 50%);
-  --chrome-control-minimize: var(--palette-pumpkin-spice);
-  --chrome-control-zoom: var(--palette-platinum);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -61,11 +54,6 @@
     --ambient-brand-1: rgb(var(--palette-pumpkin-spice-rgb) / 0.1);
     --ambient-brand-2: rgb(var(--palette-silver-rgb) / 0.08);
     --ambient-brand-3: rgb(var(--palette-platinum-rgb) / 0.04);
-    --chrome-control-rest: color-mix(in srgb, var(--palette-silver) 45%, #222 55%);
-    --chrome-control-border: hsl(var(--palette-silver-hsl) / 0.28);
-    --chrome-control-close: color-mix(in srgb, var(--palette-silver) 40%, #111 60%);
-    --chrome-control-minimize: var(--palette-pumpkin-spice);
-    --chrome-control-zoom: hsl(var(--palette-platinum-hsl) / 0.75);
   }
 }
 
@@ -82,9 +70,4 @@
   --ambient-brand-1: rgb(var(--palette-pumpkin-spice-rgb) / 0.1);
   --ambient-brand-2: rgb(var(--palette-silver-rgb) / 0.08);
   --ambient-brand-3: rgb(var(--palette-platinum-rgb) / 0.04);
-  --chrome-control-rest: color-mix(in srgb, var(--palette-silver) 45%, #222 55%);
-  --chrome-control-border: hsl(var(--palette-silver-hsl) / 0.28);
-  --chrome-control-close: color-mix(in srgb, var(--palette-silver) 40%, #111 60%);
-  --chrome-control-minimize: var(--palette-pumpkin-spice);
-  --chrome-control-zoom: hsl(var(--palette-platinum-hsl) / 0.75);
 }
